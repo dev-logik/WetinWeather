@@ -74,5 +74,6 @@ class AppLightTheme {
       enableFeedback: true,
     ),
     brightness: Brightness.light,
+    colorScheme: ColorScheme.fromSeed(seedColor: LightColorConstants.seedColor),
   );
 }
