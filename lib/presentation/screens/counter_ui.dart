@@ -30,7 +30,7 @@ class CounterView extends StatelessWidget {
                     child: Center(
                       child: Text(
                         state.toString(),
-                        style: TextStyle(fontSize: 50),
+                        style: Theme.of(context).textTheme.displayLarge,
                       ),
                     ),
                   ),

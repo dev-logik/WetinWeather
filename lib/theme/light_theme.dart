@@ -1,3 +1,4 @@
+import 'package:bloc_app/theme/typography.dart';
 import 'package:bloc_app/utilities/color_constants.dart';
 import 'package:flutter/material.dart';
 
@@ -5,8 +6,11 @@ class AppLightTheme {
   AppLightTheme._();
 
   static final lightThemeData = ThemeData(
+
     //Defines and overrides the default background color of the scaffold widget.
     scaffoldBackgroundColor: LightColorConstants.primaryColor,
+
+    //Defines the primary color of the ThemeData object.
     primaryColor: LightColorConstants.primaryColor,
     // Defines and overrides the default theme for the card widgets.
     cardTheme: CardThemeData(
@@ -73,7 +77,14 @@ class AppLightTheme {
       type: BottomNavigationBarType.fixed,
       enableFeedback: true,
     ),
+
+    //Defines the themeMode of the ThemeData object configuration.
     brightness: Brightness.light,
+
+    //Defines the ColorScheme of the ThemeData object configuration.
     colorScheme: ColorScheme.fromSeed(seedColor: LightColorConstants.seedColor),
+
+    //Defines the TextTheme of the ThemeData object configuration.
+    textTheme: TypographyTheme.lightLextTheme,
   );
 }
