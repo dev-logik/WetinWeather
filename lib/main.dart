@@ -23,6 +23,7 @@ class MyApp extends StatelessWidget {
         create: (context) => CounterBloc(0),
         child: CounterView(),
       ),
+      themeMode: ThemeMode.dark,
     );
   }
 }

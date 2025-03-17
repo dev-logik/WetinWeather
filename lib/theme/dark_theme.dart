@@ -7,7 +7,7 @@ class AppDarkTheme {
   static final darkThemeData = ThemeData(
     //Defines and overrides the default background color of the scaffold widget.
     scaffoldBackgroundColor: DarkColorConstants.primaryColor,
-
+    primaryColor: DarkColorConstants.primaryColor,
     // Defines and overrides the default theme for the card widgets.
     cardTheme: CardThemeData(
       color: DarkColorConstants.secondaryColor_2,
@@ -74,5 +74,9 @@ class AppDarkTheme {
       enableFeedback: true,
     ),
     brightness: Brightness.dark,
+    colorScheme: ColorScheme.fromSeed(
+      seedColor: LightColorConstants.seedColor,
+      brightness: Brightness.dark,
+    ),
   );
 }

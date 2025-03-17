@@ -22,8 +22,6 @@ class CounterView extends StatelessWidget {
                 customBorder: cardBorder,
                 onTap: () {},
                 child: Card(
-                  color: Colors.blueAccent,
-                  shadowColor: Colors.black,
                   elevation: 10,
                   shape: cardBorder,
                   child: SizedBox(

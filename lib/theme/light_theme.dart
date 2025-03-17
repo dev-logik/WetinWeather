@@ -7,7 +7,7 @@ class AppLightTheme {
   static final lightThemeData = ThemeData(
     //Defines and overrides the default background color of the scaffold widget.
     scaffoldBackgroundColor: LightColorConstants.primaryColor,
-
+    primaryColor: LightColorConstants.primaryColor,
     // Defines and overrides the default theme for the card widgets.
     cardTheme: CardThemeData(
       color: LightColorConstants.secondaryColor_2,
