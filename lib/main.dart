@@ -1,5 +1,6 @@
 import 'package:bloc_app/Bloc/counter_bloc.dart';
 import 'package:bloc_app/presentation/screens/counter_ui.dart';
+import 'package:bloc_app/route/router_config.dart';
 import 'package:bloc_app/theme/dark_theme.dart';
 import 'package:bloc_app/theme/light_theme.dart';
 import 'package:flutter/material.dart';
@@ -15,14 +16,11 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return MaterialApp.router(
       title: 'Flutter Demo',
       theme: AppLightTheme.lightThemeData,
       darkTheme: AppDarkTheme.darkThemeData,
-      home: BlocProvider(
-        create: (context) => CounterBloc(0),
-        child: CounterView(),
-      ),
+      routerConfig: GoRouterConfig.goRouter,
       themeMode: ThemeMode.light,
     );
   }

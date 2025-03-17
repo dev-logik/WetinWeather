@@ -1,6 +1,7 @@
 import 'package:bloc_app/Bloc/counter_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class CounterView extends StatelessWidget {
   const CounterView({super.key});
@@ -58,7 +59,7 @@ class CounterView extends StatelessWidget {
             onPressed: () {
               context.read<CounterBloc>().add(DecrementCounterBloc());
             },
-            child: Icon(Icons.exposure_neg_1_sharp),
+            child: FaIcon(FontAwesomeIcons.house),
           ),
         ],
       ),
