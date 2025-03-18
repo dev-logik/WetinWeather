@@ -11,6 +11,7 @@ class AppDarkTheme {
 
     //Defines the primary color of the ThemeData object.
     primaryColor: DarkColorConstants.primaryColor,
+    
     // Defines and overrides the default theme for the card widgets.
     cardTheme: CardThemeData(
       color: DarkColorConstants.secondaryColor_2,
@@ -52,6 +53,8 @@ class AppDarkTheme {
       style: ListTileStyle.list,
       visualDensity: VisualDensity.compact,
     ),
+
+    //Defines and overrides the default theme for the iconbutton widgets
     iconButtonTheme: IconButtonThemeData(
       style: IconButton.styleFrom(
         iconSize: 24.0,
@@ -76,11 +79,17 @@ class AppDarkTheme {
       type: BottomNavigationBarType.fixed,
       enableFeedback: true,
     ),
+
+    //Defines the themeMode of the ThemeData object configuration.
     brightness: Brightness.dark,
+
+    //Defines the ColorScheme of the ThemeData object configuration.
     colorScheme: ColorScheme.fromSeed(
       seedColor: LightColorConstants.seedColor,
       brightness: Brightness.dark,
     ),
+
+    //Defines the TextTheme of the ThemeData object configuration.
     textTheme: TypographyTheme.darkLextTheme,
   );
 }

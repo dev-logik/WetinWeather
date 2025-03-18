@@ -15,31 +15,29 @@ class CounterView extends StatelessWidget {
       ),
     );
     return Scaffold(
-      body: BlocBuilder<CounterBloc, int>(
-        builder: (context, state) {
-          return SafeArea(
-            child: Center(
-              child: InkWell(
-                customBorder: cardBorder,
-                onTap: () {},
-                child: Card(
-                  elevation: 10,
-                  shape: cardBorder,
-                  child: SizedBox(
-                    height: 350,
-                    width: 250,
-                    child: Center(
-                      child: Text(
-                        state.toString(),
-                        style: Theme.of(context).textTheme.displayLarge,
-                      ),
+      body: SafeArea(
+        child: Center(
+          child: InkWell(
+            customBorder: cardBorder,
+            onTap: () {},
+            child: Card(
+              elevation: 10,
+              shape: cardBorder,
+              child: SizedBox(
+                height: 350,
+                width: 250,
+                child: BlocBuilder<CounterBloc, int>(
+                  builder: (context, state) => Center(
+                    child: Text(
+                      state.toString(),
+                      style: Theme.of(context).textTheme.displayLarge,
                     ),
                   ),
                 ),
               ),
             ),
-          );
-        },
+          ),
+        ),
       ),
       floatingActionButton: Column(
         mainAxisAlignment: MainAxisAlignment.end,

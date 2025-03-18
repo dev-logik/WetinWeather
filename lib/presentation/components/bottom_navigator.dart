@@ -1,16 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
 
-class BottomNavigator extends StatefulWidget {
-  const BottomNavigator({super.key, required this.navigationShell});
+class BottomNavigator extends StatelessWidget {
+  BottomNavigator({super.key, required this.navigationShell});
   final StatefulNavigationShell navigationShell;
 
-  @override
-  State<BottomNavigator> createState() => _BottomNavigatorState();
-}
-
-class _BottomNavigatorState extends State<BottomNavigator> {
+  //Defines the list of bottom navigation bar items.
   late final _bottomNavigationBarItems = <BottomNavigationBarItem>[
     BottomNavigationBarItem(
       icon: Icon(Icons.home_outlined),
@@ -41,17 +36,17 @@ class _BottomNavigatorState extends State<BottomNavigator> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: widget.navigationShell,
+      body: navigationShell,
       bottomNavigationBar: BottomNavigationBar(
         items: _bottomNavigationBarItems,
-        currentIndex: widget.navigationShell.currentIndex,
+        currentIndex: navigationShell.currentIndex,
         onTap: (index) {
-          setState(() {
-            widget.navigationShell.goBranch(
-              index,
-              initialLocation: index == widget.navigationShell.currentIndex,
-            );
-          });
+          //Handles the actual navigation when an item is selected on the
+          //bottom navigation bar.
+          navigationShell.goBranch(
+            index,
+            initialLocation: navigationShell.currentIndex == index,
+          );
         },
       ),
     );

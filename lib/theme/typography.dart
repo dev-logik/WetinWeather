@@ -1,5 +1,4 @@
-import 'package:bloc_app/theme/dark_theme.dart';
-import 'package:bloc_app/theme/light_theme.dart';
+
 import 'package:bloc_app/utilities/color_constants.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
