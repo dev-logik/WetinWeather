@@ -1,4 +1,5 @@
 import 'package:bloc_app/presentation/components/gradient_spot.dart';
+import 'package:bloc_app/presentation/components/hourly_report.dart';
 import 'package:bloc_app/utilities/assets_path_constants.dart';
 import 'package:bloc_app/utilities/sizedbox_constants.dart';
 import 'package:flutter/material.dart';
@@ -95,6 +96,23 @@ class _HomeScreenState extends State<HomeScreen> {
                             print('Hello');
                           },
                         ),
+                      ],
+                    ),
+                  ),
+                  //Todo: replace with a list view builder to display
+                  //the hourly reports dynamically.
+                  ConstrainedBox(
+                    constraints: BoxConstraints(
+                        maxHeight: 100, maxWidth: double.infinity),
+                    child: ListView(
+                      scrollDirection: Axis.horizontal,
+                      children: [
+                        HourlyReportCard(),
+                        HourlyReportCard(),
+                        HourlyReportCard(),
+                        HourlyReportCard(),
+                        HourlyReportCard(),
+                        HourlyReportCard(),
                       ],
                     ),
                   ),
