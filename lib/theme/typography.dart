@@ -1,4 +1,3 @@
-
 import 'package:bloc_app/utilities/color_constants.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -38,7 +37,12 @@ class TypographyTheme {
       ),
       titleSmall: TextStyle(
         color: LightColorConstants.tertiaryColor,
-        fontSize: 20,
+        fontSize: 16,
+        fontWeight: FontWeight.normal,
+      ),
+      labelSmall: TextStyle(
+        color: DarkColorConstants.tertiaryColor,
+        fontSize: 14,
         fontWeight: FontWeight.normal,
       ),
       bodySmall: TextStyle(
@@ -78,18 +82,23 @@ class TypographyTheme {
       ),
       titleMedium: TextStyle(
         color: DarkColorConstants.tertiaryColor,
-        fontSize: 24,
+        fontSize: 20,
         fontWeight: FontWeight.bold,
       ),
       titleSmall: TextStyle(
         color: DarkColorConstants.tertiaryColor,
-        fontSize: 20,
+        fontSize: 16,
+        fontWeight: FontWeight.normal,
+      ),
+      labelSmall: TextStyle(
+        color: DarkColorConstants.tertiaryColor,
+        fontSize: 14,
         fontWeight: FontWeight.normal,
       ),
       bodySmall: TextStyle(
         color: DarkColorConstants.tertiaryColor,
         fontSize: 14,
-        fontWeight: FontWeight.normal,
+        fontWeight: FontWeight.w100,
       ),
     ),
   );

@@ -11,7 +11,7 @@ class AppDarkTheme {
 
     //Defines the primary color of the ThemeData object.
     primaryColor: DarkColorConstants.primaryColor,
-    
+
     // Defines and overrides the default theme for the card widgets.
     cardTheme: CardThemeData(
       color: DarkColorConstants.secondaryColor_2,
@@ -30,10 +30,10 @@ class AppDarkTheme {
         selectedForegroundColor: DarkColorConstants.tertiaryColor,
         iconColor: DarkColorConstants.tertiaryColor,
         iconSize: 24.0,
-        visualDensity: VisualDensity.compact,
+        visualDensity: VisualDensity.adaptivePlatformDensity,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.all(
-            Radius.circular(16),
+            Radius.circular(8),
           ),
         ),
       ),

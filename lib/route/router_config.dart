@@ -20,7 +20,7 @@ mixin class GoRouterConfig {
   final _reportScreen = StatefulShellBranch(
     routes: <RouteBase>[
       GoRoute(
-        path: 'report',
+        path: '/report',
         name: 'report',
         builder: (_, __) => ReportScreen(),
       ),
@@ -30,7 +30,7 @@ mixin class GoRouterConfig {
   final _searchScreen = StatefulShellBranch(
     routes: <RouteBase>[
       GoRoute(
-        path: 'search',
+        path: '/search',
         name: 'search',
         builder: (_, __) => SearchScreen(),
       ),
@@ -40,7 +40,7 @@ mixin class GoRouterConfig {
   final _settingScreen = StatefulShellBranch(
     routes: <RouteBase>[
       GoRoute(
-        path: 'settings',
+        path: '/settings',
         name: 'settings',
         builder: (_, __) => SettingsScreen(),
       ),
