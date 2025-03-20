@@ -22,7 +22,7 @@ class TypographyTheme {
       ),
       displayLarge: TextStyle(
         color: LightColorConstants.tertiaryColor,
-        fontSize: 48,
+        fontSize: 100,
         fontWeight: FontWeight.bold,
       ),
       displaySmall: TextStyle(
@@ -72,7 +72,7 @@ class TypographyTheme {
       ),
       displayLarge: TextStyle(
         color: DarkColorConstants.tertiaryColor,
-        fontSize: 48,
+        fontSize: 100,
         fontWeight: FontWeight.bold,
       ),
       displaySmall: TextStyle(

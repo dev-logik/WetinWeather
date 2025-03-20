@@ -1,5 +1,4 @@
 import 'package:bloc_app/utilities/assets_path_constants.dart';
-import 'package:bloc_app/utilities/sizedbox_constants.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 
@@ -26,7 +25,10 @@ class HourlyReportCard extends StatelessWidget {
               Column(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text('15:00'),
+                  Text(
+                    '15:00',
+                    style: textTheme.titleSmall,
+                  ),
                   SizedBox(
                     height: 5,
                   ),

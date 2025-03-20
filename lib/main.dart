@@ -20,7 +20,7 @@ class _MyAppState extends State<MyApp> with GoRouterConfig {
   @override
   Widget build(BuildContext context) {
     return MaterialApp.router(
-      title: 'Weatther App',
+      title: 'WetinWeather',
       theme: AppLightTheme.lightThemeData,
       darkTheme: AppDarkTheme.darkThemeData,
       routerConfig: goRouterConfig,

@@ -30,7 +30,7 @@ class AppLightTheme {
         selectedForegroundColor: LightColorConstants.tertiaryColor,
         iconColor: LightColorConstants.tertiaryColor,
         iconSize: 24.0,
-        visualDensity: VisualDensity.compact,
+        visualDensity: VisualDensity.standard,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.all(
             Radius.circular(16),

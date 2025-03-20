@@ -30,7 +30,7 @@ class AppDarkTheme {
         selectedForegroundColor: DarkColorConstants.tertiaryColor,
         iconColor: DarkColorConstants.tertiaryColor,
         iconSize: 24.0,
-        visualDensity: VisualDensity.adaptivePlatformDensity,
+        visualDensity: VisualDensity.standard,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.all(
             Radius.circular(8),

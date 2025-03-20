@@ -13,4 +13,10 @@ class AssetPath {
   static final animatedNightCloudy = 'assets/animations/nightcloudy.json';
   static final animatedNightSnowy = 'assets/animations/nightsnowy.json';
   static final animatedSnowy = 'assets/animations/snowy.json';
+
+  //Path constants to icons
+  static final coIcon = 'assets/icons/co.png';
+  static final o3Icon = 'assets/icons/o3.png';
+  static final pm25Icon = 'assets/icons/pm2_5.png';
+  static final so2Icon = 'assets/icons/so2Icon.png';
 }

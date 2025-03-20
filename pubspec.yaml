@@ -60,7 +60,7 @@ dependencies:
   auto_size_text: ^3.0.0
   uuid: ^4.5.1
   liquid_pull_to_refresh: ^3.0.1
-  rive_animated_icon: ^2.0.3
+  syncfusion_flutter_gauges: ^28.2.12
 
 dev_dependencies:
   flutter_test:
@@ -93,3 +93,4 @@ flutter:
     - assets/google_fonts/
     - assets/images/
     - assets/animations/
+    - assets/icons/
