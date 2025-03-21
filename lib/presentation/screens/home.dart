@@ -2,13 +2,10 @@ import 'package:bloc_app/presentation/components/air_quality_summary.dart';
 import 'package:bloc_app/presentation/components/forcast_summary.dart';
 import 'package:bloc_app/presentation/components/gradient_spot.dart';
 import 'package:bloc_app/presentation/components/hourly_report.dart';
-import 'package:bloc_app/utilities/assets_path_constants.dart';
 import 'package:bloc_app/utilities/color_constants.dart';
 import 'package:bloc_app/utilities/sizedbox_constants.dart';
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
-import 'package:lottie/lottie.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});

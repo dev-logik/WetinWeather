@@ -86,6 +86,9 @@ class AppLightTheme {
     //Defines the ColorScheme of the ThemeData object configuration.
     colorScheme: ColorScheme.fromSeed(seedColor: LightColorConstants.seedColor),
 
+    //Defines the input decoration theme for the text field.
+    inputDecorationTheme: InputDecorationTheme(),
+
     //Defines the TextTheme of the ThemeData object configuration.
     textTheme: TypographyTheme.lightLextTheme,
   );

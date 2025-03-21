@@ -89,6 +89,20 @@ class AppDarkTheme {
       brightness: Brightness.dark,
     ),
 
+    //Defines the input decoration theme for the text field.
+    inputDecorationTheme: InputDecorationTheme(
+      isDense: true,
+      border: OutlineInputBorder(
+        borderSide: BorderSide.none,
+        borderRadius: BorderRadius.circular(12.0),
+      ),
+      fillColor: DarkColorConstants.secondaryColor_2,
+      filled: true,
+      errorBorder: OutlineInputBorder(
+        borderSide: BorderSide(color: Colors.red, width: 5.0),
+      ),
+    ),
+
     //Defines the TextTheme of the ThemeData object configuration.
     textTheme: TypographyTheme.darkLextTheme,
   );

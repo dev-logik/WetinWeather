@@ -1,7 +1,6 @@
 import 'package:bloc_app/utilities/assets_path_constants.dart';
 import 'package:bloc_app/utilities/sizedbox_constants.dart';
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:syncfusion_flutter_gauges/gauges.dart';
 
 class AirQualitySummary extends StatelessWidget {
