@@ -101,7 +101,7 @@ class AppDarkTheme {
       errorBorder: OutlineInputBorder(
         borderSide: BorderSide(color: Colors.red, width: 5.0),
       ),
-    ),
+    ),    
 
     //Defines the TextTheme of the ThemeData object configuration.
     textTheme: TypographyTheme.darkLextTheme,

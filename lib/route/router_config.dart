@@ -22,7 +22,7 @@ mixin class GoRouterConfig {
       GoRoute(
         path: '/report',
         name: 'report',
-        builder: (_, __) => ReportScreen(),
+        builder: (_, __) => ForcastReportScreen(),
       ),
     ],
   );

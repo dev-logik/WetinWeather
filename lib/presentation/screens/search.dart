@@ -21,7 +21,6 @@ class _SearchScreenState extends State<SearchScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final brightness = Theme.of(context).brightness;
     final textTheme = Theme.of(context).textTheme;
     return Scaffold(
       body: Stack(
