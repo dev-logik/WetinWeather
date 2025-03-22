@@ -1,8 +1,11 @@
+import 'package:bloc_app/bloc/theme_mode_cubit.dart';
 import 'package:bloc_app/presentation/components/bottom_navigator.dart';
 import 'package:bloc_app/presentation/screens/home.dart';
 import 'package:bloc_app/presentation/screens/report.dart';
 import 'package:bloc_app/presentation/screens/search.dart';
 import 'package:bloc_app/presentation/screens/settings.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
 mixin class GoRouterConfig {

@@ -61,7 +61,10 @@ class AppLightTheme {
         foregroundColor: LightColorConstants.tertiaryColor,
       ),
     ),
-
+    iconTheme: IconThemeData(
+      size: 24,
+      color: LightColorConstants.tertiaryColor,
+    ),
     //Defines and overrides the default theme for the bottomnavigationbar widgets.
     bottomNavigationBarTheme: BottomNavigationBarThemeData(
       backgroundColor: LightColorConstants.primaryColor,

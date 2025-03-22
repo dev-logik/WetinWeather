@@ -62,6 +62,11 @@ class AppDarkTheme {
       ),
     ),
 
+    iconTheme: IconThemeData(
+      size: 24,
+      color: DarkColorConstants.tertiaryColor,
+    ),
+
     //Defines and overrides the default theme for the bottomnavigationbar widgets.
     bottomNavigationBarTheme: BottomNavigationBarThemeData(
       backgroundColor: DarkColorConstants.primaryColor,
@@ -101,7 +106,7 @@ class AppDarkTheme {
       errorBorder: OutlineInputBorder(
         borderSide: BorderSide(color: Colors.red, width: 5.0),
       ),
-    ),    
+    ),
 
     //Defines the TextTheme of the ThemeData object configuration.
     textTheme: TypographyTheme.darkLextTheme,
