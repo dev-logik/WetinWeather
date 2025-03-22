@@ -96,7 +96,7 @@ class AppLightTheme {
         borderSide: BorderSide.none,
         borderRadius: BorderRadius.circular(12.0),
       ),
-      fillColor: DarkColorConstants.secondaryColor_2,
+      fillColor: LightColorConstants.secondaryColor_2,
       filled: true,
       errorBorder: OutlineInputBorder(
         borderSide: BorderSide(color: Colors.red, width: 5.0),

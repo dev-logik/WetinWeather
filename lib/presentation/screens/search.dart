@@ -48,6 +48,7 @@ class _SearchScreenState extends State<SearchScreen> {
                   style: textTheme.bodyMedium?.copyWith(
                     fontWeight: FontWeight.w100,
                     fontSize: 14,
+                    color: Colors.white,
                   ),
                   textAlign: TextAlign.center,
                 ),

@@ -80,15 +80,14 @@ class _SettingsScreenState extends State<SettingsScreen> {
                               size: 24,
                             ),
                       title: Text(
-                        'Dark Theme',
+                        'Toggle Theme',
                         style: textTheme.titleSmall,
                       ),
                       trailing: Switch(
                         value: themeModeWatchBloc.isLightFlag,
                         onChanged: (value) {
-                          themeModeReadBloc.toggleThemeMode(value);
+                          themeModeReadBloc.toggleThemeMode();
                           themeModeReadBloc.isLightFlag = value;
-                          print(themeModeWatchBloc.isLightFlag);
                         },
                       ),
                     ),

@@ -9,7 +9,7 @@ class ThemeState {
 class ThemeModeCubit extends Cubit<ThemeState> {
   ThemeModeCubit(super.initialState);
   bool isLightFlag = false;
-  void toggleThemeMode(bool isLight) {
+  void toggleThemeMode() {
     emit(ThemeState((state.themeMode == ThemeMode.light)
         ? ThemeMode.dark
         : ThemeMode.light));
