@@ -10,10 +10,10 @@ class NextForcastCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 4),
+      padding: EdgeInsets.symmetric(horizontal: 4.0.w),
       child: Card(
         child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 8.0.w, vertical: 8.0.h),
+          padding: EdgeInsets.symmetric(horizontal: 8.0.w, vertical: 4.0.h),
           child: ListTile(
             visualDensity: VisualDensity.comfortable,
             leading: Column(
@@ -46,8 +46,8 @@ class NextForcastCard extends StatelessWidget {
             ),
             trailing: Lottie.asset(
               AssetPath.animatedSnowy,
-              width: 60.w,
-              height: 70.h,
+              width: 20.w,
+              height: 50.h,
               fit: BoxFit.cover,
             ),
           ),

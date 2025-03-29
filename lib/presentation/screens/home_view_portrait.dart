@@ -56,13 +56,13 @@ class _HomeScreenMobilePortraitState extends State<HomeScreenMobilePortrait> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
-                sizedH24,
+                sizedH16,
                 //Todo: Pass Dynamic Location name.
                 Text(
                   'San Francisco',
                   style: textTheme.headlineLarge,
                 ),
-                sizedH16,
+                sizedH8,
                 //Todo: Pass dynamic date string.
                 Text(
                   'May 27, 2025',
@@ -82,9 +82,8 @@ class _HomeScreenMobilePortraitState extends State<HomeScreenMobilePortrait> {
                     });
                   },
                 ),
-                sizedH16,
-                _summaryPagesSection(),
                 sizedH8,
+                _summaryPagesSection(),
                 _pageBreakHeader(textTheme, context),
                 //Todo: Replace with a list view builder to display
                 //Todo: the hourly reports dynamically.

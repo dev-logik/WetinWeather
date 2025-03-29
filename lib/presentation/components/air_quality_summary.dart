@@ -161,7 +161,7 @@ class AirQualitySummary extends StatelessWidget {
                 )
               ],
             ),
-            sizedH8,
+            // sizedH8,
           ],
         ),
       ),

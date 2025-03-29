@@ -87,7 +87,9 @@ class _SearchScreenState extends State<SearchScreen> {
                           Icons.location_on_outlined,
                         ),
                         padding: EdgeInsets.symmetric(
-                            horizontal: 8.w, vertical: 8.w),
+                          horizontal: 4.w,
+                          vertical: 4.h,
+                        ),
                       ),
                     )
                   ],

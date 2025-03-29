@@ -5,18 +5,8 @@ import 'package:bloc_app/utilities/sizedbox_constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-class ForcastReportScreen extends StatefulWidget {
-  const ForcastReportScreen({super.key});
-
-  @override
-  State<ForcastReportScreen> createState() => _ForcastReportScreenState();
-}
-
-class _ForcastReportScreenState extends State<ForcastReportScreen> {
-  @override
-  void initState() {
-    super.initState();
-  }
+class ForcastReportPortraitScreen extends StatelessWidget {
+  const ForcastReportPortraitScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -35,16 +25,17 @@ class _ForcastReportScreenState extends State<ForcastReportScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
-                sizedH32,
+                sizedH16,
                 //Page Header name
                 Text(
                   'Forcast Report',
                   style: textTheme.headlineLarge,
                 ),
-                sizedH24,
+                sizedH8,
                 Padding(
-                  padding:
-                      EdgeInsets.symmetric(horizontal: 16.0.w, vertical: 4.0.h),
+                  padding: EdgeInsets.symmetric(
+                    horizontal: 8.0.w,
+                  ),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     crossAxisAlignment: CrossAxisAlignment.end,
@@ -55,7 +46,9 @@ class _ForcastReportScreenState extends State<ForcastReportScreen> {
                       ),
                       Text(
                         'May 27, 2025',
-                        style: textTheme.bodyLarge,
+                        style: textTheme.bodyLarge?.copyWith(
+                          color: Colors.white,
+                        ),
                       ),
                     ],
                   ),
@@ -64,7 +57,9 @@ class _ForcastReportScreenState extends State<ForcastReportScreen> {
                 //Search input text form field.
                 ConstrainedBox(
                   constraints: BoxConstraints(
-                      maxHeight: 90.h, maxWidth: double.infinity),
+                    maxHeight: 90.h,
+                    maxWidth: double.infinity,
+                  ),
                   child: ListView(
                     scrollDirection: Axis.horizontal,
                     children: [
@@ -79,8 +74,7 @@ class _ForcastReportScreenState extends State<ForcastReportScreen> {
                 ),
                 sizedH8,
                 Padding(
-                  padding:
-                      EdgeInsets.symmetric(horizontal: 16.0.w, vertical: 4.0.h),
+                  padding: EdgeInsets.symmetric(horizontal: 16.0.w),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     crossAxisAlignment: CrossAxisAlignment.end,
@@ -100,14 +94,34 @@ class _ForcastReportScreenState extends State<ForcastReportScreen> {
                     ],
                   ),
                 ),
-                sizedH8,
-                NextForcastCard(),
-                sizedH8,
-                NextForcastCard(),
-                sizedH8,
-                NextForcastCard(),
-                sizedH8,
-                NextForcastCard(),
+                ConstrainedBox(
+                  constraints: BoxConstraints(
+                    maxHeight: 0.53.sh,
+                    maxWidth: 1.sw,
+                  ),
+                  child: ListView(
+                    scrollDirection: Axis.vertical,
+                    children: [
+                      NextForcastCard(),
+                      sizedH8,
+                      NextForcastCard(),
+                      sizedH8,
+                      NextForcastCard(),
+                      sizedH8,
+                      NextForcastCard(),
+                      sizedH8,
+                      NextForcastCard(),
+                      sizedH8,
+                      NextForcastCard(),
+                      sizedH8,
+                      NextForcastCard(),
+                      sizedH8,
+                      NextForcastCard(),
+                      sizedH8,
+                      NextForcastCard(),
+                    ],
+                  ),
+                )
               ],
             ),
           ),

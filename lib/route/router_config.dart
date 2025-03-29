@@ -1,6 +1,6 @@
 import 'package:bloc_app/presentation/components/bottom_navigator.dart';
-import 'package:bloc_app/presentation/screens/home.dart';
-import 'package:bloc_app/presentation/screens/report.dart';
+import 'package:bloc_app/presentation/screens/home_view.dart';
+import 'package:bloc_app/presentation/screens/orientation%20controllers/report_orientation_view.dart';
 import 'package:bloc_app/presentation/screens/search.dart';
 import 'package:bloc_app/presentation/screens/settings.dart';
 import 'package:go_router/go_router.dart';
@@ -11,7 +11,7 @@ mixin class GoRouterConfig {
       GoRoute(
         path: '/',
         name: 'home',
-        builder: (_, __) => HomeScreenGeneral(),
+        builder: (_, __) => HomeScreenView(),
       ),
     ],
     initialLocation: '/',
@@ -22,7 +22,7 @@ mixin class GoRouterConfig {
       GoRoute(
         path: '/report',
         name: 'report',
-        builder: (_, __) => ForcastReportScreen(),
+        builder: (_, __) => ReportView(),
       ),
     ],
   );

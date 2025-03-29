@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-class HomeScreenWeb extends StatelessWidget {
-  const HomeScreenWeb({super.key});
+class HomeScreenWebView extends StatelessWidget {
+  const HomeScreenWebView({super.key});
 
   @override
   Widget build(BuildContext context) {

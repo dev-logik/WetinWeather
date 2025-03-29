@@ -13,8 +13,16 @@ class SearchHistoryCard extends StatelessWidget {
 
     return ConstrainedBox(
       constraints: BoxConstraints(
-        maxWidth: 100.w,
-        maxHeight: 200.h,
+        maxWidth: setValuesBasedOnOrientation(
+          ifTrue: 100.w,
+          ifFalse: 200.0.w,
+          context: context,
+        ),
+        maxHeight: setValuesBasedOnOrientation(
+          ifTrue: 200.h,
+          ifFalse: 100.h,
+          context: context,
+        ),
       ),
       child: Card(
         child: Padding(

@@ -1,4 +1,5 @@
 import 'package:bloc_app/utilities/assets_path_constants.dart';
+import 'package:bloc_app/utilities/helper_funtions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:lottie/lottie.dart';
@@ -9,13 +10,19 @@ class HourlyReportCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
-    final currentOrientation = MediaQuery.of(context).orientation;
 
     return ConstrainedBox(
       constraints: BoxConstraints(
-        maxWidth:
-            (currentOrientation == Orientation.landscape) ? .20.sw : 150.0.w,
-      ),
+          maxWidth: setValuesBasedOnOrientation(
+            ifTrue: .20.sw,
+            ifFalse: 150.0.w,
+            context: context,
+          ),
+          maxHeight: setValuesBasedOnOrientation(
+            ifTrue: .40.sh,
+            ifFalse: 150.0.h,
+            context: context,
+          )),
       child: Card(
         child: Padding(
           padding:

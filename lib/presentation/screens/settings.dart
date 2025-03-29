@@ -1,6 +1,7 @@
 import 'package:bloc_app/bloc/theme_mode_cubit.dart';
 import 'package:bloc_app/presentation/components/gradient_spot.dart';
 import 'package:bloc_app/utilities/color_constants.dart';
+import 'package:bloc_app/utilities/helper_funtions.dart';
 import 'package:bloc_app/utilities/sizedbox_constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -35,155 +36,169 @@ class _SettingsScreenState extends State<SettingsScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
-                sizedH32,
+                sizedH16,
                 //Page Header name
                 Text(
                   'App Settings',
                   style: textTheme.headlineLarge,
                 ),
                 sizedH24,
-                Card(
-                  child: Padding(
-                    padding:
-                        EdgeInsets.symmetric(vertical: 8.h, horizontal: 8.w),
-                    child: ListTile(
-                      visualDensity: VisualDensity.comfortable,
-                      leading: FaIcon(
-                        FontAwesomeIcons.bell,
-                        color: DarkColorConstants.tertiaryColor,
-                        size: 24,
-                      ),
-                      title: Text(
-                        'Notification',
-                        style: textTheme.titleSmall,
-                      ),
-                      trailing: Switch(
-                        value: false,
-                        onChanged: (value) {},
-                      ),
+                ConstrainedBox(
+                  constraints: BoxConstraints(
+                    maxWidth: double.infinity,
+                    maxHeight: setValuesBasedOnOrientation(
+                      ifTrue: 0.55.sh,
+                      ifFalse: 0.85.sh,
+                      context: context,
                     ),
                   ),
-                ),
-                sizedH16,
-                Card(
-                  child: Padding(
-                    padding:
-                        EdgeInsets.symmetric(vertical: 8.h, horizontal: 8.w),
-                    child: ListTile(
-                      visualDensity: VisualDensity.comfortable,
-                      leading: (isThemeModeLight == Brightness.light)
-                          ? FaIcon(
-                              FontAwesomeIcons.sun,
+                  child: ListView(
+                    children: [
+                      Card(
+                        child: Padding(
+                          padding: EdgeInsets.symmetric(
+                              vertical: 8.h, horizontal: 8.w),
+                          child: ListTile(
+                            visualDensity: VisualDensity.comfortable,
+                            leading: FaIcon(
+                              FontAwesomeIcons.bell,
                               color: DarkColorConstants.tertiaryColor,
-                              size: 24.sp,
-                            )
-                          : FaIcon(
-                              FontAwesomeIcons.moon,
-                              color: DarkColorConstants.tertiaryColor,
-                              size: 24.sp,
+                              size: 24,
                             ),
-                      title: Text(
-                        'Toggle Theme',
-                        style: textTheme.titleSmall,
+                            title: Text(
+                              'Notification',
+                              style: textTheme.titleSmall,
+                            ),
+                            trailing: Switch(
+                              value: false,
+                              onChanged: (value) {},
+                            ),
+                          ),
+                        ),
                       ),
-                      trailing: Switch(
-                        value: themeModeWatchBloc.isLightFlag,
-                        onChanged: (value) {
-                          themeModeReadBloc.toggleThemeMode();
-                          themeModeReadBloc.isLightFlag = value;
-                        },
+                      sizedH16,
+                      Card(
+                        child: Padding(
+                          padding: EdgeInsets.symmetric(
+                              vertical: 8.h, horizontal: 8.w),
+                          child: ListTile(
+                            visualDensity: VisualDensity.comfortable,
+                            leading: (isThemeModeLight == Brightness.light)
+                                ? FaIcon(
+                                    FontAwesomeIcons.sun,
+                                    color: DarkColorConstants.tertiaryColor,
+                                    size: 24,
+                                  )
+                                : FaIcon(
+                                    FontAwesomeIcons.moon,
+                                    color: DarkColorConstants.tertiaryColor,
+                                    size: 24,
+                                  ),
+                            title: Text(
+                              'Toggle Theme',
+                              style: textTheme.titleSmall,
+                            ),
+                            trailing: Switch(
+                              value: themeModeWatchBloc.isLightFlag,
+                              onChanged: (value) {
+                                themeModeReadBloc.toggleThemeMode();
+                                themeModeReadBloc.isLightFlag = value;
+                              },
+                            ),
+                          ),
+                        ),
                       ),
-                    ),
+                      Card(
+                        child: Padding(
+                          padding: EdgeInsets.symmetric(
+                              vertical: 8.h, horizontal: 8.w),
+                          child: ListTile(
+                            visualDensity: VisualDensity.comfortable,
+                            leading: FaIcon(
+                              FontAwesomeIcons.temperatureFull,
+                              color: DarkColorConstants.tertiaryColor,
+                              size: 24,
+                            ),
+                            title: Text(
+                              'Temperature',
+                              style: textTheme.titleSmall,
+                            ),
+                            trailing: DropdownButton<String>(
+                              items: [],
+                              onChanged: (value) {},
+                            ),
+                          ),
+                        ),
+                      ),
+                      Card(
+                        child: Padding(
+                          padding: EdgeInsets.symmetric(
+                              vertical: 8.h, horizontal: 8.w),
+                          child: ListTile(
+                            visualDensity: VisualDensity.comfortable,
+                            leading: FaIcon(
+                              FontAwesomeIcons.cloudRain,
+                              color: DarkColorConstants.tertiaryColor,
+                              size: 24,
+                            ),
+                            title: Text(
+                              'Precipitation',
+                              style: textTheme.titleSmall,
+                            ),
+                            trailing: DropdownButton<String>(
+                              items: [],
+                              onChanged: (value) {},
+                            ),
+                          ),
+                        ),
+                      ),
+                      Card(
+                        child: Padding(
+                          padding: EdgeInsets.symmetric(
+                              vertical: 8.h, horizontal: 8.w),
+                          child: ListTile(
+                            visualDensity: VisualDensity.comfortable,
+                            leading: FaIcon(
+                              FontAwesomeIcons.wind,
+                              color: DarkColorConstants.tertiaryColor,
+                              size: 24,
+                            ),
+                            title: Text(
+                              'Wind Speed',
+                              style: textTheme.titleSmall,
+                            ),
+                            trailing: DropdownButton<String>(
+                              items: [],
+                              onChanged: (value) {},
+                            ),
+                          ),
+                        ),
+                      ),
+                      Card(
+                        child: Padding(
+                          padding: EdgeInsets.symmetric(
+                              vertical: 8.h, horizontal: 8.w),
+                          child: ListTile(
+                            visualDensity: VisualDensity.comfortable,
+                            leading: FaIcon(
+                              FontAwesomeIcons.warehouse,
+                              color: DarkColorConstants.tertiaryColor,
+                              size: 24,
+                            ),
+                            title: Text(
+                              'Pressure',
+                              style: textTheme.titleSmall,
+                            ),
+                            trailing: DropdownButton<String>(
+                              items: [],
+                              onChanged: (value) {},
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
-                ),
-                Card(
-                  child: Padding(
-                    padding:
-                        EdgeInsets.symmetric(vertical: 8.h, horizontal: 8.w),
-                    child: ListTile(
-                      visualDensity: VisualDensity.comfortable,
-                      leading: FaIcon(
-                        FontAwesomeIcons.temperatureFull,
-                        color: DarkColorConstants.tertiaryColor,
-                        size: 24,
-                      ),
-                      title: Text(
-                        'Temperature',
-                        style: textTheme.titleSmall,
-                      ),
-                      trailing: DropdownButton<String>(
-                        items: [],
-                        onChanged: (value) {},
-                      ),
-                    ),
-                  ),
-                ),
-                Card(
-                  child: Padding(
-                    padding:
-                        EdgeInsets.symmetric(vertical: 8.h, horizontal: 8.w),
-                    child: ListTile(
-                      visualDensity: VisualDensity.comfortable,
-                      leading: FaIcon(
-                        FontAwesomeIcons.cloudRain,
-                        color: DarkColorConstants.tertiaryColor,
-                        size: 24.sp,
-                      ),
-                      title: Text(
-                        'Precipitation',
-                        style: textTheme.titleSmall,
-                      ),
-                      trailing: DropdownButton<String>(
-                        items: [],
-                        onChanged: (value) {},
-                      ),
-                    ),
-                  ),
-                ),
-                Card(
-                  child: Padding(
-                    padding:
-                        EdgeInsets.symmetric(vertical: 8.h, horizontal: 8.w),
-                    child: ListTile(
-                      visualDensity: VisualDensity.comfortable,
-                      leading: FaIcon(
-                        FontAwesomeIcons.wind,
-                        color: DarkColorConstants.tertiaryColor,
-                        size: 24.sp,
-                      ),
-                      title: Text(
-                        'Wind Speed',
-                        style: textTheme.titleSmall,
-                      ),
-                      trailing: DropdownButton<String>(
-                        items: [],
-                        onChanged: (value) {},
-                      ),
-                    ),
-                  ),
-                ),
-                Card(
-                  child: Padding(
-                    padding:
-                        EdgeInsets.symmetric(vertical: 8.h, horizontal: 8.w),
-                    child: ListTile(
-                      visualDensity: VisualDensity.comfortable,
-                      leading: FaIcon(
-                        FontAwesomeIcons.warehouse,
-                        color: DarkColorConstants.tertiaryColor,
-                        size: 24.sp,
-                      ),
-                      title: Text(
-                        'Pressure',
-                        style: textTheme.titleSmall,
-                      ),
-                      trailing: DropdownButton<String>(
-                        items: [],
-                        onChanged: (value) {},
-                      ),
-                    ),
-                  ),
-                ),
+                )
               ],
             ),
           ),
