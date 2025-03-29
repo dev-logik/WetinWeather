@@ -1,5 +1,6 @@
 import 'package:bloc_app/utilities/assets_path_constants.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:lottie/lottie.dart';
 
@@ -11,14 +12,25 @@ class ForcastSummary extends StatelessWidget {
     final textTheme = Theme.of(context).textTheme;
     return ConstrainedBox(
       key: const ValueKey(0),
-      constraints: BoxConstraints(minHeight: 400, minWidth: 350),
+      constraints: BoxConstraints(
+        minHeight: 0.45.sh,
+        minWidth: 0.4.sw,
+        maxWidth: 0.95.sw,
+        maxHeight: 0.46.sh,
+      ),
       child: Card(
-        margin: EdgeInsets.symmetric(horizontal: 8),
         color: Color.fromRGBO(225, 225, 225, 225),
         child: Column(
           children: <Widget>[
-            Lottie.asset(AssetPath.animatedCloudy,
-                height: 300, width: 300, fit: BoxFit.cover),
+            AspectRatio(
+              aspectRatio: 4 / 3,
+              child: Lottie.asset(
+                AssetPath.animatedCloudy,
+                height: 300.w,
+                width: 300.w,
+                fit: BoxFit.contain,
+              ),
+            ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: <Widget>[
@@ -32,7 +44,9 @@ class ForcastSummary extends StatelessWidget {
                       '100 C',
                       style: textTheme.titleMedium,
                     ),
-                    Text('Temperature'),
+                    Text(
+                      'Temperature',
+                    ),
                   ],
                 ),
                 Column(

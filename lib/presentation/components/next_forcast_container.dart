@@ -1,5 +1,6 @@
 import 'package:bloc_app/utilities/assets_path_constants.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:lottie/lottie.dart';
 
 class NextForcastCard extends StatelessWidget {
@@ -12,7 +13,7 @@ class NextForcastCard extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 4),
       child: Card(
         child: Padding(
-          padding: const EdgeInsets.all(8.0),
+          padding: EdgeInsets.symmetric(horizontal: 8.0.w, vertical: 8.0.h),
           child: ListTile(
             visualDensity: VisualDensity.comfortable,
             leading: Column(
@@ -45,8 +46,8 @@ class NextForcastCard extends StatelessWidget {
             ),
             trailing: Lottie.asset(
               AssetPath.animatedSnowy,
-              width: 60,
-              height: 70,
+              width: 60.w,
+              height: 70.h,
               fit: BoxFit.cover,
             ),
           ),

@@ -3,6 +3,7 @@ import 'package:bloc_app/presentation/components/hourly_report.dart';
 import 'package:bloc_app/presentation/components/next_forcast_container.dart';
 import 'package:bloc_app/utilities/sizedbox_constants.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class ForcastReportScreen extends StatefulWidget {
   const ForcastReportScreen({super.key});
@@ -42,8 +43,8 @@ class _ForcastReportScreenState extends State<ForcastReportScreen> {
                 ),
                 sizedH24,
                 Padding(
-                  padding: const EdgeInsets.symmetric(
-                      horizontal: 16.0, vertical: 4.0),
+                  padding:
+                      EdgeInsets.symmetric(horizontal: 16.0.w, vertical: 4.0.h),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     crossAxisAlignment: CrossAxisAlignment.end,
@@ -62,8 +63,8 @@ class _ForcastReportScreenState extends State<ForcastReportScreen> {
                 sizedH8,
                 //Search input text form field.
                 ConstrainedBox(
-                  constraints:
-                      BoxConstraints(maxHeight: 100, maxWidth: double.infinity),
+                  constraints: BoxConstraints(
+                      maxHeight: 90.h, maxWidth: double.infinity),
                   child: ListView(
                     scrollDirection: Axis.horizontal,
                     children: [
@@ -78,8 +79,8 @@ class _ForcastReportScreenState extends State<ForcastReportScreen> {
                 ),
                 sizedH8,
                 Padding(
-                  padding: const EdgeInsets.symmetric(
-                      horizontal: 16.0, vertical: 4.0),
+                  padding:
+                      EdgeInsets.symmetric(horizontal: 16.0.w, vertical: 4.0.h),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     crossAxisAlignment: CrossAxisAlignment.end,
@@ -93,7 +94,8 @@ class _ForcastReportScreenState extends State<ForcastReportScreen> {
                         icon: Icon(
                           Icons.calendar_month,
                         ),
-                        padding: EdgeInsets.all(8.0),
+                        padding: EdgeInsets.symmetric(
+                            vertical: 8.0.h, horizontal: 8.0.w),
                       ),
                     ],
                   ),

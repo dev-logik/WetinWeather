@@ -104,6 +104,6 @@ class AppLightTheme {
     ),
 
     //Defines the TextTheme of the ThemeData object configuration.
-    textTheme: TypographyTheme.lightLextTheme,
+    textTheme: TypographyTheme.darkLextTheme,
   );
 }

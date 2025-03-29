@@ -1,6 +1,7 @@
 import 'package:bloc_app/utilities/assets_path_constants.dart';
 import 'package:bloc_app/utilities/sizedbox_constants.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:syncfusion_flutter_gauges/gauges.dart';
 
 class AirQualitySummary extends StatelessWidget {
@@ -11,15 +12,20 @@ class AirQualitySummary extends StatelessWidget {
     final textTheme = Theme.of(context).textTheme;
     return ConstrainedBox(
       key: const ValueKey(1),
-      constraints: BoxConstraints(minHeight: 400, minWidth: 350),
+      constraints: BoxConstraints(
+        minHeight: 0.45.sh,
+        minWidth: 0.4.sw,
+        maxWidth: 0.95.sw,
+        maxHeight: 0.5.sh,
+      ),
       child: Card(
-        margin: EdgeInsets.symmetric(horizontal: 8),
         color: Color.fromRGBO(225, 225, 225, 225),
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: <Widget>[
             sizedH8,
             AspectRatio(
-              aspectRatio: 5 / 4,
+              aspectRatio: 4 / 3,
               child: SfRadialGauge(
                 animationDuration: 500,
                 //enableLoadingAnimation: true,
@@ -72,7 +78,8 @@ class AirQualitySummary extends StatelessWidget {
                             //Todo:Replace the value with a variable of the acutal AQL.
                             Text(
                               '200',
-                              style: textTheme.displayMedium,
+                              style: textTheme.displayMedium
+                                  ?.copyWith(fontSize: 30.sp),
                             ),
                             Text(
                               'AQI',
@@ -97,15 +104,18 @@ class AirQualitySummary extends StatelessWidget {
                     //Todo: the values will be passed dynamically.
                     Image.asset(
                       AssetPath.coIcon,
-                      width: 30.0,
-                      height: 30.0,
+                      width: 30.w,
+                      height: 30.w,
                       color: Colors.white,
                     ),
                     Text(
                       '100',
+                      style: textTheme.titleMedium,
+                    ),
+                    Text(
+                      'Monoxide',
                       style: textTheme.titleSmall,
                     ),
-                    Text('Monoxide'),
                   ],
                 ),
                 Column(
@@ -115,14 +125,17 @@ class AirQualitySummary extends StatelessWidget {
                     //Todo: the values will be passed dynamically.
                     Image.asset(
                       AssetPath.pm25Icon,
-                      width: 35.0,
-                      height: 35.0,
+                      width: 35.w,
+                      height: 35.w,
                     ),
                     Text(
                       '100',
+                      style: textTheme.titleMedium,
+                    ),
+                    Text(
+                      'PM 2.5',
                       style: textTheme.titleSmall,
                     ),
-                    Text('PM 2.5'),
                   ],
                 ),
                 Column(
@@ -132,19 +145,23 @@ class AirQualitySummary extends StatelessWidget {
                     //Todo: the values will be passed dynamically.
                     Image.asset(
                       AssetPath.o3Icon,
-                      width: 35.0,
-                      height: 35.0,
+                      width: 35.w,
+                      height: 35.w,
                     ),
 
                     Text(
                       '70',
+                      style: textTheme.titleMedium,
+                    ),
+                    Text(
+                      'Ozone',
                       style: textTheme.titleSmall,
                     ),
-                    Text('Ozone'),
                   ],
                 )
               ],
-            )
+            ),
+            sizedH8,
           ],
         ),
       ),

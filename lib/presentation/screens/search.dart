@@ -1,7 +1,9 @@
 import 'package:bloc_app/presentation/components/gradient_spot.dart';
 import 'package:bloc_app/presentation/components/search_history_container.dart';
+import 'package:bloc_app/utilities/helper_funtions.dart';
 import 'package:bloc_app/utilities/sizedbox_constants.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class SearchScreen extends StatefulWidget {
   const SearchScreen({super.key});
@@ -22,6 +24,8 @@ class _SearchScreenState extends State<SearchScreen> {
   @override
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
+    final brightness = Theme.of(context).brightness;
+
     return Scaffold(
       body: Stack(
         children: <Widget>[
@@ -36,35 +40,43 @@ class _SearchScreenState extends State<SearchScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
-                sizedH32,
+                sizedH16,
                 //Page Header name
                 Text(
                   'Pick Location',
                   style: textTheme.headlineLarge,
                 ),
-                sizedH16,
+                sizedH8,
                 Text(
                   'Find the area or city that you want to know the detailed weather info at this time.',
                   style: textTheme.bodyMedium?.copyWith(
                     fontWeight: FontWeight.w100,
-                    fontSize: 14,
+                    fontSize: setValuesBasedOnOrientation(
+                      ifTrue: 8.0.sp,
+                      ifFalse: 15.0.sp,
+                      context: context,
+                    ),
                     color: Colors.white,
                   ),
                   textAlign: TextAlign.center,
                 ),
-                sizedH32,
+                sizedH8,
                 //Search input text form field.
                 Row(
                   children: [
                     Expanded(
                       child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                        padding: EdgeInsets.symmetric(horizontal: 3.0.w),
                         child: TextField(
                           controller: textEditingController,
                           enabled: true,
                           showCursor: true,
                           scrollPhysics:
                               ScrollPhysics(parent: BouncingScrollPhysics()),
+                          keyboardAppearance: (brightness == Brightness.light)
+                              ? Brightness.light
+                              : Brightness.dark,
+                          enableSuggestions: true,
                         ),
                       ),
                     ),
@@ -74,12 +86,13 @@ class _SearchScreenState extends State<SearchScreen> {
                         icon: Icon(
                           Icons.location_on_outlined,
                         ),
-                        padding: EdgeInsets.all(8.0),
+                        padding: EdgeInsets.symmetric(
+                            horizontal: 8.w, vertical: 8.w),
                       ),
                     )
                   ],
                 ),
-                sizedH32,
+                //sizedH8,
                 //Todo: Place a gridbuilder that will generate a list of container.
                 SearchHistoryCard(),
               ],

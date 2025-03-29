@@ -1,5 +1,7 @@
 import 'package:bloc_app/utilities/assets_path_constants.dart';
+import 'package:bloc_app/utilities/helper_funtions.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:lottie/lottie.dart';
 
 class SearchHistoryCard extends StatelessWidget {
@@ -11,11 +13,12 @@ class SearchHistoryCard extends StatelessWidget {
 
     return ConstrainedBox(
       constraints: BoxConstraints(
-        maxWidth: 200,
+        maxWidth: 100.w,
+        maxHeight: 200.h,
       ),
       child: Card(
         child: Padding(
-          padding: const EdgeInsets.all(8.0),
+          padding: EdgeInsets.symmetric(vertical: 8.h, horizontal: 8.w),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -37,7 +40,7 @@ class SearchHistoryCard extends StatelessWidget {
                     style: textTheme.titleSmall,
                   ),
                   SizedBox(
-                    height: 5,
+                    height: 5.h,
                   ),
                   //Displays the city
                   Align(
@@ -48,11 +51,17 @@ class SearchHistoryCard extends StatelessWidget {
                   ),
                 ],
               ),
-              Lottie.asset(
-                AssetPath.animatedSnowy,
-                width: 80,
-                height: 80,
-              ),
+              Lottie.asset(AssetPath.animatedCloudyWindy,
+                  width: setValuesBasedOnOrientation(
+                    ifTrue: 50.0.w,
+                    ifFalse: 80.0.w,
+                    context: context,
+                  ),
+                  height: setValuesBasedOnOrientation(
+                    ifTrue: 50.0.w,
+                    ifFalse: 80.0.w,
+                    context: context,
+                  )),
             ],
           ),
         ),

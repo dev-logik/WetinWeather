@@ -4,6 +4,7 @@ import 'package:bloc_app/utilities/color_constants.dart';
 import 'package:bloc_app/utilities/sizedbox_constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class SettingsScreen extends StatefulWidget {
@@ -43,7 +44,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 sizedH24,
                 Card(
                   child: Padding(
-                    padding: const EdgeInsets.all(8.0),
+                    padding:
+                        EdgeInsets.symmetric(vertical: 8.h, horizontal: 8.w),
                     child: ListTile(
                       visualDensity: VisualDensity.comfortable,
                       leading: FaIcon(
@@ -65,19 +67,20 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 sizedH16,
                 Card(
                   child: Padding(
-                    padding: const EdgeInsets.all(8.0),
+                    padding:
+                        EdgeInsets.symmetric(vertical: 8.h, horizontal: 8.w),
                     child: ListTile(
                       visualDensity: VisualDensity.comfortable,
                       leading: (isThemeModeLight == Brightness.light)
                           ? FaIcon(
                               FontAwesomeIcons.sun,
                               color: DarkColorConstants.tertiaryColor,
-                              size: 24,
+                              size: 24.sp,
                             )
                           : FaIcon(
                               FontAwesomeIcons.moon,
                               color: DarkColorConstants.tertiaryColor,
-                              size: 24,
+                              size: 24.sp,
                             ),
                       title: Text(
                         'Toggle Theme',
@@ -95,7 +98,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 ),
                 Card(
                   child: Padding(
-                    padding: const EdgeInsets.all(8.0),
+                    padding:
+                        EdgeInsets.symmetric(vertical: 8.h, horizontal: 8.w),
                     child: ListTile(
                       visualDensity: VisualDensity.comfortable,
                       leading: FaIcon(
@@ -116,13 +120,14 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 ),
                 Card(
                   child: Padding(
-                    padding: const EdgeInsets.all(8.0),
+                    padding:
+                        EdgeInsets.symmetric(vertical: 8.h, horizontal: 8.w),
                     child: ListTile(
                       visualDensity: VisualDensity.comfortable,
                       leading: FaIcon(
                         FontAwesomeIcons.cloudRain,
                         color: DarkColorConstants.tertiaryColor,
-                        size: 24,
+                        size: 24.sp,
                       ),
                       title: Text(
                         'Precipitation',
@@ -137,13 +142,14 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 ),
                 Card(
                   child: Padding(
-                    padding: const EdgeInsets.all(8.0),
+                    padding:
+                        EdgeInsets.symmetric(vertical: 8.h, horizontal: 8.w),
                     child: ListTile(
                       visualDensity: VisualDensity.comfortable,
                       leading: FaIcon(
                         FontAwesomeIcons.wind,
                         color: DarkColorConstants.tertiaryColor,
-                        size: 24,
+                        size: 24.sp,
                       ),
                       title: Text(
                         'Wind Speed',
@@ -158,13 +164,14 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 ),
                 Card(
                   child: Padding(
-                    padding: const EdgeInsets.all(8.0),
+                    padding:
+                        EdgeInsets.symmetric(vertical: 8.h, horizontal: 8.w),
                     child: ListTile(
                       visualDensity: VisualDensity.comfortable,
                       leading: FaIcon(
                         FontAwesomeIcons.warehouse,
                         color: DarkColorConstants.tertiaryColor,
-                        size: 24,
+                        size: 24.sp,
                       ),
                       title: Text(
                         'Pressure',
