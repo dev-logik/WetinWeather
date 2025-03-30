@@ -33,7 +33,9 @@ class ForcastReportLandscapeScreen extends StatelessWidget {
                 ),
                 ConstrainedBox(
                   constraints: BoxConstraints(
-                      maxWidth: double.infinity, maxHeight: 0.9.sh),
+                    maxWidth: double.infinity,
+                    maxHeight: 0.9.sh,
+                  ),
                   child: ListView(
                     children: [
                       Padding(
