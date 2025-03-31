@@ -13,16 +13,17 @@ class HourlyReportCard extends StatelessWidget {
 
     return ConstrainedBox(
       constraints: BoxConstraints(
-          maxWidth: setValuesBasedOnOrientation(
-            ifTrue: .20.sw,
-            ifFalse: 150.0.w,
-            context: context,
-          ),
-          maxHeight: setValuesBasedOnOrientation(
-            ifTrue: .40.sh,
-            ifFalse: 150.0.h,
-            context: context,
-          )),
+        maxWidth: setLandscapeValues(
+          ifTrue: .20.sw,
+          ifFalse: 150.0.w,
+          context: context,
+        ),
+        maxHeight: setLandscapeValues(
+          ifTrue: .40.sh,
+          ifFalse: 150.0.h,
+          context: context,
+        ),
+      ),
       child: Card(
         child: Padding(
           padding:
@@ -32,25 +33,31 @@ class HourlyReportCard extends StatelessWidget {
             children: [
               Lottie.asset(
                 AssetPath.animatedSnowy,
-                width: 70,
-                height: 70,
+                width: isTablet(context) ? 100 : 70,
+                height: isTablet(context) ? 100 : 70,
+                fit: BoxFit.cover,
               ),
               Column(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
                     '15:00',
-                    style: textTheme.titleSmall,
+                    style: isTablet(context)
+                        ? textTheme.titleMedium
+                        : textTheme.titleSmall,
                   ),
                   SizedBox(
-                    height: 4,
+                    height: isTablet(context) ? 2 : 4,
                   ),
                   RichText(
                     text: TextSpan(
                       text: '30',
                       style: textTheme.titleMedium,
                       children: <InlineSpan>[
-                        TextSpan(text: ' C', style: textTheme.titleSmall),
+                        TextSpan(
+                          text: '°C',
+                          style: textTheme.titleMedium,
+                        ),
                       ],
                     ),
                   ),

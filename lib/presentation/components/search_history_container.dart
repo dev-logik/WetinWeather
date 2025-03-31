@@ -13,12 +13,12 @@ class SearchHistoryCard extends StatelessWidget {
 
     return ConstrainedBox(
       constraints: BoxConstraints(
-        maxWidth: setValuesBasedOnOrientation(
+        maxWidth: setLandscapeValues(
           ifTrue: 100.w,
-          ifFalse: 200.0.w,
+          ifFalse: isTablet(context) ? 150.w : 200.0.w,
           context: context,
         ),
-        maxHeight: setValuesBasedOnOrientation(
+        maxHeight: setLandscapeValues(
           ifTrue: 200.h,
           ifFalse: 100.h,
           context: context,
@@ -36,9 +36,15 @@ class SearchHistoryCard extends StatelessWidget {
                   RichText(
                     text: TextSpan(
                       text: '30',
-                      style: textTheme.titleMedium,
+                      style: isTablet(context)
+                          ? textTheme.titleLarge?.copyWith(color: Colors.white)
+                          : textTheme.titleMedium,
                       children: <InlineSpan>[
-                        TextSpan(text: ' C', style: textTheme.titleSmall)
+                        TextSpan(
+                          text: ' °C',
+                          style: textTheme.titleLarge
+                              ?.copyWith(color: Colors.white),
+                        )
                       ],
                     ),
                   ),
@@ -60,12 +66,12 @@ class SearchHistoryCard extends StatelessWidget {
                 ],
               ),
               Lottie.asset(AssetPath.animatedCloudyWindy,
-                  width: setValuesBasedOnOrientation(
+                  width: setLandscapeValues(
                     ifTrue: 50.0.w,
                     ifFalse: 80.0.w,
                     context: context,
                   ),
-                  height: setValuesBasedOnOrientation(
+                  height: setLandscapeValues(
                     ifTrue: 50.0.w,
                     ifFalse: 80.0.w,
                     context: context,

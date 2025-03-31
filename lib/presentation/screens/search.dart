@@ -52,7 +52,7 @@ class _SearchScreenState extends State<SearchScreen> {
                     'Find the area or city that you want to know the detailed weather info at this time.',
                     style: textTheme.bodyMedium?.copyWith(
                       fontWeight: FontWeight.w100,
-                      fontSize: setValuesBasedOnOrientation(
+                      fontSize: setLandscapeValues(
                         ifTrue: 8.0.sp,
                         ifFalse: 15.0.sp,
                         context: context,

@@ -1,4 +1,5 @@
 import 'package:bloc_app/utilities/color_constants.dart';
+import 'package:bloc_app/utilities/screen_sizes.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
@@ -7,7 +8,7 @@ import 'package:stylish_bottom_bar/stylish_bottom_bar.dart';
 class BottomNavigator extends StatelessWidget {
   BottomNavigator({super.key, required this.navigationShell});
   final StatefulNavigationShell navigationShell;
-  
+
   //Defines the list of bottom navigation bar items.
   late final _bottomNavigationSylishItems = <BottomBarItem>[
     BottomBarItem(
@@ -33,12 +34,16 @@ class BottomNavigator extends StatelessWidget {
   ];
   @override
   Widget build(BuildContext context) {
-    final isMobile = MediaQuery.of(context).size.width < 900;
+    final isMobileNTablet =
+        MediaQuery.of(context).size.width < ScreenSizesConstant.tabletMaxWidth;
+    final isOrientationLandscape =
+        MediaQuery.of(context).orientation == Orientation.landscape;
     return LayoutBuilder(builder: (context, constraints) {
       return Scaffold(
         body: navigationShell,
-        bottomNavigationBar:
-            (isMobile) ? _buildBottomNavigationBar(context) : null,
+        bottomNavigationBar: (isMobileNTablet || isOrientationLandscape)
+            ? _buildBottomNavigationBar(context)
+            : null,
       );
     });
   }

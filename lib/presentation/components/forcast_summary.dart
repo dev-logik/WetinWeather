@@ -1,4 +1,5 @@
 import 'package:bloc_app/utilities/assets_path_constants.dart';
+import 'package:bloc_app/utilities/helper_funtions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -10,13 +11,14 @@ class ForcastSummary extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
+
     return ConstrainedBox(
       key: const ValueKey(0),
       constraints: BoxConstraints(
         minHeight: 0.45.sh,
         minWidth: 0.4.sw,
         maxWidth: 0.95.sw,
-        maxHeight: 0.46.sh,
+        maxHeight: (isTablet(context)) ? 0.55.sh : 0.46.sh,
       ),
       child: Card(
         color: Color.fromRGBO(225, 225, 225, 225),
@@ -40,9 +42,17 @@ class ForcastSummary extends StatelessWidget {
                     //Todo: Check if an icon can replace this.
                     //Todo: the values will be passed dynamically.
                     FaIcon(FontAwesomeIcons.thermometer),
-                    Text(
-                      '100 C',
-                      style: textTheme.titleMedium,
+                    RichText(
+                      text: TextSpan(
+                        text: '33',
+                        style: textTheme.titleMedium,
+                        children: <InlineSpan>[
+                          TextSpan(
+                            text: '°C',
+                            style: textTheme.titleMedium,
+                          ),
+                        ],
+                      ),
                     ),
                     Text(
                       'Temperature',
@@ -56,7 +66,7 @@ class ForcastSummary extends StatelessWidget {
                     //Todo: the values will be passed dynamically.
                     FaIcon(FontAwesomeIcons.wind),
                     Text(
-                      '100 Km/hr',
+                      '3 m/s',
                       style: textTheme.titleMedium,
                     ),
                     Text('Wind'),
@@ -70,7 +80,7 @@ class ForcastSummary extends StatelessWidget {
                     FaIcon(FontAwesomeIcons.water),
 
                     Text(
-                      '70%',
+                      '33%',
                       style: textTheme.titleMedium,
                     ),
                     Text('Humidity'),

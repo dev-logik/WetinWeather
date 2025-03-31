@@ -1,6 +1,7 @@
 import 'package:bloc_app/presentation/components/gradient_spot.dart';
 import 'package:bloc_app/presentation/components/hourly_report.dart';
 import 'package:bloc_app/presentation/components/next_forcast_container.dart';
+import 'package:bloc_app/utilities/helper_funtions.dart';
 import 'package:bloc_app/utilities/sizedbox_constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -58,7 +59,7 @@ class ForcastReportPortraitScreen extends StatelessWidget {
                   //Search input text form field.
                   ConstrainedBox(
                     constraints: BoxConstraints(
-                      maxHeight: 90.h,
+                      maxHeight: isTablet(context) ? 0.13.sh : 0.12.sh,
                       maxWidth: double.infinity,
                     ),
                     child: ListView(
@@ -97,7 +98,7 @@ class ForcastReportPortraitScreen extends StatelessWidget {
                   ),
                   ConstrainedBox(
                     constraints: BoxConstraints(
-                      maxHeight: 0.56.sh,
+                      maxHeight: isTablet(context) ? 0.626.sh : .57.sh,
                       maxWidth: 1.sw,
                     ),
                     child: ListView(

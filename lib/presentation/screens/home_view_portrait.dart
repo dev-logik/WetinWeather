@@ -3,6 +3,7 @@ import 'package:bloc_app/presentation/components/forcast_summary.dart';
 import 'package:bloc_app/presentation/components/gradient_spot.dart';
 import 'package:bloc_app/presentation/components/hourly_report.dart';
 import 'package:bloc_app/utilities/color_constants.dart';
+import 'package:bloc_app/utilities/helper_funtions.dart';
 import 'package:bloc_app/utilities/sizedbox_constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -83,7 +84,7 @@ class _HomeScreenMobilePortraitState extends State<HomeScreenMobilePortrait> {
                       });
                     },
                   ),
-                  sizedH8,
+                  (isTablet(context)) ? Container() : sizedH8,
                   _summaryPagesSection(),
                   _pageBreakHeader(textTheme, context),
                   //Todo: Replace with a list view builder to display
@@ -100,7 +101,8 @@ class _HomeScreenMobilePortraitState extends State<HomeScreenMobilePortrait> {
 
   ConstrainedBox _hourlyReportSection() {
     return ConstrainedBox(
-      constraints: BoxConstraints(maxHeight: 100.w, maxWidth: double.infinity),
+      constraints: BoxConstraints(
+          maxHeight: (isTablet(context)) ? 80.w : 100.w, maxWidth: double.infinity),
       child: ListView(
         scrollDirection: Axis.horizontal,
         children: [
