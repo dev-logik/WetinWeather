@@ -43,55 +43,57 @@ class _HomeScreenMobilePortraitState extends State<HomeScreenMobilePortrait> {
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
     return Scaffold(
-      body: Stack(
-        children: <Widget>[
-          Positioned(
-            right: -80.0,
-            top: -80.0,
-            child: GradientSpot(),
-          ),
-          Positioned(
-            left: 0,
-            right: 0,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: <Widget>[
-                sizedH16,
-                //Todo: Pass Dynamic Location name.
-                Text(
-                  'San Francisco',
-                  style: textTheme.headlineLarge,
-                ),
-                sizedH8,
-                //Todo: Pass dynamic date string.
-                Text(
-                  'May 27, 2025',
-                  style: textTheme.titleSmall?.copyWith(
-                    fontWeight: FontWeight.w100,
-                  ),
-                ),
-                sizedH8,
-                //Todo: Define a bloc for handling these events
-                SegmentedButton<int>(
-                  segments: _segmentedButtonSegments,
-                  selected: selectedSegment,
-                  showSelectedIcon: false,
-                  onSelectionChanged: (segmentValue) {
-                    setState(() {
-                      selectedSegment = segmentValue;
-                    });
-                  },
-                ),
-                sizedH8,
-                _summaryPagesSection(),
-                _pageBreakHeader(textTheme, context),
-                //Todo: Replace with a list view builder to display
-                //Todo: the hourly reports dynamically.
-                _hourlyReportSection(),
-              ],
+      body: SafeArea(
+        child: Stack(
+          children: <Widget>[
+            Positioned(
+              right: -80.0,
+              top: -80.0,
+              child: GradientSpot(),
             ),
-          ),
-        ],
+            Positioned(
+              left: 0,
+              right: 0,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: <Widget>[
+                  sizedH16,
+                  //Todo: Pass Dynamic Location name.
+                  Text(
+                    'San Francisco',
+                    style: textTheme.headlineLarge,
+                  ),
+                  sizedH8,
+                  //Todo: Pass dynamic date string.
+                  Text(
+                    'May 27, 2025',
+                    style: textTheme.titleSmall?.copyWith(
+                      fontWeight: FontWeight.w100,
+                    ),
+                  ),
+                  sizedH8,
+                  //Todo: Define a bloc for handling these events
+                  SegmentedButton<int>(
+                    segments: _segmentedButtonSegments,
+                    selected: selectedSegment,
+                    showSelectedIcon: false,
+                    onSelectionChanged: (segmentValue) {
+                      setState(() {
+                        selectedSegment = segmentValue;
+                      });
+                    },
+                  ),
+                  sizedH8,
+                  _summaryPagesSection(),
+                  _pageBreakHeader(textTheme, context),
+                  //Todo: Replace with a list view builder to display
+                  //Todo: the hourly reports dynamically.
+                  _hourlyReportSection(),
+                ],
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

@@ -66,6 +66,7 @@ dependencies:
   stylish_bottom_bar: ^1.1.1
   responsive_spacing: ^1.1.0
   flutter_screenutil: ^5.9.3
+  navigation_rail_flutter: ^0.0.11
 
 dev_dependencies:
   flutter_test:

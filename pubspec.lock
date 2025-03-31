@@ -656,6 +656,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.0.0"
+  navigation_rail_flutter:
+    dependency: "direct main"
+    description:
+      name: navigation_rail_flutter
+      sha256: fa05e8bbf276aadc05a6320b66c1546d2c5d5e8fe141dbece7756116db44ba86
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.0.11"
   nested:
     dependency: transitive
     description:

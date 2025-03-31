@@ -27,80 +27,82 @@ class _SearchScreenState extends State<SearchScreen> {
     final brightness = Theme.of(context).brightness;
 
     return Scaffold(
-      body: Stack(
-        children: <Widget>[
-          Positioned(
-            right: -80.0,
-            top: -80.0,
-            child: GradientSpot(),
-          ),
-          Positioned(
-            left: 0,
-            right: 0,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: <Widget>[
-                sizedH16,
-                //Page Header name
-                Text(
-                  'Pick Location',
-                  style: textTheme.headlineLarge,
-                ),
-                sizedH8,
-                Text(
-                  'Find the area or city that you want to know the detailed weather info at this time.',
-                  style: textTheme.bodyMedium?.copyWith(
-                    fontWeight: FontWeight.w100,
-                    fontSize: setValuesBasedOnOrientation(
-                      ifTrue: 8.0.sp,
-                      ifFalse: 15.0.sp,
-                      context: context,
-                    ),
-                    color: Colors.white,
-                  ),
-                  textAlign: TextAlign.center,
-                ),
-                sizedH8,
-                //Search input text form field.
-                Row(
-                  children: [
-                    Expanded(
-                      child: Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 3.0.w),
-                        child: TextField(
-                          controller: textEditingController,
-                          enabled: true,
-                          showCursor: true,
-                          scrollPhysics:
-                              ScrollPhysics(parent: BouncingScrollPhysics()),
-                          keyboardAppearance: (brightness == Brightness.light)
-                              ? Brightness.light
-                              : Brightness.dark,
-                          enableSuggestions: true,
-                        ),
-                      ),
-                    ),
-                    Card(
-                      child: IconButton(
-                        onPressed: () {},
-                        icon: Icon(
-                          Icons.location_on_outlined,
-                        ),
-                        padding: EdgeInsets.symmetric(
-                          horizontal: 4.w,
-                          vertical: 4.h,
-                        ),
-                      ),
-                    )
-                  ],
-                ),
-                //sizedH8,
-                //Todo: Place a gridbuilder that will generate a list of container.
-                SearchHistoryCard(),
-              ],
+      body: SafeArea(
+        child: Stack(
+          children: <Widget>[
+            Positioned(
+              right: -80.0,
+              top: -80.0,
+              child: GradientSpot(),
             ),
-          ),
-        ],
+            Positioned(
+              left: 0,
+              right: 0,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: <Widget>[
+                  sizedH16,
+                  //Page Header name
+                  Text(
+                    'Pick Location',
+                    style: textTheme.headlineLarge,
+                  ),
+                  sizedH8,
+                  Text(
+                    'Find the area or city that you want to know the detailed weather info at this time.',
+                    style: textTheme.bodyMedium?.copyWith(
+                      fontWeight: FontWeight.w100,
+                      fontSize: setValuesBasedOnOrientation(
+                        ifTrue: 8.0.sp,
+                        ifFalse: 15.0.sp,
+                        context: context,
+                      ),
+                      color: Colors.white,
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
+                  sizedH8,
+                  //Search input text form field.
+                  Row(
+                    children: [
+                      Expanded(
+                        child: Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 3.0.w),
+                          child: TextField(
+                            controller: textEditingController,
+                            enabled: true,
+                            showCursor: true,
+                            scrollPhysics:
+                                ScrollPhysics(parent: BouncingScrollPhysics()),
+                            keyboardAppearance: (brightness == Brightness.light)
+                                ? Brightness.light
+                                : Brightness.dark,
+                            enableSuggestions: true,
+                          ),
+                        ),
+                      ),
+                      Card(
+                        child: IconButton(
+                          onPressed: () {},
+                          icon: Icon(
+                            Icons.location_on_outlined,
+                          ),
+                          padding: EdgeInsets.symmetric(
+                            horizontal: 4.w,
+                            vertical: 4.h,
+                          ),
+                        ),
+                      )
+                    ],
+                  ),
+                  //sizedH8,
+                  //Todo: Place a gridbuilder that will generate a list of container.
+                  SearchHistoryCard(),
+                ],
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
