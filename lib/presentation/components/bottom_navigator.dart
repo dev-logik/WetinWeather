@@ -36,14 +36,11 @@ class BottomNavigator extends StatelessWidget {
   Widget build(BuildContext context) {
     final isMobileNTablet =
         MediaQuery.of(context).size.width < ScreenSizesConstant.tabletMaxWidth;
-    final isOrientationLandscape =
-        MediaQuery.of(context).orientation == Orientation.landscape;
     return LayoutBuilder(builder: (context, constraints) {
       return Scaffold(
         body: navigationShell,
-        bottomNavigationBar: (isMobileNTablet || isOrientationLandscape)
-            ? _buildBottomNavigationBar(context)
-            : null,
+        bottomNavigationBar:
+            (isMobileNTablet) ? _buildBottomNavigationBar(context) : null,
       );
     });
   }
