@@ -34,8 +34,8 @@ class BottomNavigator extends StatelessWidget {
   ];
   @override
   Widget build(BuildContext context) {
-    final isMobileNTablet =
-        MediaQuery.of(context).size.width < ScreenSizesConstant.tabletMaxWidth;
+    final isMobileNTablet = MediaQuery.of(context).size.width <
+        ScreenSizesConstant.tabletMaxPortWidth;
     return LayoutBuilder(builder: (context, constraints) {
       return Scaffold(
         body: navigationShell,

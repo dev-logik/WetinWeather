@@ -18,7 +18,7 @@ class ForcastSummary extends StatelessWidget {
         minHeight: 0.45.sh,
         minWidth: 0.4.sw,
         maxWidth: 0.95.sw,
-        maxHeight: (isTablet(context)) ? 0.55.sh : 0.46.sh,
+        maxHeight: 0.46.sh,
       ),
       child: Card(
         color: Color.fromRGBO(225, 225, 225, 225),

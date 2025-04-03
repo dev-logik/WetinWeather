@@ -84,7 +84,7 @@ class _HomeScreenMobilePortraitState extends State<HomeScreenMobilePortrait> {
                       });
                     },
                   ),
-                  (isTablet(context)) ? Container() : sizedH8,
+                  sizedH8,
                   _summaryPagesSection(),
                   _pageBreakHeader(textTheme, context),
                   //Todo: Replace with a list view builder to display
@@ -101,8 +101,7 @@ class _HomeScreenMobilePortraitState extends State<HomeScreenMobilePortrait> {
 
   ConstrainedBox _hourlyReportSection() {
     return ConstrainedBox(
-      constraints: BoxConstraints(
-          maxHeight: (isTablet(context)) ? 80.w : 100.w, maxWidth: double.infinity),
+      constraints: BoxConstraints(maxHeight: 100.w, maxWidth: double.infinity),
       child: ListView(
         scrollDirection: Axis.horizontal,
         children: [

@@ -10,8 +10,8 @@ class HomeScreenView extends StatelessWidget {
   Widget build(BuildContext context) {
     return LayoutBuilder(
       builder: (context, constraints) {
-        if (constraints.maxWidth > ScreenSizesConstant.mobileMinWidth &&
-            constraints.maxWidth < ScreenSizesConstant.tabletMaxWidth) {
+        if (constraints.maxWidth > ScreenSizesConstant.mobileMinPortWidth &&
+            constraints.maxWidth < ScreenSizesConstant.tabletMaxPortWidth) {
           return HomeScreenOrientationView();
         } else {
           return HomeScreenWebView();

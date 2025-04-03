@@ -10,10 +10,12 @@ double setLandscapeValues({
   return (orientation == Orientation.landscape) ? ifTrue : ifFalse;
 }
 
-bool isTablet(BuildContext context) {
+bool isTabletLandscape(BuildContext context) {
   final screenWidth = MediaQuery.of(context).size.width;
-  final withinMobile = screenWidth > ScreenSizesConstant.mobileMaxWidth;
-  final withinTablet = screenWidth < ScreenSizesConstant.tabletMaxWidth;
-  final isTablet = withinMobile && withinTablet;
+  final orientation = MediaQuery.of(context).orientation;
+  final withinMobile = screenWidth > ScreenSizesConstant.mobileMaxPortWidth;
+  final withinTablet = screenWidth < ScreenSizesConstant.tabletMaxPortWidth;
+  final inLandscape = orientation == Orientation.landscape;
+  final isTablet = withinMobile && withinTablet && inLandscape;
   return isTablet;
 }

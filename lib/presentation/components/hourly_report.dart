@@ -33,8 +33,8 @@ class HourlyReportCard extends StatelessWidget {
             children: [
               Lottie.asset(
                 AssetPath.animatedSnowy,
-                width: isTablet(context) ? 100 : 70,
-                height: isTablet(context) ? 100 : 70,
+                width: 60,
+                height: 60,
                 fit: BoxFit.cover,
               ),
               Column(
@@ -42,12 +42,10 @@ class HourlyReportCard extends StatelessWidget {
                 children: [
                   Text(
                     '15:00',
-                    style: isTablet(context)
-                        ? textTheme.titleMedium
-                        : textTheme.titleSmall,
+                    style: textTheme.titleSmall,
                   ),
                   SizedBox(
-                    height: isTablet(context) ? 2 : 4,
+                    height: 3,
                   ),
                   RichText(
                     text: TextSpan(

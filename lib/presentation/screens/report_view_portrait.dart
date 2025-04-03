@@ -59,7 +59,7 @@ class ForcastReportPortraitScreen extends StatelessWidget {
                   //Search input text form field.
                   ConstrainedBox(
                     constraints: BoxConstraints(
-                      maxHeight: isTablet(context) ? 0.13.sh : 0.12.sh,
+                      maxHeight: 0.12.sh,
                       maxWidth: double.infinity,
                     ),
                     child: ListView(
@@ -98,7 +98,7 @@ class ForcastReportPortraitScreen extends StatelessWidget {
                   ),
                   ConstrainedBox(
                     constraints: BoxConstraints(
-                      maxHeight: isTablet(context) ? 0.626.sh : .57.sh,
+                      maxHeight: .57.sh,
                       maxWidth: 1.sw,
                     ),
                     child: ListView(

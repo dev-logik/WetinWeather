@@ -17,7 +17,7 @@ class AirQualitySummary extends StatelessWidget {
         minHeight: 0.45.sh,
         minWidth: 0.4.sw,
         maxWidth: 0.95.sw,
-        maxHeight: (isTablet(context)) ? 0.60.sh : 0.5.sh,
+        maxHeight: 0.5.sh,
       ),
       child: Card(
         color: Color.fromRGBO(225, 225, 225, 225),

@@ -1,6 +1,7 @@
 import 'package:bloc_app/presentation/components/hourly_report.dart';
 import 'package:bloc_app/utilities/assets_path_constants.dart';
 import 'package:bloc_app/utilities/color_constants.dart';
+import 'package:bloc_app/utilities/helper_funtions.dart';
 import 'package:bloc_app/utilities/sizedbox_constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -15,16 +16,19 @@ class HomeScreenMobileLandscape extends StatelessWidget {
     final textTheme = Theme.of(context).textTheme;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.center,
+      //mainAxisAlignment: MainAxisAlignment.spaceAround,
       children: [
         sizedH16,
         Text(
           'San Francisco',
-          style: textTheme.headlineLarge,
+          style: textTheme.headlineLarge?.copyWith(fontSize: 15.sp),
         ),
         Text(
           'May 27, 2025',
-          style: textTheme.titleSmall?.copyWith(
+          style: textTheme.bodyMedium?.copyWith(
             fontWeight: FontWeight.w100,
+            fontSize: 8.sp,
+            color: Colors.white,
           ),
         ),
         Row(
@@ -33,14 +37,14 @@ class HomeScreenMobileLandscape extends StatelessWidget {
           children: <Widget>[
             ConstrainedBox(
               constraints:
-                  BoxConstraints(maxWidth: 0.67.sw, maxHeight: 0.57.sh),
+                  BoxConstraints(maxWidth: 0.67.sw, maxHeight: 0.55.sh),
               child: Card(
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: <Widget>[
-                    _forecastSection(textTheme),
+                    _forecastSection(textTheme, context),
                     _separator(),
-                    _airQualitySection(textTheme),
+                    _airQualitySection(textTheme, context),
                   ],
                 ),
               ),
@@ -52,7 +56,7 @@ class HomeScreenMobileLandscape extends StatelessWidget {
                   ConstrainedBox(
                     constraints: BoxConstraints(
                       maxWidth: 0.39.sw,
-                      maxHeight: 200.h,
+                      maxHeight: 0.3.sh,
                     ),
                     child: ListView(
                       scrollDirection: Axis.horizontal,
@@ -110,12 +114,14 @@ class HomeScreenMobileLandscape extends StatelessWidget {
     );
   }
 
-  Column _airQualitySection(TextTheme textTheme) {
+  Column _airQualitySection(TextTheme textTheme, BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.center,
+      mainAxisAlignment: MainAxisAlignment.spaceAround,
       children: <Widget>[
         Column(
           crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text(
               '200',
@@ -128,7 +134,7 @@ class HomeScreenMobileLandscape extends StatelessWidget {
           ],
         ),
         Padding(
-          padding: EdgeInsets.symmetric(horizontal: 4.w, vertical: 8.h),
+          padding: EdgeInsets.symmetric(horizontal: 4.w, vertical: 4.h),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             crossAxisAlignment: CrossAxisAlignment.center,
@@ -146,7 +152,9 @@ class HomeScreenMobileLandscape extends StatelessWidget {
                   ),
                   Text(
                     '100',
-                    style: textTheme.titleSmall,
+                    style: textTheme.titleSmall?.copyWith(
+                      fontWeight: FontWeight.w500,
+                    ),
                   ),
                   Text(
                     'Monoxide',
@@ -169,7 +177,9 @@ class HomeScreenMobileLandscape extends StatelessWidget {
                   ),
                   Text(
                     '100',
-                    style: textTheme.titleSmall,
+                    style: textTheme.titleSmall?.copyWith(
+                      fontWeight: FontWeight.w500,
+                    ),
                   ),
                   Text(
                     'PM 2.5',
@@ -192,7 +202,9 @@ class HomeScreenMobileLandscape extends StatelessWidget {
                   ),
                   Text(
                     '70',
-                    style: textTheme.titleSmall,
+                    style: textTheme.titleSmall?.copyWith(
+                      fontWeight: FontWeight.w500,
+                    ),
                   ),
                   Text(
                     'Ozone',
@@ -209,7 +221,7 @@ class HomeScreenMobileLandscape extends StatelessWidget {
     );
   }
 
-  Column _forecastSection(TextTheme textTheme) {
+  Column _forecastSection(TextTheme textTheme, BuildContext context) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.spaceAround,
       children: [
@@ -224,7 +236,7 @@ class HomeScreenMobileLandscape extends StatelessWidget {
         ),
         sizedH42,
         Padding(
-          padding: EdgeInsets.symmetric(horizontal: 2.0.w, vertical: 8.0.h),
+          padding: EdgeInsets.symmetric(horizontal: 2.0.w, vertical: 4.0.h),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[

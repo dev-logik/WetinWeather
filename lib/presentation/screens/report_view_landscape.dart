@@ -1,6 +1,7 @@
 import 'package:bloc_app/presentation/components/gradient_spot.dart';
 import 'package:bloc_app/presentation/components/hourly_report.dart';
 import 'package:bloc_app/presentation/components/next_forcast_container.dart';
+import 'package:bloc_app/utilities/helper_funtions.dart';
 import 'package:bloc_app/utilities/sizedbox_constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -61,7 +62,7 @@ class ForcastReportLandscapeScreen extends StatelessWidget {
                       ),
                       ConstrainedBox(
                         constraints: BoxConstraints(
-                          maxHeight: 183.h,
+                          maxHeight: 0.30.sh,
                           maxWidth: double.infinity,
                         ),
                         child: ListView(
@@ -77,8 +78,11 @@ class ForcastReportLandscapeScreen extends StatelessWidget {
                           ],
                         ),
                       ),
+                      //isTablet(context) ? sizedH8 : Container(),
                       Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 16.0.w),
+                        padding: EdgeInsets.symmetric(
+                          horizontal: 16.0.w,
+                        ),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           crossAxisAlignment: CrossAxisAlignment.end,

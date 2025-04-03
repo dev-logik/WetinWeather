@@ -15,7 +15,7 @@ class SearchHistoryCard extends StatelessWidget {
       constraints: BoxConstraints(
         maxWidth: setLandscapeValues(
           ifTrue: 100.w,
-          ifFalse: isTablet(context) ? 150.w : 200.0.w,
+          ifFalse: 200.0.w,
           context: context,
         ),
         maxHeight: setLandscapeValues(
@@ -36,9 +36,7 @@ class SearchHistoryCard extends StatelessWidget {
                   RichText(
                     text: TextSpan(
                       text: '30',
-                      style: isTablet(context)
-                          ? textTheme.titleLarge?.copyWith(color: Colors.white)
-                          : textTheme.titleMedium,
+                      style:textTheme.titleMedium,
                       children: <InlineSpan>[
                         TextSpan(
                           text: ' °C',
