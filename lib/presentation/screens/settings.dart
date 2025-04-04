@@ -48,7 +48,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     constraints: BoxConstraints(
                       maxWidth: double.infinity,
                       maxHeight: setLandscapeValues(
-                        ifTrue: 0.43.sh,
+                        ifTrue: isTabletLandscape(context) ? .65.sh : .51.sh,
                         ifFalse: 0.85.sh,
                         context: context,
                       ),
