@@ -47,7 +47,9 @@ class HourlyReportCard extends StatelessWidget {
                     '15:00',
                     style: isTabletPortrait(context)
                         ? textTheme.titleMedium?.copyWith(fontSize: 15.sp)
-                        : textTheme.titleSmall,
+                        : isTabletLandscape(context)
+                            ? textTheme.titleMedium?.copyWith(fontSize: 8.sp)
+                            : textTheme.titleSmall,
                   ),
                   SizedBox(
                     height: 3,

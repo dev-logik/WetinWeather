@@ -31,6 +31,7 @@ class HomeScreenMobileLandscape extends StatelessWidget {
             color: Colors.white,
           ),
         ),
+        isTabletLandscape(context) ? sizedH16 : Container(),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -38,14 +39,18 @@ class HomeScreenMobileLandscape extends StatelessWidget {
             ConstrainedBox(
               constraints:
                   BoxConstraints(maxWidth: 0.67.sw, maxHeight: 0.55.sh),
-              child: Card(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: <Widget>[
-                    _forecastSection(textTheme, context),
-                    _separator(),
-                    _airQualitySection(textTheme, context),
-                  ],
+              child: Padding(
+                padding:
+                    EdgeInsets.all(isTabletLandscape(context) ? 1.5.dm : 0),
+                child: Card(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: <Widget>[
+                      _forecastSection(textTheme, context),
+                      _separator(),
+                      _airQualitySection(textTheme, context),
+                    ],
+                  ),
                 ),
               ),
             ),
@@ -55,8 +60,8 @@ class HomeScreenMobileLandscape extends StatelessWidget {
                   _pageBreakHeaderSection(textTheme, context),
                   ConstrainedBox(
                     constraints: BoxConstraints(
-                      maxWidth: 0.39.sw,
-                      maxHeight: 0.3.sh,
+                      maxWidth: double.infinity,
+                      maxHeight: isTabletLandscape(context) ? 0.25.sh : 0.3.sh,
                     ),
                     child: ListView(
                       scrollDirection: Axis.horizontal,
@@ -87,16 +92,25 @@ class HomeScreenMobileLandscape extends StatelessWidget {
         children: <Widget>[
           Text(
             'Today',
-            style: textTheme.headlineSmall,
+            style: isTabletLandscape(context)
+                ? textTheme.headlineMedium
+                : textTheme.headlineSmall,
           ),
           InkWell(
             child: Text(
               'View full report',
-              style: textTheme.labelSmall?.copyWith(
-                color: (Theme.of(context).brightness == Brightness.light)
-                    ? LightColorConstants.secondaryColor_1
-                    : DarkColorConstants.secondaryColor_1,
-              ),
+              style: isTabletLandscape(context)
+                  ? textTheme.labelLarge?.copyWith(
+                      color: (Theme.of(context).brightness == Brightness.light)
+                          ? LightColorConstants.secondaryColor_1
+                          : DarkColorConstants.secondaryColor_1,
+                      fontSize: 5.sp,
+                    )
+                  : textTheme.labelSmall?.copyWith(
+                      color: (Theme.of(context).brightness == Brightness.light)
+                          ? LightColorConstants.secondaryColor_1
+                          : DarkColorConstants.secondaryColor_1,
+                    ),
             ),
             //Todo: Implement the onTap function.
             onTap: () {},
@@ -125,11 +139,14 @@ class HomeScreenMobileLandscape extends StatelessWidget {
           children: [
             Text(
               '200',
-              style: textTheme.displayLarge,
+              style: textTheme.displayLarge?.copyWith(
+                  fontSize: isTabletLandscape(context) ? 50.sp : 44.sp),
             ),
             Text(
               'AQI',
-              style: textTheme.titleSmall,
+              style: textTheme.titleSmall?.copyWith(
+                fontSize: isTabletLandscape(context) ? 11.sp : 7.sp,
+              ),
             ),
           ],
         ),
@@ -146,25 +163,35 @@ class HomeScreenMobileLandscape extends StatelessWidget {
                   //Todo: the values will be passed dynamically.
                   Image.asset(
                     AssetPath.coIcon,
-                    width: 30.0.w,
-                    height: 30.0.h,
+                    width: isTabletLandscape(context) ? 40.0.w : 30.0.w,
+                    height: isTabletLandscape(context) ? 40.0.h : 30.0.h,
                     color: Colors.white,
                   ),
-                  Text(
-                    '100',
-                    style: textTheme.titleSmall?.copyWith(
-                      fontWeight: FontWeight.w500,
+                  RichText(
+                    text: TextSpan(
+                      text: '33',
+                      style: isTabletLandscape(context)
+                          ? textTheme.titleMedium?.copyWith(fontSize: 8.sp)
+                          : textTheme.titleSmall,
+                      children: <InlineSpan>[
+                        TextSpan(
+                          text: 'unit',
+                          style: isTabletLandscape(context)
+                              ? textTheme.titleMedium?.copyWith(fontSize: 8.sp)
+                              : textTheme.titleSmall,
+                        ),
+                      ],
                     ),
                   ),
                   Text(
                     'Monoxide',
                     style: textTheme.bodySmall?.copyWith(
                       fontWeight: FontWeight.w500,
+                      fontSize: isTabletLandscape(context) ? 7.sp : 5.sp,
                     ),
-                  ),
+                  )
                 ],
               ),
-              sizedW8,
               Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
@@ -172,24 +199,34 @@ class HomeScreenMobileLandscape extends StatelessWidget {
                   //Todo: the values will be passed dynamically.
                   Image.asset(
                     AssetPath.pm25Icon,
-                    width: 30.0.w,
-                    height: 30.0.h,
+                    width: isTabletLandscape(context) ? 40.0.w : 30.0.w,
+                    height: isTabletLandscape(context) ? 40.0.h : 30.0.h,
                   ),
-                  Text(
-                    '100',
-                    style: textTheme.titleSmall?.copyWith(
-                      fontWeight: FontWeight.w500,
+                  RichText(
+                    text: TextSpan(
+                      text: '3.3',
+                      style: isTabletLandscape(context)
+                          ? textTheme.titleMedium?.copyWith(fontSize: 8.sp)
+                          : textTheme.titleSmall,
+                      children: <InlineSpan>[
+                        TextSpan(
+                          text: 'unit',
+                          style: isTabletLandscape(context)
+                              ? textTheme.titleMedium?.copyWith(fontSize: 8.sp)
+                              : textTheme.titleSmall,
+                        ),
+                      ],
                     ),
                   ),
                   Text(
                     'PM 2.5',
                     style: textTheme.bodySmall?.copyWith(
                       fontWeight: FontWeight.w500,
+                      fontSize: isTabletLandscape(context) ? 7.sp : 5.sp,
                     ),
-                  ),
+                  )
                 ],
               ),
-              sizedW8,
               Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
@@ -197,21 +234,32 @@ class HomeScreenMobileLandscape extends StatelessWidget {
                   //Todo: the values will be passed dynamically.
                   Image.asset(
                     AssetPath.o3Icon,
-                    width: 30.0.w,
-                    height: 30.0.h,
+                    width: isTabletLandscape(context) ? 40.0.w : 30.0.w,
+                    height: isTabletLandscape(context) ? 40.0.h : 30.0.h,
                   ),
-                  Text(
-                    '70',
-                    style: textTheme.titleSmall?.copyWith(
-                      fontWeight: FontWeight.w500,
+                  RichText(
+                    text: TextSpan(
+                      text: '3.34',
+                      style: isTabletLandscape(context)
+                          ? textTheme.titleMedium?.copyWith(fontSize: 8.sp)
+                          : textTheme.titleSmall,
+                      children: <InlineSpan>[
+                        TextSpan(
+                          text: 'unit',
+                          style: isTabletLandscape(context)
+                              ? textTheme.titleMedium?.copyWith(fontSize: 8.sp)
+                              : textTheme.titleSmall,
+                        ),
+                      ],
                     ),
                   ),
                   Text(
                     'Ozone',
                     style: textTheme.bodySmall?.copyWith(
                       fontWeight: FontWeight.w500,
+                      fontSize: isTabletLandscape(context) ? 7.sp : 5.sp,
                     ),
-                  ),
+                  )
                 ],
               )
             ],
@@ -229,8 +277,8 @@ class HomeScreenMobileLandscape extends StatelessWidget {
           padding: EdgeInsets.symmetric(horizontal: 8.0.w),
           child: Lottie.asset(
             AssetPath.animatedSunnyRain,
-            width: 50.w,
-            height: 50.h,
+            width: isTabletLandscape(context) ? 70.w : 50.w,
+            height: isTabletLandscape(context) ? 70.h : 50.h,
             fit: BoxFit.cover,
           ),
         ),
@@ -247,18 +295,29 @@ class HomeScreenMobileLandscape extends StatelessWidget {
                   //Todo: the values will be passed dynamically.
                   FaIcon(
                     FontAwesomeIcons.thermometer,
-                    size: 20.dg,
+                    size: isTabletLandscape(context) ? 12.dg : 20.dg,
                   ),
-                  Text(
-                    '100 C',
-                    style: textTheme.titleSmall?.copyWith(
-                      fontWeight: FontWeight.w500,
+                  RichText(
+                    text: TextSpan(
+                      text: '10',
+                      style: isTabletLandscape(context)
+                          ? textTheme.titleMedium?.copyWith(fontSize: 8.sp)
+                          : textTheme.titleSmall,
+                      children: <InlineSpan>[
+                        TextSpan(
+                          text: ' °C',
+                          style: isTabletLandscape(context)
+                              ? textTheme.titleMedium?.copyWith(fontSize: 8.sp)
+                              : textTheme.titleSmall,
+                        ),
+                      ],
                     ),
                   ),
                   Text(
                     'Temp.',
                     style: textTheme.bodySmall?.copyWith(
                       fontWeight: FontWeight.w500,
+                      fontSize: isTabletLandscape(context) ? 7.sp : 5.sp,
                     ),
                   ),
                 ],
@@ -271,18 +330,30 @@ class HomeScreenMobileLandscape extends StatelessWidget {
                   //Todo: the values will be passed dynamically.
                   FaIcon(
                     FontAwesomeIcons.wind,
-                    size: 20.dg,
+                    size: isTabletLandscape(context) ? 12.dg : 20.dg,
                   ),
-                  Text(
-                    '100 Km/hr',
-                    style: textTheme.titleSmall?.copyWith(
-                      fontWeight: FontWeight.w500,
+                  RichText(
+                    text: TextSpan(
+                      text: '10',
+                      style: isTabletLandscape(context)
+                          ? textTheme.titleMedium?.copyWith(fontSize: 8.sp)
+                          : textTheme.titleSmall,
+                      children: <InlineSpan>[
+                        TextSpan(
+                          text: 'm/s',
+                          style: isTabletLandscape(context)
+                              ? textTheme.titleMedium?.copyWith(fontSize: 8.sp)
+                              : textTheme.titleSmall,
+                        ),
+                      ],
                     ),
                   ),
+
                   Text(
                     'Wind',
                     style: textTheme.bodySmall?.copyWith(
                       fontWeight: FontWeight.w500,
+                      fontSize: isTabletLandscape(context) ? 7.sp : 5.sp,
                     ),
                   ),
                 ],
@@ -295,19 +366,29 @@ class HomeScreenMobileLandscape extends StatelessWidget {
                   //Todo: the values will be passed dynamically.
                   FaIcon(
                     FontAwesomeIcons.water,
-                    size: 20.dg,
+                    size: isTabletLandscape(context) ? 12.dg : 20.dg,
                   ),
-                  Text(
-                    '70%',
-                    style: textTheme.titleSmall?.copyWith(
-                      fontWeight: FontWeight.w500,
+                  RichText(
+                    text: TextSpan(
+                      text: '33',
+                      style: isTabletLandscape(context)
+                          ? textTheme.titleMedium?.copyWith(fontSize: 8.sp)
+                          : textTheme.titleSmall,
+                      children: <InlineSpan>[
+                        TextSpan(
+                          text: '%',
+                          style: isTabletLandscape(context)
+                              ? textTheme.titleMedium?.copyWith(fontSize: 8.sp)
+                              : textTheme.titleSmall,
+                        ),
+                      ],
                     ),
                   ),
                   Text(
                     'Humidity',
                     style: textTheme.bodySmall?.copyWith(
-                      fontWeight: FontWeight.w500,
-                    ),
+                        fontWeight: FontWeight.w500,
+                        fontSize: isTabletLandscape(context) ? 7.sp : 5.sp),
                   ),
                 ],
               ),
