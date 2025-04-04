@@ -23,7 +23,7 @@ class _HomeScreenMobilePortraitState extends State<HomeScreenMobilePortrait> {
       label: Text(
         'Forcast',
         style: Theme.of(context).textTheme.titleSmall?.copyWith(
-              fontSize: 12.sp,
+              fontSize: 10.sp,
             ),
       ),
     ),
@@ -32,7 +32,7 @@ class _HomeScreenMobilePortraitState extends State<HomeScreenMobilePortrait> {
       label: Text(
         'Air-Quality',
         style: Theme.of(context).textTheme.titleSmall?.copyWith(
-              fontSize: 12.sp,
+              fontSize: 10.sp,
             ),
       ),
     ),
@@ -62,15 +62,22 @@ class _HomeScreenMobilePortraitState extends State<HomeScreenMobilePortrait> {
                   //Todo: Pass Dynamic Location name.
                   Text(
                     'San Francisco',
-                    style: textTheme.headlineLarge,
+                    style: isTabletPortrait(context)
+                        ? textTheme.headlineLarge?.copyWith(fontSize: 30.sp)
+                        : textTheme.headlineLarge,
                   ),
                   sizedH8,
                   //Todo: Pass dynamic date string.
                   Text(
                     'May 27, 2025',
-                    style: textTheme.titleSmall?.copyWith(
-                      fontWeight: FontWeight.w100,
-                    ),
+                    style: isTabletPortrait(context)
+                        ? textTheme.titleMedium?.copyWith(
+                            fontWeight: FontWeight.normal,
+                            fontSize: 12.sp,
+                          )
+                        : textTheme.titleSmall?.copyWith(
+                            fontWeight: FontWeight.w100,
+                          ),
                   ),
                   sizedH8,
                   //Todo: Define a bloc for handling these events
@@ -101,7 +108,10 @@ class _HomeScreenMobilePortraitState extends State<HomeScreenMobilePortrait> {
 
   ConstrainedBox _hourlyReportSection() {
     return ConstrainedBox(
-      constraints: BoxConstraints(maxHeight: 100.w, maxWidth: double.infinity),
+      constraints: BoxConstraints(
+        maxHeight: isTabletPortrait(context) ? 0.15.sh : 0.13.sh,
+        maxWidth: double.infinity,
+      ),
       child: ListView(
         scrollDirection: Axis.horizontal,
         children: [
@@ -127,16 +137,25 @@ class _HomeScreenMobilePortraitState extends State<HomeScreenMobilePortrait> {
         children: <Widget>[
           Text(
             'Today',
-            style: textTheme.headlineSmall,
+            style: isTabletPortrait(context)
+                ? textTheme.headlineLarge
+                    ?.copyWith(fontWeight: FontWeight.normal)
+                : textTheme.headlineSmall,
           ),
           InkWell(
             child: Text(
               'View full report',
-              style: textTheme.labelSmall?.copyWith(
-                color: (Theme.of(context).brightness == Brightness.light)
-                    ? LightColorConstants.secondaryColor_1
-                    : DarkColorConstants.secondaryColor_1,
-              ),
+              style: isTabletPortrait(context)
+                  ? textTheme.headlineSmall?.copyWith(
+                      color: (Theme.of(context).brightness == Brightness.light)
+                          ? LightColorConstants.secondaryColor_1
+                          : DarkColorConstants.secondaryColor_1,
+                    )
+                  : textTheme.labelSmall?.copyWith(
+                      color: (Theme.of(context).brightness == Brightness.light)
+                          ? LightColorConstants.secondaryColor_1
+                          : DarkColorConstants.secondaryColor_1,
+                    ),
             ),
             //Todo: Implement the onTap function.
             onTap: () {},

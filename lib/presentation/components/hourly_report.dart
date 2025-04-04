@@ -31,18 +31,23 @@ class HourlyReportCard extends StatelessWidget {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
-              Lottie.asset(
-                AssetPath.animatedSnowy,
-                width: 60,
-                height: 60,
-                fit: BoxFit.cover,
+              AspectRatio(
+                aspectRatio: isTabletPortrait(context) ? 5 / 4 : 1,
+                child: Lottie.asset(
+                  AssetPath.animatedSnowy,
+                  width: 60,
+                  height: 60,
+                  fit: BoxFit.contain,
+                ),
               ),
               Column(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
                     '15:00',
-                    style: textTheme.titleSmall,
+                    style: isTabletPortrait(context)
+                        ? textTheme.titleMedium?.copyWith(fontSize: 15.sp)
+                        : textTheme.titleSmall,
                   ),
                   SizedBox(
                     height: 3,
@@ -50,11 +55,19 @@ class HourlyReportCard extends StatelessWidget {
                   RichText(
                     text: TextSpan(
                       text: '30',
-                      style: textTheme.titleMedium,
+                      style: textTheme.bodyMedium?.copyWith(
+                        fontSize: 15.sp,
+                        fontWeight: FontWeight.normal,
+                        color: Colors.white,
+                      ),
                       children: <InlineSpan>[
                         TextSpan(
                           text: '°C',
-                          style: textTheme.titleMedium,
+                          style: textTheme.bodyMedium?.copyWith(
+                            fontSize: 15.sp,
+                            fontWeight: FontWeight.normal,
+                            color: Colors.white,
+                          ),
                         ),
                       ],
                     ),

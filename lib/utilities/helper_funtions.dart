@@ -19,3 +19,13 @@ bool isTabletLandscape(BuildContext context) {
   final isTablet = withinMobile && withinTablet && inLandscape;
   return isTablet;
 }
+
+bool isTabletPortrait(BuildContext context) {
+  final screenWidth = MediaQuery.of(context).size.width;
+  final orientation = MediaQuery.of(context).orientation;
+  final withinMobile = screenWidth > ScreenSizesConstant.mobileMaxPortWidth;
+  final withinTablet = screenWidth < ScreenSizesConstant.tabletMaxPortWidth;
+  final inPortrait = orientation == Orientation.portrait;
+  final isTablet = withinMobile && withinTablet && inPortrait;
+  return isTablet;
+}

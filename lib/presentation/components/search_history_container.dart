@@ -15,7 +15,7 @@ class SearchHistoryCard extends StatelessWidget {
       constraints: BoxConstraints(
         maxWidth: setLandscapeValues(
           ifTrue: 100.w,
-          ifFalse: 200.0.w,
+          ifFalse: isTabletPortrait(context) ? 150.0.w : 200.0.w,
           context: context,
         ),
         maxHeight: setLandscapeValues(
@@ -36,20 +36,25 @@ class SearchHistoryCard extends StatelessWidget {
                   RichText(
                     text: TextSpan(
                       text: '30',
-                      style:textTheme.titleMedium,
+                      style: isTabletPortrait(context)
+                          ? textTheme.titleMedium?.copyWith(fontSize: 12.sp)
+                          : textTheme.titleMedium,
                       children: <InlineSpan>[
                         TextSpan(
-                          text: ' °C',
-                          style: textTheme.titleLarge
-                              ?.copyWith(color: Colors.white),
-                        )
+                          text: '°C',
+                          style: isTabletPortrait(context)
+                              ? textTheme.titleMedium?.copyWith(fontSize: 12.sp)
+                              : textTheme.titleMedium,
+                        ),
                       ],
                     ),
                   ),
                   //Weather condition
                   Text(
                     'Cloudy',
-                    style: textTheme.titleSmall,
+                    style: isTabletPortrait(context)
+                        ? textTheme.titleMedium
+                        : textTheme.titleSmall,
                   ),
                   SizedBox(
                     height: 5.h,
@@ -58,7 +63,9 @@ class SearchHistoryCard extends StatelessWidget {
                   Align(
                     child: Text(
                       'New York',
-                      style: textTheme.titleSmall,
+                      style: isTabletPortrait(context)
+                          ? textTheme.titleMedium
+                          : textTheme.titleSmall,
                     ),
                   ),
                 ],

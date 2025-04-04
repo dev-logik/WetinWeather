@@ -26,7 +26,7 @@ class AirQualitySummary extends StatelessWidget {
           children: <Widget>[
             sizedH8,
             AspectRatio(
-              aspectRatio: 4 / 3,
+              aspectRatio: isTabletPortrait(context) ? 5 / 3 : 4 / 3,
               child: SfRadialGauge(
                 animationDuration: 500,
                 //enableLoadingAnimation: true,
@@ -109,13 +109,28 @@ class AirQualitySummary extends StatelessWidget {
                       height: 30.w,
                       color: Colors.white,
                     ),
-                    Text(
-                      '100',
-                      style: textTheme.titleMedium,
+                    RichText(
+                      text: TextSpan(
+                        text: '7.6',
+                        style: isTabletPortrait(context)
+                            ? textTheme.titleMedium?.copyWith(fontSize: 12.sp)
+                            : textTheme.titleMedium,
+                        children: <InlineSpan>[
+                          TextSpan(
+                            text: ' unit',
+                            style: isTabletPortrait(context)
+                                ? textTheme.titleMedium
+                                    ?.copyWith(fontSize: 12.sp)
+                                : textTheme.titleMedium,
+                          ),
+                        ],
+                      ),
                     ),
                     Text(
-                      'Monoxide',
-                      style: textTheme.titleSmall,
+                      'Carbon I',
+                      style: isTabletPortrait(context)
+                          ? textTheme.bodyLarge?.copyWith(fontSize: 9.sp)
+                          : null,
                     ),
                   ],
                 ),
@@ -126,16 +141,31 @@ class AirQualitySummary extends StatelessWidget {
                     //Todo: the values will be passed dynamically.
                     Image.asset(
                       AssetPath.pm25Icon,
-                      width: 35.w,
-                      height: 35.w,
+                      width: 30.w,
+                      height: 30.w,
                     ),
-                    Text(
-                      '100',
-                      style: textTheme.titleMedium,
+                    RichText(
+                      text: TextSpan(
+                        text: '100',
+                        style: isTabletPortrait(context)
+                            ? textTheme.titleMedium?.copyWith(fontSize: 12.sp)
+                            : textTheme.titleMedium,
+                        children: <InlineSpan>[
+                          TextSpan(
+                            text: ' unit',
+                            style: isTabletPortrait(context)
+                                ? textTheme.titleMedium
+                                    ?.copyWith(fontSize: 12.sp)
+                                : textTheme.titleMedium,
+                          ),
+                        ],
+                      ),
                     ),
                     Text(
                       'PM 2.5',
-                      style: textTheme.titleSmall,
+                      style: isTabletPortrait(context)
+                          ? textTheme.bodyLarge?.copyWith(fontSize: 9.sp)
+                          : null,
                     ),
                   ],
                 ),
@@ -146,17 +176,32 @@ class AirQualitySummary extends StatelessWidget {
                     //Todo: the values will be passed dynamically.
                     Image.asset(
                       AssetPath.o3Icon,
-                      width: 35.w,
-                      height: 35.w,
+                      width: 30.w,
+                      height: 30.w,
                     ),
 
-                    Text(
-                      '70',
-                      style: textTheme.titleMedium,
+                    RichText(
+                      text: TextSpan(
+                        text: '2.5',
+                        style: isTabletPortrait(context)
+                            ? textTheme.titleMedium?.copyWith(fontSize: 12.sp)
+                            : textTheme.titleMedium,
+                        children: <InlineSpan>[
+                          TextSpan(
+                            text: ' unit',
+                            style: isTabletPortrait(context)
+                                ? textTheme.titleMedium
+                                    ?.copyWith(fontSize: 12.sp)
+                                : textTheme.titleMedium,
+                          ),
+                        ],
+                      ),
                     ),
                     Text(
                       'Ozone',
-                      style: textTheme.titleSmall,
+                      style: isTabletPortrait(context)
+                          ? textTheme.bodyLarge?.copyWith(fontSize: 9.sp)
+                          : null,
                     ),
                   ],
                 )

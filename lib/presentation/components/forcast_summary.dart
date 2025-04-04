@@ -1,5 +1,6 @@
 import 'package:bloc_app/utilities/assets_path_constants.dart';
 import 'package:bloc_app/utilities/helper_funtions.dart';
+import 'package:bloc_app/utilities/sizedbox_constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -18,21 +19,22 @@ class ForcastSummary extends StatelessWidget {
         minHeight: 0.45.sh,
         minWidth: 0.4.sw,
         maxWidth: 0.95.sw,
-        maxHeight: 0.46.sh,
+        maxHeight: 0.48.sh,
       ),
       child: Card(
         color: Color.fromRGBO(225, 225, 225, 225),
         child: Column(
           children: <Widget>[
             AspectRatio(
-              aspectRatio: 4 / 3,
+              aspectRatio: isTabletPortrait(context) ? 5 / 3 : 4 / 3,
               child: Lottie.asset(
                 AssetPath.animatedCloudy,
-                height: 300.w,
+                height: 300.h,
                 width: 300.w,
                 fit: BoxFit.contain,
               ),
             ),
+            isTabletPortrait(context) ? Container() : sizedH16,
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: <Widget>[
@@ -41,21 +43,32 @@ class ForcastSummary extends StatelessWidget {
                   children: [
                     //Todo: Check if an icon can replace this.
                     //Todo: the values will be passed dynamically.
-                    FaIcon(FontAwesomeIcons.thermometer),
+                    FaIcon(
+                      FontAwesomeIcons.thermometer,
+                      size: isTabletPortrait(context) ? 10.dg : null,
+                    ),
                     RichText(
                       text: TextSpan(
                         text: '33',
-                        style: textTheme.titleMedium,
+                        style: isTabletPortrait(context)
+                            ? textTheme.titleMedium?.copyWith(fontSize: 12.sp)
+                            : textTheme.titleMedium,
                         children: <InlineSpan>[
                           TextSpan(
                             text: '°C',
-                            style: textTheme.titleMedium,
+                            style: isTabletPortrait(context)
+                                ? textTheme.titleMedium
+                                    ?.copyWith(fontSize: 12.sp)
+                                : textTheme.titleMedium,
                           ),
                         ],
                       ),
                     ),
                     Text(
                       'Temperature',
+                      style: isTabletPortrait(context)
+                          ? textTheme.bodyLarge?.copyWith(fontSize: 9.sp)
+                          : null,
                     ),
                   ],
                 ),
@@ -64,12 +77,33 @@ class ForcastSummary extends StatelessWidget {
                   children: [
                     //Todo: Check if an icon can replace this.
                     //Todo: the values will be passed dynamically.
-                    FaIcon(FontAwesomeIcons.wind),
+                    FaIcon(
+                      FontAwesomeIcons.wind,
+                      size: isTabletPortrait(context) ? 10.dg : null,
+                    ),
+                    RichText(
+                      text: TextSpan(
+                        text: '3',
+                        style: isTabletPortrait(context)
+                            ? textTheme.titleMedium?.copyWith(fontSize: 12.sp)
+                            : textTheme.titleMedium,
+                        children: <InlineSpan>[
+                          TextSpan(
+                            text: 'm/sec',
+                            style: isTabletPortrait(context)
+                                ? textTheme.titleMedium
+                                    ?.copyWith(fontSize: 12.sp)
+                                : textTheme.titleMedium,
+                          ),
+                        ],
+                      ),
+                    ),
                     Text(
-                      '3 m/s',
-                      style: textTheme.titleMedium,
+                      'Wind',
+                      style: isTabletPortrait(context)
+                          ? textTheme.bodyLarge?.copyWith(fontSize: 9.sp)
+                          : null,
                     ),
-                    Text('Wind'),
                   ],
                 ),
                 Column(
@@ -77,17 +111,38 @@ class ForcastSummary extends StatelessWidget {
                   children: [
                     //Todo: Check if an icon can replace this.
                     //Todo: the values will be passed dynamically.
-                    FaIcon(FontAwesomeIcons.water),
+                    FaIcon(
+                      FontAwesomeIcons.water,
+                      size: isTabletPortrait(context) ? 10.dg : null,
+                    ),
 
-                    Text(
-                      '33%',
-                      style: textTheme.titleMedium,
+                    RichText(
+                      text: TextSpan(
+                        text: '3',
+                        style: isTabletPortrait(context)
+                            ? textTheme.titleMedium?.copyWith(fontSize: 12.sp)
+                            : textTheme.titleMedium,
+                        children: <InlineSpan>[
+                          TextSpan(
+                            text: '%',
+                            style: isTabletPortrait(context)
+                                ? textTheme.titleMedium
+                                    ?.copyWith(fontSize: 12.sp)
+                                : textTheme.titleMedium,
+                          ),
+                        ],
+                      ),
                     ),
-                    Text('Humidity'),
+                    Text(
+                      'Humidity',
+                      style: isTabletPortrait(context)
+                          ? textTheme.bodyLarge?.copyWith(fontSize: 9.sp)
+                          : null,
+                    ),
                   ],
                 )
               ],
-            )
+            ),
           ],
         ),
       ),

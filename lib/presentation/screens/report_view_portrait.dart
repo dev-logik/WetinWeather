@@ -44,12 +44,16 @@ class ForcastReportPortraitScreen extends StatelessWidget {
                       children: <Widget>[
                         Text(
                           'Today',
-                          style: textTheme.headlineSmall,
+                          style: isTabletPortrait(context)
+                              ? textTheme.headlineLarge
+                                  ?.copyWith(fontWeight: FontWeight.normal)
+                              : textTheme.headlineSmall,
                         ),
                         Text(
                           'May 27, 2025',
                           style: textTheme.bodyLarge?.copyWith(
                             color: Colors.white,
+                            fontSize: 10.sp,
                           ),
                         ),
                       ],
@@ -59,7 +63,7 @@ class ForcastReportPortraitScreen extends StatelessWidget {
                   //Search input text form field.
                   ConstrainedBox(
                     constraints: BoxConstraints(
-                      maxHeight: 0.12.sh,
+                      maxHeight: isTabletPortrait(context) ? 0.15.sh : 0.13.sh,
                       maxWidth: double.infinity,
                     ),
                     child: ListView(
@@ -98,7 +102,7 @@ class ForcastReportPortraitScreen extends StatelessWidget {
                   ),
                   ConstrainedBox(
                     constraints: BoxConstraints(
-                      maxHeight: .57.sh,
+                      maxHeight: isTabletPortrait(context) ? .583.sh : .533.sh,
                       maxWidth: 1.sw,
                     ),
                     child: ListView(
