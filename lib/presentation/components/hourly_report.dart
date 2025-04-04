@@ -56,7 +56,7 @@ class HourlyReportCard extends StatelessWidget {
                     text: TextSpan(
                       text: '30',
                       style: textTheme.bodyMedium?.copyWith(
-                        fontSize: 15.sp,
+                        fontSize: isTabletPortrait(context) ? 20.sp : 10.sp,
                         fontWeight: FontWeight.normal,
                         color: Colors.white,
                       ),
@@ -64,7 +64,7 @@ class HourlyReportCard extends StatelessWidget {
                         TextSpan(
                           text: '°C',
                           style: textTheme.bodyMedium?.copyWith(
-                            fontSize: 15.sp,
+                            fontSize: isTabletPortrait(context) ? 20.sp : 10.sp,
                             fontWeight: FontWeight.normal,
                             color: Colors.white,
                           ),
