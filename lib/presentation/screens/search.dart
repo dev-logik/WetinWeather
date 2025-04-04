@@ -45,7 +45,9 @@ class _SearchScreenState extends State<SearchScreen> {
                   //Page Header name
                   Text(
                     'Pick Location',
-                    style: textTheme.headlineLarge,
+                    style: isTabletLandscape(context)
+                        ? textTheme.headlineLarge?.copyWith(fontSize: 15.sp)
+                        : textTheme.headlineLarge,
                   ),
                   sizedH8,
                   Text(

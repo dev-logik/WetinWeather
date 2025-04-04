@@ -30,8 +30,11 @@ class ForcastReportLandscapeScreen extends StatelessWidget {
                 //Page Header name
                 Text(
                   'Forcast Report',
-                  style: textTheme.headlineLarge,
+                  style: isTabletLandscape(context)
+                      ? textTheme.headlineLarge?.copyWith(fontSize: 15.sp)
+                      : textTheme.headlineLarge,
                 ),
+
                 ConstrainedBox(
                   constraints: BoxConstraints(
                     maxWidth: double.infinity,
@@ -49,20 +52,24 @@ class ForcastReportLandscapeScreen extends StatelessWidget {
                           children: <Widget>[
                             Text(
                               'Today',
-                              style: textTheme.headlineSmall,
+                              style: isTabletLandscape(context)
+                                  ? textTheme.headlineMedium
+                                  : textTheme.headlineSmall,
                             ),
                             Text(
                               'May 27, 2025',
-                              style: textTheme.bodyLarge?.copyWith(
-                                color: Colors.white,
-                              ),
+                              style: isTabletLandscape(context)
+                                  ? textTheme.bodyLarge?.copyWith(
+                                      color: Colors.white, fontSize: 6.sp)
+                                  : textTheme.headlineSmall,
                             ),
                           ],
                         ),
                       ),
                       ConstrainedBox(
                         constraints: BoxConstraints(
-                          maxHeight: 0.30.sh,
+                          maxHeight:
+                              isTabletLandscape(context) ? 0.21.sh : 0.30.sh,
                           maxWidth: double.infinity,
                         ),
                         child: ListView(
@@ -89,12 +96,15 @@ class ForcastReportLandscapeScreen extends StatelessWidget {
                           children: <Widget>[
                             Text(
                               'Next Forcast',
-                              style: textTheme.headlineSmall,
+                              style: isTabletLandscape(context)
+                                  ? textTheme.headlineMedium
+                                  : textTheme.headlineSmall,
                             ),
                             IconButton(
                               onPressed: () {},
                               icon: Icon(
                                 Icons.calendar_month,
+                                size: 8.dg,
                               ),
                               padding: EdgeInsets.symmetric(
                                   vertical: 8.0.h, horizontal: 8.0.w),
