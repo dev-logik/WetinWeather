@@ -9,7 +9,7 @@ class AssetPath {
   static final animatedCloudy = 'assets/animations/cloudy.json';
   static final animatedCloudyLighting = 'assets/animations/cloudylighting.json';
   static final animatedCloudyWindy = 'assets/animations/cloudywindy.json';
-  static final animatedNightRain = 'assets/animations/night and rain.json';
+  static final animatedNightRain = 'assets/animations/night and raining.json';
   static final animatedNightCloudy = 'assets/animations/nightcloudy.json';
   static final animatedNightSnowy = 'assets/animations/nightsnowy.json';
   static final animatedSnowy = 'assets/animations/snowy.json';

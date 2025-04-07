@@ -1,4 +1,3 @@
-import 'package:bloc_app/presentation/components/hourly_report.dart';
 import 'package:bloc_app/presentation/view_sections/hourly_section.dart';
 import 'package:bloc_app/utilities/assets_path_constants.dart';
 import 'package:bloc_app/utilities/color_constants.dart';

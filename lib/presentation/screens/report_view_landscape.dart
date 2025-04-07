@@ -1,6 +1,6 @@
 import 'package:bloc_app/presentation/components/gradient_spot.dart';
 import 'package:bloc_app/presentation/components/hourly_report.dart';
-import 'package:bloc_app/presentation/components/next_forcast_container.dart';
+import 'package:bloc_app/presentation/components/next_forecast_container.dart';
 import 'package:bloc_app/utilities/helper_funtions.dart';
 import 'package:bloc_app/utilities/sizedbox_constants.dart';
 import 'package:flutter/material.dart';
@@ -38,7 +38,7 @@ class ForcastReportLandscapeScreen extends StatelessWidget {
                 ConstrainedBox(
                   constraints: BoxConstraints(
                     maxWidth: double.infinity,
-                    maxHeight: 0.79.sh,
+                    maxHeight: isPhoneLandscape(context) ? 0.65.sh : 0.80.sh,
                   ),
                   child: ListView(
                     children: [
@@ -117,27 +117,27 @@ class ForcastReportLandscapeScreen extends StatelessWidget {
                           ],
                         ),
                       ),
-                      NextForcastCard(),
+                      NextForecastCard(),
                       sizedH8,
-                      NextForcastCard(),
+                      NextForecastCard(),
                       sizedH8,
-                      NextForcastCard(),
+                      NextForecastCard(),
                       sizedH8,
-                      NextForcastCard(),
+                      NextForecastCard(),
                       sizedH8,
-                      NextForcastCard(),
+                      NextForecastCard(),
                       sizedH8,
-                      NextForcastCard(),
+                      NextForecastCard(),
                       sizedH8,
-                      NextForcastCard(),
+                      NextForecastCard(),
                       sizedH8,
-                      NextForcastCard(),
+                      NextForecastCard(),
                       sizedH8,
-                      NextForcastCard(),
+                      NextForecastCard(),
                       sizedH8,
-                      NextForcastCard(),
+                      NextForecastCard(),
                       sizedH8,
-                      NextForcastCard()
+                      NextForecastCard()
                     ],
                   ),
                 ),

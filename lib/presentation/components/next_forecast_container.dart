@@ -4,8 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:lottie/lottie.dart';
 
-class NextForcastCard extends StatelessWidget {
-  const NextForcastCard({super.key});
+class NextForecastCard extends StatelessWidget {
+  const NextForecastCard({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -32,7 +32,7 @@ class NextForcastCard extends StatelessWidget {
                         : isTabletPortrait(context)
                             ? 10.sp
                             : isTabletLandscape(context)
-                                ? 6.sp
+                                ? 5.sp
                                 : 18.sp,
                   ),
                 ),
@@ -45,7 +45,7 @@ class NextForcastCard extends StatelessWidget {
                         : isTabletPortrait(context)
                             ? 6.sp
                             : isTabletLandscape(context)
-                                ? 6.sp
+                                ? 4.sp
                                 : 14.sp,
                   ),
                 ),
@@ -66,11 +66,14 @@ class NextForcastCard extends StatelessWidget {
                 )
               ],
             ),
-            trailing: Lottie.asset(
-              AssetPath.animatedSnowy,
-              width: 50.w,
-              height: 50.h,
-              fit: BoxFit.contain,
+            trailing: AspectRatio(
+              aspectRatio: 5 / 4,
+              child: Lottie.asset(
+                AssetPath.animatedSnowy,
+                width: 40.w,
+                height: 40.h,
+                fit: BoxFit.cover,
+              ),
             ),
           ),
         ),

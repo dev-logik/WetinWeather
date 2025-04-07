@@ -28,7 +28,7 @@ class ForcastSummary extends StatelessWidget {
             AspectRatio(
               aspectRatio: isTabletPortrait(context) ? 5 / 3 : 4 / 3,
               child: Lottie.asset(
-                AssetPath.animatedCloudy,
+                AssetPath.animatedNightRain,
                 height: 300.h,
                 width: 300.w,
                 fit: BoxFit.contain,

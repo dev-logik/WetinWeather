@@ -14,16 +14,16 @@ class HourlyReportCard extends StatelessWidget {
 
     return ConstrainedBox(
       constraints: BoxConstraints(
-        maxWidth: setLandscapeValues(
-          ifTrue: isTabletLandscape(context) ? 0.26.sw : .20.sw,
-          ifFalse: 150.0.w,
-          context: context,
-        ),
-        maxHeight: setLandscapeValues(
-          ifTrue: .40.sh,
-          ifFalse: 150.0.h,
-          context: context,
-        ),
+        maxWidth: isTabletLandscape(context)
+            ? 0.26.sw
+            : isPhoneLandscape(context)
+                ? 0.20.sw
+                : 0.5.sw,
+        maxHeight: isTabletLandscape(context)
+            ? 0.40.sh
+            : isPhoneLandscape(context)
+                ? 0.20.sh
+                : 0.3.sh,
       ),
       child: Card(
         child: Padding(
@@ -42,11 +42,12 @@ class HourlyReportCard extends StatelessWidget {
                   AssetPath.animatedSnowy,
                   width: 50,
                   height: 50,
-                  fit: BoxFit.cover,
+                  fit: BoxFit.contain,
                 ),
               ),
               Column(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Text(
                     '15:00',

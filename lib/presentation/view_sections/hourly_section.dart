@@ -14,7 +14,9 @@ class HourlySection extends StatelessWidget {
             ? 0.15.sh
             : isTabletLandscape(context)
                 ? 0.25.sh
-                : 0.13.sh,
+                : isPhoneLandscape(context)
+                    ? 0.30.sh
+                    : 0.13.sh,
         maxWidth: double.infinity,
       ),
       child: ListView(

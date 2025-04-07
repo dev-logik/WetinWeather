@@ -1,4 +1,4 @@
-import 'package:bloc_app/presentation/components/next_forcast_container.dart';
+import 'package:bloc_app/presentation/components/next_forecast_container.dart';
 import 'package:bloc_app/utilities/helper_funtions.dart';
 import 'package:bloc_app/utilities/sizedbox_constants.dart';
 import 'package:flutter/material.dart';
@@ -17,23 +17,23 @@ class NextForecasts extends StatelessWidget {
       child: ListView(
         scrollDirection: Axis.vertical,
         children: [
-          NextForcastCard(),
+          NextForecastCard(),
           sizedH4,
-          NextForcastCard(),
+          NextForecastCard(),
           sizedH4,
-          NextForcastCard(),
+          NextForecastCard(),
           sizedH4,
-          NextForcastCard(),
+          NextForecastCard(),
           sizedH4,
-          NextForcastCard(),
+          NextForecastCard(),
           sizedH4,
-          NextForcastCard(),
+          NextForecastCard(),
           sizedH4,
-          NextForcastCard(),
+          NextForecastCard(),
           sizedH4,
-          NextForcastCard(),
+          NextForecastCard(),
           sizedH4,
-          NextForcastCard(),
+          NextForecastCard(),
         ],
       ),
     );
