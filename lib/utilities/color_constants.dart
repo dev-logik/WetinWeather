@@ -15,7 +15,7 @@ class LightColorConstants {
   LightColorConstants._();
   static final primaryColor = const Color.fromARGB(255, 141, 176, 244);
   static final secondaryColor_1 = const Color.fromARGB(255, 86, 130, 215);
-  static final secondaryColor_2 = Color.fromARGB(255, 28, 68, 148);
+  static final secondaryColor_2 = Color.fromARGB(255, 39, 85, 179);
   static final tertiaryColor = const Color.fromARGB(255, 255, 255, 255);
   static final gradientColor_1 = const Color.fromARGB(224, 7, 139, 126);
   static final gradientColor_2 = const Color.fromARGB(255, 112, 153, 232);

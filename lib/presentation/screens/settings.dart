@@ -69,7 +69,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                               ),
                               title: Text(
                                 'Notification',
-                                style: textTheme.titleSmall,
+                                style: textTheme.titleMedium,
                               ),
                               trailing: Switch(
                                 value: false,
@@ -100,7 +100,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                                     ),
                               title: Text(
                                 'Toggle Theme',
-                                style: textTheme.titleSmall,
+                                style: textTheme.titleMedium,
                               ),
                               value: themeModeWatchBloc.isLightFlag,
                               onChanged: (value) {
@@ -124,7 +124,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                               ),
                               title: Text(
                                 'Temperature',
-                                style: textTheme.titleSmall,
+                                style: textTheme.titleMedium,
                               ),
                               trailing: DropdownButton<String>(
                                 items: [],
@@ -146,7 +146,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                               ),
                               title: Text(
                                 'Precipitation',
-                                style: textTheme.titleSmall,
+                                style: textTheme.titleMedium,
                               ),
                               trailing: DropdownButton<String>(
                                 items: [],
@@ -168,7 +168,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                               ),
                               title: Text(
                                 'Wind Speed',
-                                style: textTheme.titleSmall,
+                                style: textTheme.titleMedium,
                               ),
                               trailing: DropdownButton<String>(
                                 items: [],
@@ -190,7 +190,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                               ),
                               title: Text(
                                 'Pressure',
-                                style: textTheme.titleSmall,
+                                style: textTheme.titleMedium,
                               ),
                               trailing: DropdownButton<String>(
                                 items: [],

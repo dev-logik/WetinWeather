@@ -16,22 +16,32 @@ class NextForcastCard extends StatelessWidget {
         child: Padding(
           padding: EdgeInsets.symmetric(horizontal: 8.0.w, vertical: 4.0.h),
           child: ListTile(
+            contentPadding: REdgeInsets.symmetric(vertical: 8),
             visualDensity: VisualDensity.comfortable,
             leading: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Text(
                   'Friday',
                   style: textTheme.titleSmall?.copyWith(
                     fontWeight: FontWeight.bold,
-                    fontSize: isPhoneLandscape(context) ? 8.sp : 15.sp,
+                    fontSize: isPhoneLandscape(context)
+                        ? 8.sp
+                        : isTabletPortrait(context)
+                            ? 10.sp
+                            : 15.sp,
                   ),
                 ),
                 Text(
                   'May, 28',
                   style: textTheme.bodySmall?.copyWith(
                     fontWeight: FontWeight.w100,
-                    fontSize: isPhoneLandscape(context) ? 7.sp : 12.sp,
+                    fontSize: isPhoneLandscape(context)
+                        ? 7.sp
+                        : isTabletPortrait(context)
+                            ? 6.sp
+                            : 12.sp,
                   ),
                 ),
               ],
@@ -53,9 +63,9 @@ class NextForcastCard extends StatelessWidget {
             ),
             trailing: Lottie.asset(
               AssetPath.animatedSnowy,
-              width: 20.w,
+              width: 50.w,
               height: 50.h,
-              fit: BoxFit.cover,
+              fit: BoxFit.contain,
             ),
           ),
         ),

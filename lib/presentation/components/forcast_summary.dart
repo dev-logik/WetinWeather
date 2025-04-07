@@ -44,21 +44,21 @@ class ForcastSummary extends StatelessWidget {
                     //Todo: Check if an icon can replace this.
                     //Todo: the values will be passed dynamically.
                     FaIcon(
-                      FontAwesomeIcons.temperatureHigh,
+                      FontAwesomeIcons.temperatureQuarter,
                       size: isTabletPortrait(context) ? 10.dg : null,
                     ),
                     RichText(
                       text: TextSpan(
                         text: '33',
                         style: isTabletPortrait(context)
-                            ? textTheme.titleMedium?.copyWith(fontSize: 12.sp)
+                            ? textTheme.titleMedium?.copyWith(fontSize: 15.sp)
                             : textTheme.titleMedium?.copyWith(fontSize: 24.sp),
                         children: <InlineSpan>[
                           TextSpan(
                             text: '°C',
                             style: isTabletPortrait(context)
                                 ? textTheme.titleMedium
-                                    ?.copyWith(fontSize: 12.sp)
+                                    ?.copyWith(fontSize: 15.sp)
                                 : textTheme.titleMedium
                                     ?.copyWith(fontSize: 24.sp),
                           ),
@@ -68,7 +68,7 @@ class ForcastSummary extends StatelessWidget {
                     Text(
                       'Temperature',
                       style: isTabletPortrait(context)
-                          ? textTheme.bodyLarge?.copyWith(fontSize: 9.sp)
+                          ? textTheme.titleMedium?.copyWith(fontSize: 10.sp)
                           : null,
                     ),
                   ],
@@ -86,14 +86,14 @@ class ForcastSummary extends StatelessWidget {
                       text: TextSpan(
                         text: '3',
                         style: isTabletPortrait(context)
-                            ? textTheme.titleMedium?.copyWith(fontSize: 12.sp)
+                            ? textTheme.titleMedium?.copyWith(fontSize: 15.sp)
                             : textTheme.titleMedium?.copyWith(fontSize: 24.sp),
                         children: <InlineSpan>[
                           TextSpan(
                             text: 'm/s',
                             style: isTabletPortrait(context)
                                 ? textTheme.titleMedium
-                                    ?.copyWith(fontSize: 12.sp)
+                                    ?.copyWith(fontSize: 15.sp)
                                 : textTheme.titleMedium
                                     ?.copyWith(fontSize: 24.sp),
                           ),
@@ -103,7 +103,7 @@ class ForcastSummary extends StatelessWidget {
                     Text(
                       'Wind',
                       style: isTabletPortrait(context)
-                          ? textTheme.bodyLarge?.copyWith(fontSize: 9.sp)
+                          ? textTheme.titleMedium?.copyWith(fontSize: 10.sp)
                           : null,
                     ),
                   ],
@@ -122,14 +122,14 @@ class ForcastSummary extends StatelessWidget {
                       text: TextSpan(
                         text: '3',
                         style: isTabletPortrait(context)
-                            ? textTheme.titleMedium?.copyWith(fontSize: 12.sp)
+                            ? textTheme.titleMedium?.copyWith(fontSize: 15.sp)
                             : textTheme.titleMedium?.copyWith(fontSize: 24.sp),
                         children: <InlineSpan>[
                           TextSpan(
                             text: '%',
                             style: isTabletPortrait(context)
                                 ? textTheme.titleMedium
-                                    ?.copyWith(fontSize: 12.sp)
+                                    ?.copyWith(fontSize: 15.sp)
                                 : textTheme.titleMedium
                                     ?.copyWith(fontSize: 24.sp),
                           ),
@@ -139,7 +139,7 @@ class ForcastSummary extends StatelessWidget {
                     Text(
                       'Humidity',
                       style: isTabletPortrait(context)
-                          ? textTheme.bodyLarge?.copyWith(fontSize: 9.sp)
+                          ? textTheme.titleMedium?.copyWith(fontSize: 10.sp)
                           : null,
                     ),
                   ],

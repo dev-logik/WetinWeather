@@ -11,7 +11,7 @@ class NextForecasts extends StatelessWidget {
   Widget build(BuildContext context) {
     return ConstrainedBox(
       constraints: BoxConstraints(
-        maxHeight: isTabletPortrait(context) ? .583.sh : .55.sh,
+        maxHeight: isTabletPortrait(context) ? .583.sh : .54.sh,
         maxWidth: double.infinity,
       ),
       child: ListView(

@@ -1,3 +1,4 @@
+import 'package:bloc_app/utilities/helper_funtions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -25,7 +26,9 @@ class _SearchFieldState extends State<SearchField> {
       children: [
         Expanded(
           child: Padding(
-            padding: EdgeInsets.symmetric(horizontal: 3.0.w),
+            padding: EdgeInsets.symmetric(
+              horizontal: isTabletPortrait(context) ? 8.w : 3.0.w,
+            ),
             child: TextField(
               controller: textEditingController,
               enabled: true,
@@ -43,6 +46,7 @@ class _SearchFieldState extends State<SearchField> {
             onPressed: () {},
             icon: Icon(
               Icons.location_on_outlined,
+              size: isTabletPortrait(context) ? 10.dg : null,
             ),
             padding: EdgeInsets.symmetric(
               horizontal: 4.w,

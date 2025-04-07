@@ -23,8 +23,10 @@ class HourlyHeader extends StatelessWidget {
               Text(
                 'Today',
                 style: isTabletPortrait(context)
-                    ? textTheme.headlineLarge
-                        ?.copyWith(fontWeight: FontWeight.normal)
+                    ? textTheme.titleMedium?.copyWith(
+                        fontWeight: FontWeight.w100,
+                        fontSize: 18.sp,
+                      )
                     : textTheme.headlineSmall,
               ),
               InkWell(

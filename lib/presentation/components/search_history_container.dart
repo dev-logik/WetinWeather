@@ -38,7 +38,7 @@ class SearchHistoryCard extends StatelessWidget {
                     text: TextSpan(
                       text: '30',
                       style: isTabletPortrait(context)
-                          ? textTheme.titleMedium?.copyWith(fontSize: 12.sp)
+                          ? textTheme.titleMedium?.copyWith(fontSize: 15.sp)
                           : isPhoneLandscape(context)
                               ? textTheme.titleMedium?.copyWith(fontSize: 10.sp)
                               : textTheme.titleMedium
@@ -47,7 +47,7 @@ class SearchHistoryCard extends StatelessWidget {
                         TextSpan(
                           text: '°C',
                           style: isTabletPortrait(context)
-                              ? textTheme.titleMedium?.copyWith(fontSize: 12.sp)
+                              ? textTheme.titleMedium?.copyWith(fontSize: 15.sp)
                               : isPhoneLandscape(context)
                                   ? textTheme.titleMedium
                                       ?.copyWith(fontSize: 10.sp)
@@ -61,7 +61,7 @@ class SearchHistoryCard extends StatelessWidget {
                   Text(
                     'Cloudy',
                     style: isTabletPortrait(context)
-                        ? textTheme.titleMedium
+                        ? textTheme.titleMedium?.copyWith(fontSize: 10.sp)
                         : isPhoneLandscape(context)
                             ? textTheme.titleSmall?.copyWith(fontSize: 8.sp)
                             : textTheme.titleSmall?.copyWith(fontSize: 15.sp),
@@ -72,7 +72,7 @@ class SearchHistoryCard extends StatelessWidget {
                     child: Text(
                       'New York',
                       style: isTabletPortrait(context)
-                          ? textTheme.titleMedium
+                          ? textTheme.titleMedium?.copyWith(fontSize: 10.sp)
                           : isPhoneLandscape(context)
                               ? textTheme.titleSmall?.copyWith(fontSize: 8.sp)
                               : textTheme.titleSmall?.copyWith(fontSize: 18.sp),

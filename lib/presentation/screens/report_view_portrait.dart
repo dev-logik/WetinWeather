@@ -2,6 +2,7 @@ import 'package:bloc_app/presentation/components/gradient_spot.dart';
 import 'package:bloc_app/presentation/components/hourly_report.dart';
 import 'package:bloc_app/presentation/view_sections/forecast_header.dart';
 import 'package:bloc_app/presentation/view_sections/hourly_header_date.dart';
+import 'package:bloc_app/presentation/view_sections/hourly_section.dart';
 import 'package:bloc_app/presentation/view_sections/next_forecasts.dart';
 import 'package:bloc_app/utilities/helper_funtions.dart';
 import 'package:bloc_app/utilities/sizedbox_constants.dart';
@@ -44,23 +45,7 @@ class ForcastReportPortraitScreen extends StatelessWidget {
                   ),
                   sizedH8,
                   //Search input text form field.
-                  ConstrainedBox(
-                    constraints: BoxConstraints(
-                      maxHeight: isTabletPortrait(context) ? 0.15.sh : 0.12.sh,
-                      maxWidth: double.infinity,
-                    ),
-                    child: ListView(
-                      scrollDirection: Axis.horizontal,
-                      children: [
-                        HourlyReportCard(),
-                        HourlyReportCard(),
-                        HourlyReportCard(),
-                        HourlyReportCard(),
-                        HourlyReportCard(),
-                        HourlyReportCard(),
-                      ],
-                    ),
-                  ),
+                  HourlySection(),
                   sizedH4,
                   Padding(
                     padding: EdgeInsets.symmetric(horizontal: 16.0.w),

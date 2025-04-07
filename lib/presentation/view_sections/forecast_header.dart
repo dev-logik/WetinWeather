@@ -15,13 +15,18 @@ class NextForecastHeader extends StatelessWidget {
       children: <Widget>[
         Text(
           'Next Forcast',
-          style: textTheme.headlineSmall,
+          style: isTabletPortrait(context)
+              ? textTheme.titleMedium?.copyWith(
+                  fontWeight: FontWeight.w100,
+                  fontSize: 18.sp,
+                )
+              : textTheme.headlineSmall,
         ),
         IconButton(
           onPressed: () {},
           icon: Icon(
             FontAwesomeIcons.calendar,
-            size: isPhoneLandscape(context) ? 15.sp : 18.sp,
+            size: isPhoneLandscape(context) ? 15.sp : 16.sp,
           ),
           padding: EdgeInsets.symmetric(vertical: 8.0.h, horizontal: 8.0.w),
         ),

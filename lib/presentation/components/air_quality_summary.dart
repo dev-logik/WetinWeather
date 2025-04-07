@@ -84,7 +84,7 @@ class AirQualitySummary extends StatelessWidget {
                             ),
                             Text(
                               'AQI',
-                              style: textTheme.titleSmall,
+                              style: textTheme.titleMedium,
                             )
                           ],
                         ),
@@ -130,7 +130,7 @@ class AirQualitySummary extends StatelessWidget {
                     Text(
                       'Carbon I',
                       style: isTabletPortrait(context)
-                          ? textTheme.bodyLarge?.copyWith(fontSize: 9.sp)
+                          ? textTheme.titleMedium?.copyWith(fontSize: 10.sp)
                           : null,
                     ),
                   ],
@@ -166,7 +166,7 @@ class AirQualitySummary extends StatelessWidget {
                     Text(
                       'PM 2.5',
                       style: isTabletPortrait(context)
-                          ? textTheme.bodyLarge?.copyWith(fontSize: 9.sp)
+                          ? textTheme.titleMedium?.copyWith(fontSize: 10.sp)
                           : null,
                     ),
                   ],
@@ -203,7 +203,7 @@ class AirQualitySummary extends StatelessWidget {
                     Text(
                       'Ozone',
                       style: isTabletPortrait(context)
-                          ? textTheme.bodyLarge?.copyWith(fontSize: 9.sp)
+                          ? textTheme.titleMedium?.copyWith(fontSize: 10.sp)
                           : null,
                     ),
                   ],

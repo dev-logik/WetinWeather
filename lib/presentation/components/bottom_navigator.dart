@@ -13,22 +13,34 @@ class BottomNavigator extends StatelessWidget {
   //Defines the list of bottom navigation bar items.
   late final _bottomNavigationSylishItems = <BottomBarItem>[
     BottomBarItem(
-      icon: FaIcon(FontAwesomeIcons.house),
+      icon: FaIcon(
+        FontAwesomeIcons.house,
+        size: 14.sp,
+      ),
       title: Text('Home'),
       backgroundColor: Colors.white,
     ),
     BottomBarItem(
-      icon: FaIcon(FontAwesomeIcons.microscope),
+      icon: FaIcon(
+        FontAwesomeIcons.microscope,
+        size: 14.sp,
+      ),
       title: Text('Search'),
       backgroundColor: Colors.white,
     ),
     BottomBarItem(
-      icon: FaIcon(FontAwesomeIcons.chartColumn),
+      icon: FaIcon(
+        FontAwesomeIcons.chartColumn,
+        size: 14.sp,
+      ),
       title: Text('Forcast'),
       backgroundColor: Colors.white,
     ),
     BottomBarItem(
-      icon: FaIcon(FontAwesomeIcons.gear),
+      icon: FaIcon(
+        FontAwesomeIcons.gear,
+        size: 14.sp,
+      ),
       title: Text('Settings'),
       backgroundColor: Colors.white,
     ),

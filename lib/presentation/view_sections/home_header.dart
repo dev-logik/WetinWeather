@@ -22,9 +22,10 @@ class HomeHeader extends StatelessWidget {
         Text(
           'May 27, 2025',
           style: isTabletPortrait(context)
-              ? textTheme.titleMedium?.copyWith(
-                  fontWeight: FontWeight.normal,
+              ? textTheme.titleLarge?.copyWith(
+                  //fontWeight: FontWeight.normal,
                   fontSize: 12.sp,
+                  color: Colors.white,
                 )
               : textTheme.titleSmall?.copyWith(
                   fontWeight: FontWeight.w100,
