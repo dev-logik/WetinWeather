@@ -1,4 +1,5 @@
 import 'package:bloc_app/presentation/components/hourly_report.dart';
+import 'package:bloc_app/presentation/view_sections/hourly_section.dart';
 import 'package:bloc_app/utilities/assets_path_constants.dart';
 import 'package:bloc_app/utilities/color_constants.dart';
 import 'package:bloc_app/utilities/helper_funtions.dart';
@@ -57,22 +58,7 @@ class HomeScreenMobileLandscape extends StatelessWidget {
               child: Column(
                 children: [
                   _pageBreakHeaderSection(textTheme, context),
-                  ConstrainedBox(
-                    constraints: BoxConstraints(
-                      maxWidth: double.infinity,
-                      maxHeight: isTabletLandscape(context) ? 0.25.sh : 0.3.sh,
-                    ),
-                    child: ListView(
-                      scrollDirection: Axis.horizontal,
-                      children: [
-                        HourlyReportCard(),
-                        HourlyReportCard(),
-                        HourlyReportCard(),
-                        HourlyReportCard(),
-                        HourlyReportCard(),
-                      ],
-                    ),
-                  ),
+                  HourlySection()
                 ],
               ),
             ),
@@ -145,7 +131,7 @@ class HomeScreenMobileLandscape extends StatelessWidget {
             Text(
               'AQI',
               style: textTheme.titleSmall?.copyWith(
-                fontSize: isTabletLandscape(context) ? 11.sp : 7.sp,
+                fontSize: isTabletLandscape(context) ? 8.sp : 7.sp,
               ),
             ),
           ],
@@ -193,7 +179,7 @@ class HomeScreenMobileLandscape extends StatelessWidget {
                     'Monoxide',
                     style: textTheme.bodySmall?.copyWith(
                       fontWeight: FontWeight.w500,
-                      fontSize: isTabletLandscape(context) ? 7.sp : 5.sp,
+                      fontSize: isTabletLandscape(context) ? 6.sp : 5.sp,
                     ),
                   )
                 ],
@@ -234,7 +220,7 @@ class HomeScreenMobileLandscape extends StatelessWidget {
                     'PM 2.5',
                     style: textTheme.bodySmall?.copyWith(
                       fontWeight: FontWeight.w500,
-                      fontSize: isTabletLandscape(context) ? 7.sp : 5.sp,
+                      fontSize: isTabletLandscape(context) ? 6.sp : 5.sp,
                     ),
                   )
                 ],
@@ -275,7 +261,7 @@ class HomeScreenMobileLandscape extends StatelessWidget {
                     'Ozone',
                     style: textTheme.bodySmall?.copyWith(
                       fontWeight: FontWeight.w500,
-                      fontSize: isTabletLandscape(context) ? 7.sp : 5.sp,
+                      fontSize: isTabletLandscape(context) ? 6.sp : 5.sp,
                     ),
                   )
                 ],
@@ -313,7 +299,7 @@ class HomeScreenMobileLandscape extends StatelessWidget {
                   //Todo: the values will be passed dynamically.
                   FaIcon(
                     FontAwesomeIcons.temperatureHalf,
-                    size: isTabletLandscape(context) ? 12.dg : 18.dg,
+                    size: isTabletLandscape(context) ? 10.dg : 18.dg,
                   ),
                   RichText(
                     text: TextSpan(
@@ -341,7 +327,7 @@ class HomeScreenMobileLandscape extends StatelessWidget {
                     'Temp.',
                     style: textTheme.bodySmall?.copyWith(
                       fontWeight: FontWeight.w500,
-                      fontSize: isTabletLandscape(context) ? 7.sp : 5.sp,
+                      fontSize: isTabletLandscape(context) ? 6.sp : 5.sp,
                     ),
                   ),
                 ],
@@ -354,7 +340,7 @@ class HomeScreenMobileLandscape extends StatelessWidget {
                   //Todo: the values will be passed dynamically.
                   FaIcon(
                     FontAwesomeIcons.wind,
-                    size: isTabletLandscape(context) ? 12.dg : 18.dg,
+                    size: isTabletLandscape(context) ? 10.dg : 18.dg,
                   ),
                   RichText(
                     text: TextSpan(
@@ -383,7 +369,7 @@ class HomeScreenMobileLandscape extends StatelessWidget {
                     'Wind',
                     style: textTheme.bodySmall?.copyWith(
                       fontWeight: FontWeight.w500,
-                      fontSize: isTabletLandscape(context) ? 7.sp : 5.sp,
+                      fontSize: isTabletLandscape(context) ? 6.sp : 5.sp,
                     ),
                   ),
                 ],
@@ -396,7 +382,7 @@ class HomeScreenMobileLandscape extends StatelessWidget {
                   //Todo: the values will be passed dynamically.
                   FaIcon(
                     FontAwesomeIcons.water,
-                    size: isTabletLandscape(context) ? 12.dg : 18.dg,
+                    size: isTabletLandscape(context) ? 10.dg : 18.dg,
                   ),
                   RichText(
                     text: TextSpan(
@@ -422,9 +408,9 @@ class HomeScreenMobileLandscape extends StatelessWidget {
                   ),
                   Text(
                     'Humidity',
-                    style: textTheme.bodySmall?.copyWith(
-                        fontWeight: FontWeight.w500,
-                        fontSize: isTabletLandscape(context) ? 7.sp : 5.sp),
+                    style: textTheme.titleSmall?.copyWith(
+                        fontWeight: FontWeight.w100,
+                        fontSize: isTabletLandscape(context) ? 6.sp : 5.sp),
                   ),
                 ],
               ),

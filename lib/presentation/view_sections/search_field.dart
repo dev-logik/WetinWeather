@@ -46,7 +46,11 @@ class _SearchFieldState extends State<SearchField> {
             onPressed: () {},
             icon: Icon(
               Icons.location_on_outlined,
-              size: isTabletPortrait(context) ? 10.dg : null,
+              size: isTabletPortrait(context)
+                  ? 10.dg
+                  : isTabletLandscape(context)
+                      ? 8.dg
+                      : null,
             ),
             padding: EdgeInsets.symmetric(
               horizontal: 4.w,

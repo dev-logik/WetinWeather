@@ -15,7 +15,7 @@ class HourlyReportCard extends StatelessWidget {
     return ConstrainedBox(
       constraints: BoxConstraints(
         maxWidth: setLandscapeValues(
-          ifTrue: .20.sw,
+          ifTrue: isTabletLandscape(context) ? 0.26.sw : .20.sw,
           ifFalse: 150.0.w,
           context: context,
         ),
@@ -67,7 +67,9 @@ class HourlyReportCard extends StatelessWidget {
                             ? 20.sp
                             : isPhoneLandscape(context)
                                 ? 10.sp
-                                : 20.sp,
+                                : isTabletLandscape(context)
+                                    ? 15.sp
+                                    : 20.sp,
                         fontWeight: FontWeight.normal,
                         color: Colors.white,
                       ),
@@ -79,7 +81,9 @@ class HourlyReportCard extends StatelessWidget {
                                 ? 20.sp
                                 : isPhoneLandscape(context)
                                     ? 10.sp
-                                    : 20.sp,
+                                    : isTabletLandscape(context)
+                                        ? 15.sp
+                                        : 20.sp,
                             fontWeight: FontWeight.normal,
                             color: Colors.white,
                           ),

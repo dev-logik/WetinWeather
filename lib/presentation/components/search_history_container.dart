@@ -15,7 +15,7 @@ class SearchHistoryCard extends StatelessWidget {
     return ConstrainedBox(
       constraints: BoxConstraints(
         maxWidth: setLandscapeValues(
-          ifTrue: 104.w,
+          ifTrue: 120.w,
           ifFalse: isTabletPortrait(context) ? 150.0.w : 200.0.w,
           context: context,
         ),
@@ -29,7 +29,10 @@ class SearchHistoryCard extends StatelessWidget {
         child: Padding(
           padding: EdgeInsets.symmetric(vertical: 8.h, horizontal: 8.w),
           child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            mainAxisAlignment: isTabletLandscape(context)
+                ? MainAxisAlignment.start
+                : MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               Column(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -37,22 +40,27 @@ class SearchHistoryCard extends StatelessWidget {
                   RichText(
                     text: TextSpan(
                       text: '30',
-                      style: isTabletPortrait(context)
-                          ? textTheme.titleMedium?.copyWith(fontSize: 15.sp)
-                          : isPhoneLandscape(context)
-                              ? textTheme.titleMedium?.copyWith(fontSize: 10.sp)
-                              : textTheme.titleMedium
-                                  ?.copyWith(fontSize: 24.sp),
+                      style: textTheme.titleMedium?.copyWith(
+                        fontSize: isTabletPortrait(context)
+                            ? 15.sp
+                            : isPhoneLandscape(context)
+                                ? 10.sp
+                                : isTabletLandscape(context)
+                                    ? 12.sp
+                                    : 24.sp,
+                      ),
                       children: <InlineSpan>[
                         TextSpan(
                           text: '°C',
-                          style: isTabletPortrait(context)
-                              ? textTheme.titleMedium?.copyWith(fontSize: 15.sp)
-                              : isPhoneLandscape(context)
-                                  ? textTheme.titleMedium
-                                      ?.copyWith(fontSize: 10.sp)
-                                  : textTheme.titleMedium
-                                      ?.copyWith(fontSize: 24.sp),
+                          style: textTheme.titleMedium?.copyWith(
+                            fontSize: isTabletPortrait(context)
+                                ? 15.sp
+                                : isPhoneLandscape(context)
+                                    ? 10.sp
+                                    : isTabletLandscape(context)
+                                        ? 12.sp
+                                        : 24.sp,
+                          ),
                         ),
                       ],
                     ),
@@ -60,37 +68,49 @@ class SearchHistoryCard extends StatelessWidget {
                   //Weather condition
                   Text(
                     'Cloudy',
-                    style: isTabletPortrait(context)
-                        ? textTheme.titleMedium?.copyWith(fontSize: 10.sp)
-                        : isPhoneLandscape(context)
-                            ? textTheme.titleSmall?.copyWith(fontSize: 8.sp)
-                            : textTheme.titleSmall?.copyWith(fontSize: 15.sp),
+                    style: textTheme.titleSmall?.copyWith(
+                      fontSize: isTabletPortrait(context)
+                          ? 10.sp
+                          : isPhoneLandscape(context)
+                              ? 8.sp
+                              : isTabletLandscape(context)
+                                  ? 10.sp
+                                  : 15.sp,
+                    ),
                   ),
                   sizedH4,
                   //Displays the city
                   Align(
                     child: Text(
                       'New York',
-                      style: isTabletPortrait(context)
-                          ? textTheme.titleMedium?.copyWith(fontSize: 10.sp)
-                          : isPhoneLandscape(context)
-                              ? textTheme.titleSmall?.copyWith(fontSize: 8.sp)
-                              : textTheme.titleSmall?.copyWith(fontSize: 18.sp),
+                      style: textTheme.titleSmall?.copyWith(
+                        fontSize: isTabletPortrait(context)
+                            ? 10.sp
+                            : isPhoneLandscape(context)
+                                ? 8.sp
+                                : isTabletLandscape(context)
+                                    ? 11.sp
+                                    : 15.sp,
+                      ),
                     ),
                   ),
                 ],
               ),
-              Lottie.asset(AssetPath.animatedCloudyWindy,
-                  width: setLandscapeValues(
-                    ifTrue: 50.0.w,
-                    ifFalse: 80.0.w,
-                    context: context,
-                  ),
-                  height: setLandscapeValues(
-                    ifTrue: 50.0.w,
-                    ifFalse: 80.0.w,
-                    context: context,
-                  )),
+              sizedW4,
+              Lottie.asset(
+                AssetPath.animatedCloudyWindy,
+                width: setLandscapeValues(
+                  ifTrue: 30.0.w,
+                  ifFalse: 80.0.w,
+                  context: context,
+                ),
+                height: setLandscapeValues(
+                  ifTrue: 30.0.h,
+                  ifFalse: 80.0.h,
+                  context: context,
+                ),
+                fit: isTabletLandscape(context) ? BoxFit.cover : BoxFit.contain,
+              ),
             ],
           ),
         ),

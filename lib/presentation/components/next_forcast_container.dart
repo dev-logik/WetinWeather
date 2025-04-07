@@ -16,11 +16,12 @@ class NextForcastCard extends StatelessWidget {
         child: Padding(
           padding: EdgeInsets.symmetric(horizontal: 8.0.w, vertical: 4.0.h),
           child: ListTile(
-            contentPadding: REdgeInsets.symmetric(vertical: 8),
+            dense: false,
+            contentPadding: REdgeInsets.symmetric(
+                vertical: isTabletLandscape(context) ? 10 : 8),
             visualDensity: VisualDensity.comfortable,
             leading: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text(
                   'Friday',
@@ -30,7 +31,7 @@ class NextForcastCard extends StatelessWidget {
                         ? 8.sp
                         : isTabletPortrait(context)
                             ? 10.sp
-                            : 15.sp,
+                            : 6.sp,
                   ),
                 ),
                 Text(
@@ -41,7 +42,7 @@ class NextForcastCard extends StatelessWidget {
                         ? 7.sp
                         : isTabletPortrait(context)
                             ? 6.sp
-                            : 12.sp,
+                            : 4.5.sp,
                   ),
                 ),
               ],

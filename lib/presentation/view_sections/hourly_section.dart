@@ -10,7 +10,11 @@ class HourlySection extends StatelessWidget {
   Widget build(BuildContext context) {
     return ConstrainedBox(
       constraints: BoxConstraints(
-        maxHeight: isTabletPortrait(context) ? 0.15.sh : 0.13.sh,
+        maxHeight: isTabletPortrait(context)
+            ? 0.15.sh
+            : isTabletLandscape(context)
+                ? 0.25.sh
+                : 0.13.sh,
         maxWidth: double.infinity,
       ),
       child: ListView(
