@@ -1,12 +1,10 @@
-import 'package:bloc_app/presentation/components/air_quality_summary.dart';
-import 'package:bloc_app/presentation/components/forcast_summary.dart';
 import 'package:bloc_app/presentation/components/gradient_spot.dart';
-import 'package:bloc_app/presentation/components/hourly_report.dart';
-import 'package:bloc_app/utilities/color_constants.dart';
-import 'package:bloc_app/utilities/helper_funtions.dart';
+import 'package:bloc_app/presentation/view_sections/home_header.dart';
+import 'package:bloc_app/presentation/view_sections/home_summary.dart';
+import 'package:bloc_app/presentation/view_sections/hourly_header.dart';
+import 'package:bloc_app/presentation/view_sections/hourly_section.dart';
 import 'package:bloc_app/utilities/sizedbox_constants.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class HomeScreenMobilePortrait extends StatefulWidget {
   const HomeScreenMobilePortrait({super.key});
@@ -17,32 +15,10 @@ class HomeScreenMobilePortrait extends StatefulWidget {
 }
 
 class _HomeScreenMobilePortraitState extends State<HomeScreenMobilePortrait> {
-  late final List<ButtonSegment<int>> _segmentedButtonSegments = [
-    ButtonSegment<int>(
-      value: 0,
-      label: Text(
-        'Forcast',
-        style: Theme.of(context).textTheme.titleSmall?.copyWith(
-              fontSize: 10.sp,
-            ),
-      ),
-    ),
-    ButtonSegment<int>(
-      value: 1,
-      label: Text(
-        'Air-Quality',
-        style: Theme.of(context).textTheme.titleSmall?.copyWith(
-              fontSize: 10.sp,
-            ),
-      ),
-    ),
-  ];
-
   var selectedSegment = <int>{0};
 
   @override
   Widget build(BuildContext context) {
-    final textTheme = Theme.of(context).textTheme;
     return Scaffold(
       body: SafeArea(
         child: Stack(
@@ -60,131 +36,17 @@ class _HomeScreenMobilePortraitState extends State<HomeScreenMobilePortrait> {
                 children: <Widget>[
                   sizedH16,
                   //Todo: Pass Dynamic Location name.
-                  Text(
-                    'San Francisco',
-                    style: isTabletPortrait(context)
-                        ? textTheme.headlineLarge?.copyWith(fontSize: 30.sp)
-                        : textTheme.headlineLarge,
-                  ),
-                  sizedH8,
-                  //Todo: Pass dynamic date string.
-                  Text(
-                    'May 27, 2025',
-                    style: isTabletPortrait(context)
-                        ? textTheme.titleMedium?.copyWith(
-                            fontWeight: FontWeight.normal,
-                            fontSize: 12.sp,
-                          )
-                        : textTheme.titleSmall?.copyWith(
-                            fontWeight: FontWeight.w100,
-                          ),
-                  ),
+                  HomeHeader(),
                   sizedH8,
                   //Todo: Define a bloc for handling these events
-                  SegmentedButton<int>(
-                    segments: _segmentedButtonSegments,
-                    selected: selectedSegment,
-                    showSelectedIcon: false,
-                    onSelectionChanged: (segmentValue) {
-                      setState(() {
-                        selectedSegment = segmentValue;
-                      });
-                    },
-                  ),
+                  HomeSummary(),
                   sizedH8,
-                  _summaryPagesSection(),
-                  _pageBreakHeader(textTheme, context),
+                  HourlyHeader(),
                   //Todo: Replace with a list view builder to display
                   //Todo: the hourly reports dynamically.
-                  _hourlyReportSection(),
+                  HourlySection(),
                 ],
               ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  ConstrainedBox _hourlyReportSection() {
-    return ConstrainedBox(
-      constraints: BoxConstraints(
-        maxHeight: isTabletPortrait(context) ? 0.15.sh : 0.13.sh,
-        maxWidth: double.infinity,
-      ),
-      child: ListView(
-        scrollDirection: Axis.horizontal,
-        children: [
-          HourlyReportCard(),
-          HourlyReportCard(),
-          HourlyReportCard(),
-          HourlyReportCard(),
-          HourlyReportCard(),
-          HourlyReportCard(),
-        ],
-      ),
-    );
-  }
-
-  Padding _pageBreakHeader(TextTheme textTheme, BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.symmetric(
-        horizontal: 16.0.w,
-      ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        crossAxisAlignment: CrossAxisAlignment.end,
-        children: <Widget>[
-          Text(
-            'Today',
-            style: isTabletPortrait(context)
-                ? textTheme.headlineLarge
-                    ?.copyWith(fontWeight: FontWeight.normal)
-                : textTheme.headlineSmall,
-          ),
-          InkWell(
-            child: Text(
-              'View full report',
-              style: isTabletPortrait(context)
-                  ? textTheme.headlineSmall?.copyWith(
-                      color: (Theme.of(context).brightness == Brightness.light)
-                          ? LightColorConstants.secondaryColor_1
-                          : DarkColorConstants.secondaryColor_1,
-                    )
-                  : textTheme.labelSmall?.copyWith(
-                      color: (Theme.of(context).brightness == Brightness.light)
-                          ? LightColorConstants.secondaryColor_1
-                          : DarkColorConstants.secondaryColor_1,
-                    ),
-            ),
-            //Todo: Implement the onTap function.
-            onTap: () {},
-          ),
-        ],
-      ),
-    );
-  }
-
-  AnimatedSwitcher _summaryPagesSection() {
-    return AnimatedSwitcher(
-      duration: const Duration(milliseconds: 500),
-      transitionBuilder: (child, animation) => SlideTransition(
-        position: Tween<Offset>(
-          begin: Offset(1.0, 0.0),
-          end: Offset.zero,
-        ).animate(animation),
-        child: child,
-      ),
-      child: KeyedSubtree(
-        key: ValueKey(selectedSegment.first),
-        child: IndexedStack(
-          index: selectedSegment.first,
-          children: [
-            ForcastSummary(
-              key: const ValueKey(0),
-            ),
-            AirQualitySummary(
-              key: const ValueKey(1),
             ),
           ],
         ),

@@ -1,5 +1,6 @@
 import 'package:bloc_app/utilities/assets_path_constants.dart';
 import 'package:bloc_app/utilities/helper_funtions.dart';
+import 'package:bloc_app/utilities/sizedbox_constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:lottie/lottie.dart';
@@ -26,8 +27,12 @@ class HourlyReportCard extends StatelessWidget {
       ),
       child: Card(
         child: Padding(
-          padding:
-              const EdgeInsets.only(top: 16, bottom: 16, left: 0, right: 0),
+          padding: const EdgeInsets.only(
+            top: 16,
+            bottom: 16,
+            left: 0,
+            right: 0,
+          ),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
@@ -35,9 +40,9 @@ class HourlyReportCard extends StatelessWidget {
                 aspectRatio: isTabletPortrait(context) ? 5 / 4 : 1,
                 child: Lottie.asset(
                   AssetPath.animatedSnowy,
-                  width: 60,
-                  height: 60,
-                  fit: BoxFit.contain,
+                  width: 50,
+                  height: 50,
+                  fit: BoxFit.cover,
                 ),
               ),
               Column(
@@ -49,16 +54,20 @@ class HourlyReportCard extends StatelessWidget {
                         ? textTheme.titleMedium?.copyWith(fontSize: 15.sp)
                         : isTabletLandscape(context)
                             ? textTheme.titleMedium?.copyWith(fontSize: 8.sp)
-                            : textTheme.titleSmall,
+                            : isPhoneLandscape(context)
+                                ? textTheme.bodySmall?.copyWith(fontSize: 7.sp)
+                                : textTheme.titleMedium,
                   ),
-                  SizedBox(
-                    height: 3,
-                  ),
+                  sizedH4,
                   RichText(
                     text: TextSpan(
                       text: '30',
                       style: textTheme.bodyMedium?.copyWith(
-                        fontSize: isTabletPortrait(context) ? 20.sp : 10.sp,
+                        fontSize: isTabletPortrait(context)
+                            ? 20.sp
+                            : isPhoneLandscape(context)
+                                ? 10.sp
+                                : 20.sp,
                         fontWeight: FontWeight.normal,
                         color: Colors.white,
                       ),
@@ -66,7 +75,11 @@ class HourlyReportCard extends StatelessWidget {
                         TextSpan(
                           text: '°C',
                           style: textTheme.bodyMedium?.copyWith(
-                            fontSize: isTabletPortrait(context) ? 20.sp : 10.sp,
+                            fontSize: isTabletPortrait(context)
+                                ? 20.sp
+                                : isPhoneLandscape(context)
+                                    ? 10.sp
+                                    : 20.sp,
                             fontWeight: FontWeight.normal,
                             color: Colors.white,
                           ),

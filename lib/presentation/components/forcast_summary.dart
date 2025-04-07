@@ -34,7 +34,7 @@ class ForcastSummary extends StatelessWidget {
                 fit: BoxFit.contain,
               ),
             ),
-            isTabletPortrait(context) ? Container() : sizedH16,
+            isTabletPortrait(context) ? Container() : sizedH32,
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: <Widget>[
@@ -44,7 +44,7 @@ class ForcastSummary extends StatelessWidget {
                     //Todo: Check if an icon can replace this.
                     //Todo: the values will be passed dynamically.
                     FaIcon(
-                      FontAwesomeIcons.thermometer,
+                      FontAwesomeIcons.temperatureHigh,
                       size: isTabletPortrait(context) ? 10.dg : null,
                     ),
                     RichText(
@@ -52,14 +52,15 @@ class ForcastSummary extends StatelessWidget {
                         text: '33',
                         style: isTabletPortrait(context)
                             ? textTheme.titleMedium?.copyWith(fontSize: 12.sp)
-                            : textTheme.titleMedium,
+                            : textTheme.titleMedium?.copyWith(fontSize: 24.sp),
                         children: <InlineSpan>[
                           TextSpan(
                             text: '°C',
                             style: isTabletPortrait(context)
                                 ? textTheme.titleMedium
                                     ?.copyWith(fontSize: 12.sp)
-                                : textTheme.titleMedium,
+                                : textTheme.titleMedium
+                                    ?.copyWith(fontSize: 24.sp),
                           ),
                         ],
                       ),
@@ -86,14 +87,15 @@ class ForcastSummary extends StatelessWidget {
                         text: '3',
                         style: isTabletPortrait(context)
                             ? textTheme.titleMedium?.copyWith(fontSize: 12.sp)
-                            : textTheme.titleMedium,
+                            : textTheme.titleMedium?.copyWith(fontSize: 24.sp),
                         children: <InlineSpan>[
                           TextSpan(
-                            text: 'm/sec',
+                            text: 'm/s',
                             style: isTabletPortrait(context)
                                 ? textTheme.titleMedium
                                     ?.copyWith(fontSize: 12.sp)
-                                : textTheme.titleMedium,
+                                : textTheme.titleMedium
+                                    ?.copyWith(fontSize: 24.sp),
                           ),
                         ],
                       ),
@@ -112,7 +114,7 @@ class ForcastSummary extends StatelessWidget {
                     //Todo: Check if an icon can replace this.
                     //Todo: the values will be passed dynamically.
                     FaIcon(
-                      FontAwesomeIcons.water,
+                      FontAwesomeIcons.droplet,
                       size: isTabletPortrait(context) ? 10.dg : null,
                     ),
 
@@ -121,14 +123,15 @@ class ForcastSummary extends StatelessWidget {
                         text: '3',
                         style: isTabletPortrait(context)
                             ? textTheme.titleMedium?.copyWith(fontSize: 12.sp)
-                            : textTheme.titleMedium,
+                            : textTheme.titleMedium?.copyWith(fontSize: 24.sp),
                         children: <InlineSpan>[
                           TextSpan(
                             text: '%',
                             style: isTabletPortrait(context)
                                 ? textTheme.titleMedium
                                     ?.copyWith(fontSize: 12.sp)
-                                : textTheme.titleMedium,
+                                : textTheme.titleMedium
+                                    ?.copyWith(fontSize: 24.sp),
                           ),
                         ],
                       ),
@@ -143,6 +146,7 @@ class ForcastSummary extends StatelessWidget {
                 )
               ],
             ),
+            sizedH4
           ],
         ),
       ),

@@ -1,5 +1,6 @@
 import 'package:bloc_app/utilities/assets_path_constants.dart';
 import 'package:bloc_app/utilities/helper_funtions.dart';
+import 'package:bloc_app/utilities/sizedbox_constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:lottie/lottie.dart';
@@ -14,7 +15,7 @@ class SearchHistoryCard extends StatelessWidget {
     return ConstrainedBox(
       constraints: BoxConstraints(
         maxWidth: setLandscapeValues(
-          ifTrue: 100.w,
+          ifTrue: 104.w,
           ifFalse: isTabletPortrait(context) ? 150.0.w : 200.0.w,
           context: context,
         ),
@@ -38,13 +39,20 @@ class SearchHistoryCard extends StatelessWidget {
                       text: '30',
                       style: isTabletPortrait(context)
                           ? textTheme.titleMedium?.copyWith(fontSize: 12.sp)
-                          : textTheme.titleMedium,
+                          : isPhoneLandscape(context)
+                              ? textTheme.titleMedium?.copyWith(fontSize: 10.sp)
+                              : textTheme.titleMedium
+                                  ?.copyWith(fontSize: 24.sp),
                       children: <InlineSpan>[
                         TextSpan(
                           text: '°C',
                           style: isTabletPortrait(context)
                               ? textTheme.titleMedium?.copyWith(fontSize: 12.sp)
-                              : textTheme.titleMedium,
+                              : isPhoneLandscape(context)
+                                  ? textTheme.titleMedium
+                                      ?.copyWith(fontSize: 10.sp)
+                                  : textTheme.titleMedium
+                                      ?.copyWith(fontSize: 24.sp),
                         ),
                       ],
                     ),
@@ -54,18 +62,20 @@ class SearchHistoryCard extends StatelessWidget {
                     'Cloudy',
                     style: isTabletPortrait(context)
                         ? textTheme.titleMedium
-                        : textTheme.titleSmall,
+                        : isPhoneLandscape(context)
+                            ? textTheme.titleSmall?.copyWith(fontSize: 8.sp)
+                            : textTheme.titleSmall?.copyWith(fontSize: 15.sp),
                   ),
-                  SizedBox(
-                    height: 5.h,
-                  ),
+                  sizedH4,
                   //Displays the city
                   Align(
                     child: Text(
                       'New York',
                       style: isTabletPortrait(context)
                           ? textTheme.titleMedium
-                          : textTheme.titleSmall,
+                          : isPhoneLandscape(context)
+                              ? textTheme.titleSmall?.copyWith(fontSize: 8.sp)
+                              : textTheme.titleSmall?.copyWith(fontSize: 18.sp),
                     ),
                   ),
                 ],

@@ -3,6 +3,7 @@ import 'package:bloc_app/presentation/components/gradient_spot.dart';
 import 'package:bloc_app/utilities/color_constants.dart';
 import 'package:bloc_app/utilities/helper_funtions.dart';
 import 'package:bloc_app/utilities/sizedbox_constants.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -81,10 +82,12 @@ class _SettingsScreenState extends State<SettingsScreen> {
                         Card(
                           child: Padding(
                             padding: EdgeInsets.symmetric(
-                                vertical: 8.h, horizontal: 8.w),
-                            child: ListTile(
+                              vertical: 8.h,
+                              horizontal: 8.w,
+                            ),
+                            child: SwitchListTile(
                               visualDensity: VisualDensity.comfortable,
-                              leading: (isThemeModeLight == Brightness.light)
+                              secondary: (isThemeModeLight == Brightness.light)
                                   ? FaIcon(
                                       FontAwesomeIcons.sun,
                                       color: DarkColorConstants.tertiaryColor,
@@ -99,13 +102,12 @@ class _SettingsScreenState extends State<SettingsScreen> {
                                 'Toggle Theme',
                                 style: textTheme.titleSmall,
                               ),
-                              trailing: Switch(
-                                value: themeModeWatchBloc.isLightFlag,
-                                onChanged: (value) {
-                                  themeModeReadBloc.toggleThemeMode();
-                                  themeModeReadBloc.isLightFlag = value;
-                                },
-                              ),
+                              value: themeModeWatchBloc.isLightFlag,
+                              onChanged: (value) {
+                                themeModeReadBloc.toggleThemeMode();
+                                themeModeReadBloc.isLightFlag = value;
+                              },
+                              dragStartBehavior: DragStartBehavior.start,
                             ),
                           ),
                         ),

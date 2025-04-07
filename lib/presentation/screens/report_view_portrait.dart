@@ -1,6 +1,8 @@
 import 'package:bloc_app/presentation/components/gradient_spot.dart';
 import 'package:bloc_app/presentation/components/hourly_report.dart';
-import 'package:bloc_app/presentation/components/next_forcast_container.dart';
+import 'package:bloc_app/presentation/view_sections/forecast_header.dart';
+import 'package:bloc_app/presentation/view_sections/hourly_header_date.dart';
+import 'package:bloc_app/presentation/view_sections/next_forecasts.dart';
 import 'package:bloc_app/utilities/helper_funtions.dart';
 import 'package:bloc_app/utilities/sizedbox_constants.dart';
 import 'package:flutter/material.dart';
@@ -38,32 +40,13 @@ class ForcastReportPortraitScreen extends StatelessWidget {
                     padding: EdgeInsets.symmetric(
                       horizontal: 8.0.w,
                     ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      crossAxisAlignment: CrossAxisAlignment.end,
-                      children: <Widget>[
-                        Text(
-                          'Today',
-                          style: isTabletPortrait(context)
-                              ? textTheme.headlineLarge
-                                  ?.copyWith(fontWeight: FontWeight.normal)
-                              : textTheme.headlineSmall,
-                        ),
-                        Text(
-                          'May 27, 2025',
-                          style: textTheme.bodyLarge?.copyWith(
-                            color: Colors.white,
-                            fontSize: 10.sp,
-                          ),
-                        ),
-                      ],
-                    ),
+                    child: HourlyHeaderWithDate(),
                   ),
                   sizedH8,
                   //Search input text form field.
                   ConstrainedBox(
                     constraints: BoxConstraints(
-                      maxHeight: isTabletPortrait(context) ? 0.15.sh : 0.13.sh,
+                      maxHeight: isTabletPortrait(context) ? 0.15.sh : 0.12.sh,
                       maxWidth: double.infinity,
                     ),
                     child: ListView(
@@ -78,56 +61,12 @@ class ForcastReportPortraitScreen extends StatelessWidget {
                       ],
                     ),
                   ),
-                  sizedH8,
+                  sizedH4,
                   Padding(
                     padding: EdgeInsets.symmetric(horizontal: 16.0.w),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      crossAxisAlignment: CrossAxisAlignment.end,
-                      children: <Widget>[
-                        Text(
-                          'Next Forcast',
-                          style: textTheme.headlineSmall,
-                        ),
-                        IconButton(
-                          onPressed: () {},
-                          icon: Icon(
-                            Icons.calendar_month,
-                          ),
-                          padding: EdgeInsets.symmetric(
-                              vertical: 8.0.h, horizontal: 8.0.w),
-                        ),
-                      ],
-                    ),
+                    child: NextForecastHeader(),
                   ),
-                  ConstrainedBox(
-                    constraints: BoxConstraints(
-                      maxHeight: isTabletPortrait(context) ? .583.sh : .533.sh,
-                      maxWidth: 1.sw,
-                    ),
-                    child: ListView(
-                      scrollDirection: Axis.vertical,
-                      children: [
-                        NextForcastCard(),
-                        sizedH8,
-                        NextForcastCard(),
-                        sizedH8,
-                        NextForcastCard(),
-                        sizedH8,
-                        NextForcastCard(),
-                        sizedH8,
-                        NextForcastCard(),
-                        sizedH8,
-                        NextForcastCard(),
-                        sizedH8,
-                        NextForcastCard(),
-                        sizedH8,
-                        NextForcastCard(),
-                        sizedH8,
-                        NextForcastCard(),
-                      ],
-                    ),
-                  )
+                  NextForecasts()
                 ],
               ),
             ),

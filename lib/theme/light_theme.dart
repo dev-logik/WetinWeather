@@ -1,6 +1,7 @@
 import 'package:bloc_app/theme/typography.dart';
 import 'package:bloc_app/utilities/color_constants.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class AppLightTheme {
   AppLightTheme._();
@@ -57,7 +58,7 @@ class AppLightTheme {
     //Defines and overrides the default theme for the iconbutton widgets
     iconButtonTheme: IconButtonThemeData(
       style: IconButton.styleFrom(
-        iconSize: 24.0,
+        iconSize: 24.0.dg,
         foregroundColor: LightColorConstants.tertiaryColor,
       ),
     ),
@@ -70,7 +71,7 @@ class AppLightTheme {
       backgroundColor: LightColorConstants.primaryColor,
       selectedIconTheme: IconThemeData(
         color: LightColorConstants.tertiaryColor,
-        size: 24.0,
+        size: 24.0.dg,
       ),
       selectedItemColor: LightColorConstants.tertiaryColor,
       unselectedIconTheme: IconThemeData(

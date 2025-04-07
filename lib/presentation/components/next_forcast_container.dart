@@ -1,4 +1,5 @@
 import 'package:bloc_app/utilities/assets_path_constants.dart';
+import 'package:bloc_app/utilities/helper_funtions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:lottie/lottie.dart';
@@ -21,11 +22,17 @@ class NextForcastCard extends StatelessWidget {
               children: [
                 Text(
                   'Friday',
-                  style: textTheme.titleSmall,
+                  style: textTheme.titleSmall?.copyWith(
+                    fontWeight: FontWeight.bold,
+                    fontSize: isPhoneLandscape(context) ? 8.sp : 15.sp,
+                  ),
                 ),
                 Text(
                   'May, 28',
-                  style: textTheme.bodySmall,
+                  style: textTheme.bodySmall?.copyWith(
+                    fontWeight: FontWeight.w100,
+                    fontSize: isPhoneLandscape(context) ? 7.sp : 12.sp,
+                  ),
                 ),
               ],
             ),
@@ -39,8 +46,8 @@ class NextForcastCard extends StatelessWidget {
                   style: textTheme.displayMedium,
                 ),
                 Text(
-                  'oC',
-                  style: textTheme.titleSmall,
+                  '°C',
+                  style: textTheme.displayMedium,
                 )
               ],
             ),

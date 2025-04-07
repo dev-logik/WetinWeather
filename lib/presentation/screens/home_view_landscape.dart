@@ -16,19 +16,18 @@ class HomeScreenMobileLandscape extends StatelessWidget {
     final textTheme = Theme.of(context).textTheme;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.center,
+      mainAxisAlignment: MainAxisAlignment.center,
       //mainAxisAlignment: MainAxisAlignment.spaceAround,
       children: [
-        sizedH16,
+        sizedH24,
         Text(
           'San Francisco',
           style: textTheme.headlineLarge?.copyWith(fontSize: 15.sp),
         ),
         Text(
           'May 27, 2025',
-          style: textTheme.bodyMedium?.copyWith(
-            fontWeight: FontWeight.w100,
+          style: textTheme.headlineSmall?.copyWith(
             fontSize: 8.sp,
-            color: Colors.white,
           ),
         ),
         isTabletLandscape(context) ? sizedH16 : Container(),
@@ -79,6 +78,7 @@ class HomeScreenMobileLandscape extends StatelessWidget {
             ),
           ],
         ),
+        sizedH8,
       ],
     );
   }
@@ -131,7 +131,7 @@ class HomeScreenMobileLandscape extends StatelessWidget {
   Column _airQualitySection(TextTheme textTheme, BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.center,
-      mainAxisAlignment: MainAxisAlignment.spaceAround,
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: <Widget>[
         Column(
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -140,7 +140,7 @@ class HomeScreenMobileLandscape extends StatelessWidget {
             Text(
               '200',
               style: textTheme.displayLarge?.copyWith(
-                  fontSize: isTabletLandscape(context) ? 50.sp : 44.sp),
+                  fontSize: isTabletLandscape(context) ? 50.sp : 40.sp),
             ),
             Text(
               'AQI',
@@ -163,8 +163,8 @@ class HomeScreenMobileLandscape extends StatelessWidget {
                   //Todo: the values will be passed dynamically.
                   Image.asset(
                     AssetPath.coIcon,
-                    width: isTabletLandscape(context) ? 40.0.w : 30.0.w,
-                    height: isTabletLandscape(context) ? 40.0.h : 30.0.h,
+                    width: isTabletLandscape(context) ? 40.0.w : 40.0.w,
+                    height: isTabletLandscape(context) ? 40.0.h : 40.0.h,
                     color: Colors.white,
                   ),
                   RichText(
@@ -172,13 +172,19 @@ class HomeScreenMobileLandscape extends StatelessWidget {
                       text: '33',
                       style: isTabletLandscape(context)
                           ? textTheme.titleMedium?.copyWith(fontSize: 8.sp)
-                          : textTheme.titleSmall,
+                          : textTheme.titleSmall?.copyWith(
+                              fontSize: 8.sp,
+                              fontWeight: FontWeight.bold,
+                            ),
                       children: <InlineSpan>[
                         TextSpan(
                           text: 'unit',
                           style: isTabletLandscape(context)
                               ? textTheme.titleMedium?.copyWith(fontSize: 8.sp)
-                              : textTheme.titleSmall,
+                              : textTheme.titleSmall?.copyWith(
+                                  fontSize: 8.sp,
+                                  fontWeight: FontWeight.bold,
+                                ),
                         ),
                       ],
                     ),
@@ -199,21 +205,27 @@ class HomeScreenMobileLandscape extends StatelessWidget {
                   //Todo: the values will be passed dynamically.
                   Image.asset(
                     AssetPath.pm25Icon,
-                    width: isTabletLandscape(context) ? 40.0.w : 30.0.w,
-                    height: isTabletLandscape(context) ? 40.0.h : 30.0.h,
+                    width: isTabletLandscape(context) ? 40.0.w : 40.0.w,
+                    height: isTabletLandscape(context) ? 40.0.h : 40.0.h,
                   ),
                   RichText(
                     text: TextSpan(
                       text: '3.3',
                       style: isTabletLandscape(context)
                           ? textTheme.titleMedium?.copyWith(fontSize: 8.sp)
-                          : textTheme.titleSmall,
+                          : textTheme.titleSmall?.copyWith(
+                              fontSize: 8.sp,
+                              fontWeight: FontWeight.bold,
+                            ),
                       children: <InlineSpan>[
                         TextSpan(
                           text: 'unit',
                           style: isTabletLandscape(context)
                               ? textTheme.titleMedium?.copyWith(fontSize: 8.sp)
-                              : textTheme.titleSmall,
+                              : textTheme.titleSmall?.copyWith(
+                                  fontSize: 8.sp,
+                                  fontWeight: FontWeight.bold,
+                                ),
                         ),
                       ],
                     ),
@@ -234,21 +246,27 @@ class HomeScreenMobileLandscape extends StatelessWidget {
                   //Todo: the values will be passed dynamically.
                   Image.asset(
                     AssetPath.o3Icon,
-                    width: isTabletLandscape(context) ? 40.0.w : 30.0.w,
-                    height: isTabletLandscape(context) ? 40.0.h : 30.0.h,
+                    width: isTabletLandscape(context) ? 40.0.w : 40.0.w,
+                    height: isTabletLandscape(context) ? 40.0.h : 40.0.h,
                   ),
                   RichText(
                     text: TextSpan(
                       text: '3.34',
                       style: isTabletLandscape(context)
                           ? textTheme.titleMedium?.copyWith(fontSize: 8.sp)
-                          : textTheme.titleSmall,
+                          : textTheme.titleSmall?.copyWith(
+                              fontSize: 8.sp,
+                              fontWeight: FontWeight.bold,
+                            ),
                       children: <InlineSpan>[
                         TextSpan(
                           text: 'unit',
                           style: isTabletLandscape(context)
                               ? textTheme.titleMedium?.copyWith(fontSize: 8.sp)
-                              : textTheme.titleSmall,
+                              : textTheme.titleSmall?.copyWith(
+                                  fontSize: 8.sp,
+                                  fontWeight: FontWeight.bold,
+                                ),
                         ),
                       ],
                     ),
@@ -271,7 +289,7 @@ class HomeScreenMobileLandscape extends StatelessWidget {
 
   Column _forecastSection(TextTheme textTheme, BuildContext context) {
     return Column(
-      mainAxisAlignment: MainAxisAlignment.spaceAround,
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         Padding(
           padding: EdgeInsets.symmetric(horizontal: 8.0.w),
@@ -294,21 +312,27 @@ class HomeScreenMobileLandscape extends StatelessWidget {
                   //Todo: Check if an icon can replace this.
                   //Todo: the values will be passed dynamically.
                   FaIcon(
-                    FontAwesomeIcons.thermometer,
-                    size: isTabletLandscape(context) ? 12.dg : 20.dg,
+                    FontAwesomeIcons.temperatureHalf,
+                    size: isTabletLandscape(context) ? 12.dg : 18.dg,
                   ),
                   RichText(
                     text: TextSpan(
                       text: '10',
                       style: isTabletLandscape(context)
                           ? textTheme.titleMedium?.copyWith(fontSize: 8.sp)
-                          : textTheme.titleSmall,
+                          : textTheme.titleSmall?.copyWith(
+                              fontSize: 8.sp,
+                              fontWeight: FontWeight.bold,
+                            ),
                       children: <InlineSpan>[
                         TextSpan(
                           text: ' °C',
                           style: isTabletLandscape(context)
                               ? textTheme.titleMedium?.copyWith(fontSize: 8.sp)
-                              : textTheme.titleSmall,
+                              : textTheme.titleSmall?.copyWith(
+                                  fontSize: 8.sp,
+                                  fontWeight: FontWeight.bold,
+                                ),
                         ),
                       ],
                     ),
@@ -330,20 +354,26 @@ class HomeScreenMobileLandscape extends StatelessWidget {
                   //Todo: the values will be passed dynamically.
                   FaIcon(
                     FontAwesomeIcons.wind,
-                    size: isTabletLandscape(context) ? 12.dg : 20.dg,
+                    size: isTabletLandscape(context) ? 12.dg : 18.dg,
                   ),
                   RichText(
                     text: TextSpan(
                       text: '10',
                       style: isTabletLandscape(context)
                           ? textTheme.titleMedium?.copyWith(fontSize: 8.sp)
-                          : textTheme.titleSmall,
+                          : textTheme.titleSmall?.copyWith(
+                              fontSize: 8.sp,
+                              fontWeight: FontWeight.bold,
+                            ),
                       children: <InlineSpan>[
                         TextSpan(
                           text: 'm/s',
                           style: isTabletLandscape(context)
                               ? textTheme.titleMedium?.copyWith(fontSize: 8.sp)
-                              : textTheme.titleSmall,
+                              : textTheme.titleSmall?.copyWith(
+                                  fontSize: 8.sp,
+                                  fontWeight: FontWeight.bold,
+                                ),
                         ),
                       ],
                     ),
@@ -366,20 +396,26 @@ class HomeScreenMobileLandscape extends StatelessWidget {
                   //Todo: the values will be passed dynamically.
                   FaIcon(
                     FontAwesomeIcons.water,
-                    size: isTabletLandscape(context) ? 12.dg : 20.dg,
+                    size: isTabletLandscape(context) ? 12.dg : 18.dg,
                   ),
                   RichText(
                     text: TextSpan(
                       text: '33',
                       style: isTabletLandscape(context)
                           ? textTheme.titleMedium?.copyWith(fontSize: 8.sp)
-                          : textTheme.titleSmall,
+                          : textTheme.titleSmall?.copyWith(
+                              fontSize: 8.sp,
+                              fontWeight: FontWeight.bold,
+                            ),
                       children: <InlineSpan>[
                         TextSpan(
                           text: '%',
                           style: isTabletLandscape(context)
                               ? textTheme.titleMedium?.copyWith(fontSize: 8.sp)
-                              : textTheme.titleSmall,
+                              : textTheme.titleSmall?.copyWith(
+                                  fontSize: 8.sp,
+                                  fontWeight: FontWeight.bold,
+                                ),
                         ),
                       ],
                     ),

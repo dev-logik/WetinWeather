@@ -1,6 +1,7 @@
 import 'package:bloc_app/utilities/color_constants.dart';
 import 'package:bloc_app/utilities/screen_sizes.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
 import 'package:stylish_bottom_bar/stylish_bottom_bar.dart';
@@ -49,8 +50,8 @@ class BottomNavigator extends StatelessWidget {
     return StylishBottomBar(
       items: _bottomNavigationSylishItems,
       option: DotBarOptions(
-        dotStyle: DotStyle.circle,
-        iconSize: 24,
+        dotStyle: DotStyle.tile,
+        iconSize: 18.dg,
         gradient: LinearGradient(
           colors: [
             (Theme.of(context).brightness == Brightness.dark)

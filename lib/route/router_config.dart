@@ -3,6 +3,7 @@ import 'package:bloc_app/presentation/screens/home_view.dart';
 import 'package:bloc_app/presentation/screens/orientation%20controllers/report_orientation_view.dart';
 import 'package:bloc_app/presentation/screens/search.dart';
 import 'package:bloc_app/presentation/screens/settings.dart';
+import 'package:bloc_app/presentation/screens/weather_detail.dart';
 import 'package:go_router/go_router.dart';
 
 mixin class GoRouterConfig {
@@ -12,6 +13,13 @@ mixin class GoRouterConfig {
         path: '/',
         name: 'home',
         builder: (_, __) => HomeScreenView(),
+        routes: <RouteBase>[
+          GoRoute(
+            path: '/forcast_details',
+            name: 'forcast details',
+            builder: (_, __) => WeatherDetails(),
+          )
+        ],
       ),
     ],
     initialLocation: '/',

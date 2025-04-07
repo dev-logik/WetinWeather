@@ -38,7 +38,7 @@ class ForcastReportLandscapeScreen extends StatelessWidget {
                 ConstrainedBox(
                   constraints: BoxConstraints(
                     maxWidth: double.infinity,
-                    maxHeight: 0.9.sh,
+                    maxHeight: 0.87.sh,
                   ),
                   child: ListView(
                     children: [
@@ -61,7 +61,8 @@ class ForcastReportLandscapeScreen extends StatelessWidget {
                               style: isTabletLandscape(context)
                                   ? textTheme.bodyLarge?.copyWith(
                                       color: Colors.white, fontSize: 6.sp)
-                                  : textTheme.headlineSmall,
+                                  : textTheme.headlineSmall
+                                      ?.copyWith(fontSize: 7.sp),
                             ),
                           ],
                         ),
@@ -69,12 +70,14 @@ class ForcastReportLandscapeScreen extends StatelessWidget {
                       ConstrainedBox(
                         constraints: BoxConstraints(
                           maxHeight:
-                              isTabletLandscape(context) ? 0.21.sh : 0.30.sh,
+                              isTabletLandscape(context) ? 0.21.sh : 0.25.sh,
                           maxWidth: double.infinity,
                         ),
                         child: ListView(
                           scrollDirection: Axis.horizontal,
                           children: [
+                            HourlyReportCard(),
+                            HourlyReportCard(),
                             HourlyReportCard(),
                             HourlyReportCard(),
                             HourlyReportCard(),
@@ -104,7 +107,7 @@ class ForcastReportLandscapeScreen extends StatelessWidget {
                               onPressed: () {},
                               icon: Icon(
                                 Icons.calendar_month,
-                                size: 8.dg,
+                                size: isPhoneLandscape(context) ? 18.dg : 8.dg,
                               ),
                               padding: EdgeInsets.symmetric(
                                   vertical: 8.0.h, horizontal: 8.0.w),
@@ -112,6 +115,10 @@ class ForcastReportLandscapeScreen extends StatelessWidget {
                           ],
                         ),
                       ),
+                      NextForcastCard(),
+                      sizedH8,
+                      NextForcastCard(),
+                      sizedH8,
                       NextForcastCard(),
                       sizedH8,
                       NextForcastCard(),

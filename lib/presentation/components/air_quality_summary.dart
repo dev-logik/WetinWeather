@@ -114,14 +114,15 @@ class AirQualitySummary extends StatelessWidget {
                         text: '7.6',
                         style: isTabletPortrait(context)
                             ? textTheme.titleMedium?.copyWith(fontSize: 12.sp)
-                            : textTheme.titleMedium,
+                            : textTheme.titleMedium?.copyWith(fontSize: 22.sp),
                         children: <InlineSpan>[
                           TextSpan(
                             text: ' unit',
                             style: isTabletPortrait(context)
                                 ? textTheme.titleMedium
                                     ?.copyWith(fontSize: 12.sp)
-                                : textTheme.titleMedium,
+                                : textTheme.titleMedium
+                                    ?.copyWith(fontSize: 22.sp),
                           ),
                         ],
                       ),
@@ -149,14 +150,15 @@ class AirQualitySummary extends StatelessWidget {
                         text: '100',
                         style: isTabletPortrait(context)
                             ? textTheme.titleMedium?.copyWith(fontSize: 12.sp)
-                            : textTheme.titleMedium,
+                            : textTheme.titleMedium?.copyWith(fontSize: 22.sp),
                         children: <InlineSpan>[
                           TextSpan(
                             text: ' unit',
                             style: isTabletPortrait(context)
                                 ? textTheme.titleMedium
                                     ?.copyWith(fontSize: 12.sp)
-                                : textTheme.titleMedium,
+                                : textTheme.titleMedium
+                                    ?.copyWith(fontSize: 22.sp),
                           ),
                         ],
                       ),
@@ -185,14 +187,15 @@ class AirQualitySummary extends StatelessWidget {
                         text: '2.5',
                         style: isTabletPortrait(context)
                             ? textTheme.titleMedium?.copyWith(fontSize: 12.sp)
-                            : textTheme.titleMedium,
+                            : textTheme.titleMedium?.copyWith(fontSize: 22.sp),
                         children: <InlineSpan>[
                           TextSpan(
                             text: ' unit',
                             style: isTabletPortrait(context)
                                 ? textTheme.titleMedium
                                     ?.copyWith(fontSize: 12.sp)
-                                : textTheme.titleMedium,
+                                : textTheme.titleMedium
+                                    ?.copyWith(fontSize: 22.sp),
                           ),
                         ],
                       ),

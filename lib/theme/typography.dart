@@ -63,8 +63,9 @@ class TypographyTheme {
     TextTheme(
       headlineLarge: TextStyle(
         color: DarkColorConstants.tertiaryColor,
-        fontSize: 32,
+        fontSize: 42,
         fontWeight: FontWeight.bold,
+        letterSpacing: 0,
       ),
       headlineMedium: TextStyle(
         color: DarkColorConstants.tertiaryColor,
@@ -93,23 +94,29 @@ class TypographyTheme {
       ),
       titleMedium: TextStyle(
         color: DarkColorConstants.tertiaryColor,
-        fontSize: 20,
+        fontSize: 16,
         fontWeight: FontWeight.bold,
+        letterSpacing: 0.15,
       ),
       titleSmall: TextStyle(
-        color: DarkColorConstants.tertiaryColor,
-        fontSize: 16,
-        fontWeight: FontWeight.normal,
-      ),
+          color: DarkColorConstants.tertiaryColor,
+          fontSize: 14,
+          fontWeight: FontWeight.normal,
+          letterSpacing: 0.1,),
       labelSmall: TextStyle(
         color: DarkColorConstants.tertiaryColor,
         fontSize: 14,
         fontWeight: FontWeight.normal,
       ),
+      bodyMedium: TextStyle(
+        color: DarkColorConstants.tertiaryColor,
+        fontSize: 16,
+        letterSpacing: 0.5,
+      ),
       bodySmall: TextStyle(
         color: DarkColorConstants.tertiaryColor,
         fontSize: 14,
-        fontWeight: FontWeight.w100,
+        letterSpacing: 0.25,
       ),
     ),
   );
