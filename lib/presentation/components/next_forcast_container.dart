@@ -31,7 +31,9 @@ class NextForcastCard extends StatelessWidget {
                         ? 8.sp
                         : isTabletPortrait(context)
                             ? 10.sp
-                            : 6.sp,
+                            : isTabletLandscape(context)
+                                ? 6.sp
+                                : 18.sp,
                   ),
                 ),
                 Text(
@@ -42,7 +44,9 @@ class NextForcastCard extends StatelessWidget {
                         ? 7.sp
                         : isTabletPortrait(context)
                             ? 6.sp
-                            : 4.5.sp,
+                            : isTabletLandscape(context)
+                                ? 6.sp
+                                : 14.sp,
                   ),
                 ),
               ],
