@@ -1,4 +1,5 @@
 import 'package:bloc_app/presentation/components/bottom_navigator.dart';
+import 'package:bloc_app/presentation/screens/air_quality_details.dart';
 import 'package:bloc_app/presentation/screens/home_view.dart';
 import 'package:bloc_app/presentation/screens/orientation%20controllers/report_orientation_view.dart';
 import 'package:bloc_app/presentation/screens/search.dart';
@@ -18,7 +19,12 @@ mixin class GoRouterConfig {
             path: '/forcast_details',
             name: 'forcast details',
             builder: (_, __) => WeatherDetails(),
-          )
+          ),
+          GoRoute(
+            path: '/air_quality_details',
+            name: 'air quality details',
+            builder: (_, __) => AirQualityDetails(),
+          ),
         ],
       ),
     ],

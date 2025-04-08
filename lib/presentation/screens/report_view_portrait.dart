@@ -1,10 +1,8 @@
 import 'package:bloc_app/presentation/components/gradient_spot.dart';
-import 'package:bloc_app/presentation/components/hourly_report.dart';
 import 'package:bloc_app/presentation/view_sections/forecast_header.dart';
 import 'package:bloc_app/presentation/view_sections/hourly_header_date.dart';
 import 'package:bloc_app/presentation/view_sections/hourly_section.dart';
 import 'package:bloc_app/presentation/view_sections/next_forecasts.dart';
-import 'package:bloc_app/utilities/helper_funtions.dart';
 import 'package:bloc_app/utilities/sizedbox_constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
