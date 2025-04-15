@@ -1,3 +1,4 @@
+import 'package:bloc_app/presentation/components/aq_summary_parameter.dart';
 import 'package:bloc_app/utilities/assets_path_constants.dart';
 import 'package:bloc_app/utilities/helper_funtions.dart';
 import 'package:bloc_app/utilities/sizedbox_constants.dart';
@@ -29,9 +30,24 @@ class AirQualitySummary extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: <Widget>[
-                monoxide_stats(context, textTheme),
-                pm25Stats(context, textTheme),
-                ozoneStats(context, textTheme)
+                AirQualitySummaryParameter(
+                  aqIconPath: AssetPath.coIcon,
+                  aqParameterName: 'Carbon 1',
+                  aqParameterUnit: ' µmm/g',
+                  aqParameterValue: 5.0.toString(),
+                ),
+                AirQualitySummaryParameter(
+                  aqIconPath: AssetPath.pm25Icon,
+                  aqParameterName: 'PM 2.5',
+                  aqParameterValue: '100',
+                  aqParameterUnit: ' µmm/g',
+                ),
+                AirQualitySummaryParameter(
+                  aqIconPath: AssetPath.o3Icon,
+                  aqParameterName: 'Ozone',
+                  aqParameterValue: '2.5',
+                  aqParameterUnit: ' µmm/g',
+                ),
               ],
             ),
             // sizedH8,
@@ -110,119 +126,6 @@ class AirQualitySummary extends StatelessWidget {
           ),
         ],
       ),
-    );
-  }
-
-  Column ozoneStats(BuildContext context, TextTheme textTheme) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: [
-        //Todo: Check if an icon can replace this.
-        //Todo: the values will be passed dynamically.
-        Image.asset(
-          AssetPath.o3Icon,
-          width: 30.w,
-          height: 30.w,
-        ),
-
-        RichText(
-          text: TextSpan(
-            text: '2.5',
-            style: isTabletPortrait(context)
-                ? textTheme.titleMedium?.copyWith(fontSize: 12.sp)
-                : textTheme.titleMedium?.copyWith(fontSize: 22.sp),
-            children: <InlineSpan>[
-              TextSpan(
-                text: ' unit',
-                style: isTabletPortrait(context)
-                    ? textTheme.titleMedium?.copyWith(fontSize: 12.sp)
-                    : textTheme.titleMedium?.copyWith(fontSize: 22.sp),
-              ),
-            ],
-          ),
-        ),
-        Text(
-          'Ozone',
-          style: isTabletPortrait(context)
-              ? textTheme.titleMedium?.copyWith(fontSize: 10.sp)
-              : null,
-        ),
-      ],
-    );
-  }
-
-  Column pm25Stats(BuildContext context, TextTheme textTheme) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: [
-        //Todo: Check if an icon can replace this.
-        //Todo: the values will be passed dynamically.
-        Image.asset(
-          AssetPath.pm25Icon,
-          width: 30.w,
-          height: 30.w,
-        ),
-        RichText(
-          text: TextSpan(
-            text: '100',
-            style: isTabletPortrait(context)
-                ? textTheme.titleMedium?.copyWith(fontSize: 12.sp)
-                : textTheme.titleMedium?.copyWith(fontSize: 22.sp),
-            children: <InlineSpan>[
-              TextSpan(
-                text: ' unit',
-                style: isTabletPortrait(context)
-                    ? textTheme.titleMedium?.copyWith(fontSize: 12.sp)
-                    : textTheme.titleMedium?.copyWith(fontSize: 22.sp),
-              ),
-            ],
-          ),
-        ),
-        Text(
-          'PM 2.5',
-          style: isTabletPortrait(context)
-              ? textTheme.titleMedium?.copyWith(fontSize: 10.sp)
-              : null,
-        ),
-      ],
-    );
-  }
-
-  Column monoxide_stats(BuildContext context, TextTheme textTheme) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: [
-        //Todo: Check if an icon can replace this.
-        //Todo: the values will be passed dynamically.
-        Image.asset(
-          AssetPath.coIcon,
-          width: 30.w,
-          height: 30.w,
-          color: Colors.white,
-        ),
-        RichText(
-          text: TextSpan(
-            text: '7.6',
-            style: isTabletPortrait(context)
-                ? textTheme.titleMedium?.copyWith(fontSize: 12.sp)
-                : textTheme.titleMedium?.copyWith(fontSize: 22.sp),
-            children: <InlineSpan>[
-              TextSpan(
-                text: ' unit',
-                style: isTabletPortrait(context)
-                    ? textTheme.titleMedium?.copyWith(fontSize: 12.sp)
-                    : textTheme.titleMedium?.copyWith(fontSize: 22.sp),
-              ),
-            ],
-          ),
-        ),
-        Text(
-          'Carbon I',
-          style: isTabletPortrait(context)
-              ? textTheme.titleMedium?.copyWith(fontSize: 10.sp)
-              : null,
-        ),
-      ],
     );
   }
 }
