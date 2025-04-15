@@ -1,7 +1,7 @@
 import 'package:bloc_app/presentation/components/gradient_spot.dart';
 import 'package:bloc_app/presentation/components/search_history_container.dart';
-import 'package:bloc_app/presentation/view_sections/search_field.dart';
-import 'package:bloc_app/presentation/view_sections/search_header.dart';
+import 'package:bloc_app/presentation/screen sections/search_field.dart';
+import 'package:bloc_app/presentation/screen sections/search_header.dart';
 import 'package:bloc_app/utilities/sizedbox_constants.dart';
 import 'package:flutter/material.dart';
 
