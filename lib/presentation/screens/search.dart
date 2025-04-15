@@ -1,9 +1,8 @@
-import 'package:bloc_app/presentation/components/gradient_spot.dart';
-import 'package:bloc_app/presentation/components/search_history_container.dart';
-import 'package:bloc_app/presentation/screen sections/search_field.dart';
-import 'package:bloc_app/presentation/screen sections/search_header.dart';
+import 'package:bloc_app/presentation/components/components.dart';
 import 'package:bloc_app/utilities/sizedbox_constants.dart';
 import 'package:flutter/material.dart';
+
+import '../screen sections/screen_sections.dart';
 
 class SearchScreen extends StatefulWidget {
   const SearchScreen({super.key});

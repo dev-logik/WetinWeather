@@ -1,12 +1,10 @@
 import 'package:bloc_app/presentation/screen sections/hourly_section.dart';
-import 'package:bloc_app/utilities/assets_path_constants.dart';
-import 'package:bloc_app/utilities/color_constants.dart';
-import 'package:bloc_app/utilities/helper_funtions.dart';
-import 'package:bloc_app/utilities/sizedbox_constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:lottie/lottie.dart';
+
+import '../../utilities/utilities.dart';
 
 class HomeScreenMobileLandscape extends StatelessWidget {
   const HomeScreenMobileLandscape({super.key});

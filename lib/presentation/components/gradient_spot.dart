@@ -1,6 +1,6 @@
 import 'dart:ui';
 
-import 'package:bloc_app/utilities/color_constants.dart';
+import 'package:bloc_app/utilities/utilities.dart';
 import 'package:flutter/material.dart';
 
 class GradientSpot extends StatelessWidget {

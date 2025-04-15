@@ -1,10 +1,9 @@
-import 'package:bloc_app/presentation/components/aq_summary_parameter.dart';
-import 'package:bloc_app/utilities/assets_path_constants.dart';
-import 'package:bloc_app/utilities/helper_funtions.dart';
-import 'package:bloc_app/utilities/sizedbox_constants.dart';
+import 'package:bloc_app/utilities/utilities.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:syncfusion_flutter_gauges/gauges.dart';
+
+import 'components.dart';
 
 class AirQualitySummary extends StatelessWidget {
   const AirQualitySummary({super.key});

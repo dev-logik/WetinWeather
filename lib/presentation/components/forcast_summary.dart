@@ -1,11 +1,10 @@
-import 'package:bloc_app/presentation/components/weather_summary_parameter.dart';
-import 'package:bloc_app/utilities/assets_path_constants.dart';
-import 'package:bloc_app/utilities/helper_funtions.dart';
-import 'package:bloc_app/utilities/sizedbox_constants.dart';
+import 'package:bloc_app/utilities/utilities.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:lottie/lottie.dart';
+
+import 'components.dart';
 
 class ForecastSummary extends StatelessWidget {
   const ForecastSummary({super.key});
@@ -35,18 +34,18 @@ class ForecastSummary extends StatelessWidget {
                   weatherParameterIcon: FontAwesomeIcons.temperatureHalf,
                   weatherParameterName: 'Temperature',
                   weatherParameterValue: 33.toString(),
-                  weatherParameterUnit: '°C',
+                  weatherParameterUnit: ' °C',
                 ),
                 WeatherSummaryParameter(
                   weatherParameterIcon: FontAwesomeIcons.wind,
                   weatherParameterName: 'Wind',
-                  weatherParameterUnit: 'm/s',
+                  weatherParameterUnit: ' m/s',
                   weatherParameterValue: '4',
                 ),
                 WeatherSummaryParameter(
                   weatherParameterIcon: FontAwesomeIcons.droplet,
                   weatherParameterName: 'Humidity',
-                  weatherParameterUnit: '%',
+                  weatherParameterUnit: ' %',
                   weatherParameterValue: '8',
                 ),
               ],

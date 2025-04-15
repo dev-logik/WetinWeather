@@ -1,10 +1,8 @@
 import 'package:bloc_app/presentation/components/gradient_spot.dart';
-import 'package:bloc_app/presentation/screen sections/home_header.dart';
-import 'package:bloc_app/presentation/screen sections/home_summary.dart';
-import 'package:bloc_app/presentation/screen sections/hourly_header.dart';
-import 'package:bloc_app/presentation/screen sections/hourly_section.dart';
 import 'package:bloc_app/utilities/sizedbox_constants.dart';
 import 'package:flutter/material.dart';
+
+import '../screen sections/screen_sections.dart';
 
 class HomeScreenMobilePortrait extends StatefulWidget {
   const HomeScreenMobilePortrait({super.key});

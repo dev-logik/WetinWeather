@@ -1,4 +1,4 @@
-import 'package:bloc_app/utilities/helper_funtions.dart';
+import 'package:bloc_app/utilities/utilities.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -39,7 +39,7 @@ class WeatherSummaryParameter extends StatelessWidget {
                 text: weatherParameterUnit,
                 style: isTabletPortrait(context)
                     ? textTheme.titleMedium?.copyWith(fontSize: 15.sp)
-                    : textTheme.titleMedium?.copyWith(fontSize: 24.sp),
+                    : textTheme.titleMedium?.copyWith(fontSize: 16.sp),
               ),
             ],
           ),

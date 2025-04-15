@@ -1,13 +1,12 @@
 import 'package:bloc_app/bloc/theme_mode_cubit.dart';
 import 'package:bloc_app/presentation/components/gradient_spot.dart';
-import 'package:bloc_app/utilities/color_constants.dart';
-import 'package:bloc_app/utilities/helper_funtions.dart';
-import 'package:bloc_app/utilities/sizedbox_constants.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+
+import '../../utilities/utilities.dart';
 
 class SettingsScreen extends StatefulWidget {
   const SettingsScreen({super.key});

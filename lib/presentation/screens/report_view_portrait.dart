@@ -1,11 +1,9 @@
-import 'package:bloc_app/presentation/components/gradient_spot.dart';
-import 'package:bloc_app/presentation/screen sections/forecast_header.dart';
-import 'package:bloc_app/presentation/screen sections/hourly_header_date.dart';
-import 'package:bloc_app/presentation/screen sections/hourly_section.dart';
-import 'package:bloc_app/presentation/screen sections/next_forecasts.dart';
-import 'package:bloc_app/utilities/sizedbox_constants.dart';
+import 'package:bloc_app/presentation/components/components.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+
+import '../../utilities/utilities.dart';
+import '../screen sections/screen_sections.dart';
 
 class ForcastReportPortraitScreen extends StatelessWidget {
   const ForcastReportPortraitScreen({super.key});
