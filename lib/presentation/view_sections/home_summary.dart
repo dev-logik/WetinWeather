@@ -66,7 +66,7 @@ class _HomeSummaryState extends State<HomeSummary> {
               index: selectedSegment.first,
               children: [
                 GestureDetector(
-                  child: ForcastSummary(
+                  child: ForecastSummary(
                     key: const ValueKey(0),
                   ),
                   onTap: () {

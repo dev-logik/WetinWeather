@@ -25,195 +25,204 @@ class AirQualitySummary extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: <Widget>[
             sizedH8,
-            AspectRatio(
-              aspectRatio: isTabletPortrait(context) ? 5 / 3 : 4 / 3,
-              child: SfRadialGauge(
-                animationDuration: 500,
-                //enableLoadingAnimation: true,
-                axes: <RadialAxis>[
-                  RadialAxis(
-                    minimum: 0,
-                    maximum: 500,
-                    ranges: <GaugeRange>[
-                      GaugeRange(
-                        startValue: 0,
-                        endValue: 50,
-                        label: 'Good',
-                        color: Colors.green,
-                      ),
-                      GaugeRange(
-                        startValue: 51,
-                        endValue: 100,
-                        label: 'Moderate',
-                        color: Colors.lightGreen,
-                      ),
-                      GaugeRange(
-                        startValue: 101,
-                        endValue: 200,
-                        label: 'Unhealthy',
-                        color: Colors.lightGreenAccent,
-                      ),
-                      GaugeRange(
-                        startValue: 201,
-                        endValue: 300,
-                        label: 'V. Unhealthy',
-                        color: Colors.yellowAccent,
-                      ),
-                      GaugeRange(
-                        startValue: 301,
-                        endValue: 500,
-                        label: 'Hazardous',
-                        color: Colors.red,
-                      ),
-                    ],
-                    pointers: <GaugePointer>[
-                      //Todo:Replace the value with a variable of the acutal AQL.
-                      NeedlePointer(
-                        value: 200,
-                      ),
-                    ],
-                    annotations: <GaugeAnnotation>[
-                      GaugeAnnotation(
-                        widget: Column(
-                          children: [
-                            //Todo:Replace the value with a variable of the acutal AQL.
-                            Text(
-                              '200',
-                              style: textTheme.displayMedium
-                                  ?.copyWith(fontSize: 30.sp),
-                            ),
-                            Text(
-                              'AQI',
-                              style: textTheme.titleMedium,
-                            )
-                          ],
-                        ),
-                        verticalAlignment: GaugeAlignment.near,
-                      )
-                    ],
-                  ),
-                ],
-              ),
-            ),
+            displayGuage(context, textTheme),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: <Widget>[
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    //Todo: Check if an icon can replace this.
-                    //Todo: the values will be passed dynamically.
-                    Image.asset(
-                      AssetPath.coIcon,
-                      width: 30.w,
-                      height: 30.w,
-                      color: Colors.white,
-                    ),
-                    RichText(
-                      text: TextSpan(
-                        text: '7.6',
-                        style: isTabletPortrait(context)
-                            ? textTheme.titleMedium?.copyWith(fontSize: 12.sp)
-                            : textTheme.titleMedium?.copyWith(fontSize: 22.sp),
-                        children: <InlineSpan>[
-                          TextSpan(
-                            text: ' unit',
-                            style: isTabletPortrait(context)
-                                ? textTheme.titleMedium
-                                    ?.copyWith(fontSize: 12.sp)
-                                : textTheme.titleMedium
-                                    ?.copyWith(fontSize: 22.sp),
-                          ),
-                        ],
-                      ),
-                    ),
-                    Text(
-                      'Carbon I',
-                      style: isTabletPortrait(context)
-                          ? textTheme.titleMedium?.copyWith(fontSize: 10.sp)
-                          : null,
-                    ),
-                  ],
-                ),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    //Todo: Check if an icon can replace this.
-                    //Todo: the values will be passed dynamically.
-                    Image.asset(
-                      AssetPath.pm25Icon,
-                      width: 30.w,
-                      height: 30.w,
-                    ),
-                    RichText(
-                      text: TextSpan(
-                        text: '100',
-                        style: isTabletPortrait(context)
-                            ? textTheme.titleMedium?.copyWith(fontSize: 12.sp)
-                            : textTheme.titleMedium?.copyWith(fontSize: 22.sp),
-                        children: <InlineSpan>[
-                          TextSpan(
-                            text: ' unit',
-                            style: isTabletPortrait(context)
-                                ? textTheme.titleMedium
-                                    ?.copyWith(fontSize: 12.sp)
-                                : textTheme.titleMedium
-                                    ?.copyWith(fontSize: 22.sp),
-                          ),
-                        ],
-                      ),
-                    ),
-                    Text(
-                      'PM 2.5',
-                      style: isTabletPortrait(context)
-                          ? textTheme.titleMedium?.copyWith(fontSize: 10.sp)
-                          : null,
-                    ),
-                  ],
-                ),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    //Todo: Check if an icon can replace this.
-                    //Todo: the values will be passed dynamically.
-                    Image.asset(
-                      AssetPath.o3Icon,
-                      width: 30.w,
-                      height: 30.w,
-                    ),
-
-                    RichText(
-                      text: TextSpan(
-                        text: '2.5',
-                        style: isTabletPortrait(context)
-                            ? textTheme.titleMedium?.copyWith(fontSize: 12.sp)
-                            : textTheme.titleMedium?.copyWith(fontSize: 22.sp),
-                        children: <InlineSpan>[
-                          TextSpan(
-                            text: ' unit',
-                            style: isTabletPortrait(context)
-                                ? textTheme.titleMedium
-                                    ?.copyWith(fontSize: 12.sp)
-                                : textTheme.titleMedium
-                                    ?.copyWith(fontSize: 22.sp),
-                          ),
-                        ],
-                      ),
-                    ),
-                    Text(
-                      'Ozone',
-                      style: isTabletPortrait(context)
-                          ? textTheme.titleMedium?.copyWith(fontSize: 10.sp)
-                          : null,
-                    ),
-                  ],
-                )
+                monoxide_stats(context, textTheme),
+                pm25Stats(context, textTheme),
+                ozoneStats(context, textTheme)
               ],
             ),
             // sizedH8,
           ],
         ),
       ),
+    );
+  }
+
+  AspectRatio displayGuage(BuildContext context, TextTheme textTheme) {
+    return AspectRatio(
+      aspectRatio: isTabletPortrait(context) ? 5 / 3 : 4 / 3,
+      child: SfRadialGauge(
+        animationDuration: 500,
+        //enableLoadingAnimation: true,
+        axes: <RadialAxis>[
+          RadialAxis(
+            minimum: 0,
+            maximum: 500,
+            ranges: <GaugeRange>[
+              GaugeRange(
+                startValue: 0,
+                endValue: 50,
+                label: 'Good',
+                color: Colors.green,
+              ),
+              GaugeRange(
+                startValue: 51,
+                endValue: 100,
+                label: 'Moderate',
+                color: Colors.lightGreen,
+              ),
+              GaugeRange(
+                startValue: 101,
+                endValue: 200,
+                label: 'Unhealthy',
+                color: Colors.lightGreenAccent,
+              ),
+              GaugeRange(
+                startValue: 201,
+                endValue: 300,
+                label: 'V. Unhealthy',
+                color: Colors.yellowAccent,
+              ),
+              GaugeRange(
+                startValue: 301,
+                endValue: 500,
+                label: 'Hazardous',
+                color: Colors.red,
+              ),
+            ],
+            pointers: <GaugePointer>[
+              //Todo:Replace the value with a variable of the acutal AQL.
+              NeedlePointer(
+                value: 200,
+              ),
+            ],
+            annotations: <GaugeAnnotation>[
+              GaugeAnnotation(
+                widget: Column(
+                  children: [
+                    //Todo:Replace the value with a variable of the acutal AQL.
+                    Text(
+                      '200',
+                      style: textTheme.displayMedium?.copyWith(fontSize: 30.sp),
+                    ),
+                    Text(
+                      'AQI',
+                      style: textTheme.titleMedium,
+                    )
+                  ],
+                ),
+                verticalAlignment: GaugeAlignment.near,
+              )
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+
+  Column ozoneStats(BuildContext context, TextTheme textTheme) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        //Todo: Check if an icon can replace this.
+        //Todo: the values will be passed dynamically.
+        Image.asset(
+          AssetPath.o3Icon,
+          width: 30.w,
+          height: 30.w,
+        ),
+
+        RichText(
+          text: TextSpan(
+            text: '2.5',
+            style: isTabletPortrait(context)
+                ? textTheme.titleMedium?.copyWith(fontSize: 12.sp)
+                : textTheme.titleMedium?.copyWith(fontSize: 22.sp),
+            children: <InlineSpan>[
+              TextSpan(
+                text: ' unit',
+                style: isTabletPortrait(context)
+                    ? textTheme.titleMedium?.copyWith(fontSize: 12.sp)
+                    : textTheme.titleMedium?.copyWith(fontSize: 22.sp),
+              ),
+            ],
+          ),
+        ),
+        Text(
+          'Ozone',
+          style: isTabletPortrait(context)
+              ? textTheme.titleMedium?.copyWith(fontSize: 10.sp)
+              : null,
+        ),
+      ],
+    );
+  }
+
+  Column pm25Stats(BuildContext context, TextTheme textTheme) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        //Todo: Check if an icon can replace this.
+        //Todo: the values will be passed dynamically.
+        Image.asset(
+          AssetPath.pm25Icon,
+          width: 30.w,
+          height: 30.w,
+        ),
+        RichText(
+          text: TextSpan(
+            text: '100',
+            style: isTabletPortrait(context)
+                ? textTheme.titleMedium?.copyWith(fontSize: 12.sp)
+                : textTheme.titleMedium?.copyWith(fontSize: 22.sp),
+            children: <InlineSpan>[
+              TextSpan(
+                text: ' unit',
+                style: isTabletPortrait(context)
+                    ? textTheme.titleMedium?.copyWith(fontSize: 12.sp)
+                    : textTheme.titleMedium?.copyWith(fontSize: 22.sp),
+              ),
+            ],
+          ),
+        ),
+        Text(
+          'PM 2.5',
+          style: isTabletPortrait(context)
+              ? textTheme.titleMedium?.copyWith(fontSize: 10.sp)
+              : null,
+        ),
+      ],
+    );
+  }
+
+  Column monoxide_stats(BuildContext context, TextTheme textTheme) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        //Todo: Check if an icon can replace this.
+        //Todo: the values will be passed dynamically.
+        Image.asset(
+          AssetPath.coIcon,
+          width: 30.w,
+          height: 30.w,
+          color: Colors.white,
+        ),
+        RichText(
+          text: TextSpan(
+            text: '7.6',
+            style: isTabletPortrait(context)
+                ? textTheme.titleMedium?.copyWith(fontSize: 12.sp)
+                : textTheme.titleMedium?.copyWith(fontSize: 22.sp),
+            children: <InlineSpan>[
+              TextSpan(
+                text: ' unit',
+                style: isTabletPortrait(context)
+                    ? textTheme.titleMedium?.copyWith(fontSize: 12.sp)
+                    : textTheme.titleMedium?.copyWith(fontSize: 22.sp),
+              ),
+            ],
+          ),
+        ),
+        Text(
+          'Carbon I',
+          style: isTabletPortrait(context)
+              ? textTheme.titleMedium?.copyWith(fontSize: 10.sp)
+              : null,
+        ),
+      ],
     );
   }
 }

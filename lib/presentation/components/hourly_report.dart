@@ -36,67 +36,79 @@ class HourlyReportCard extends StatelessWidget {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
-              AspectRatio(
-                aspectRatio: isTabletPortrait(context) ? 5 / 4 : 1,
-                child: Lottie.asset(
-                  AssetPath.animatedSnowy,
-                  width: 50,
-                  height: 50,
-                  fit: BoxFit.contain,
-                ),
-              ),
+              displayAnimation(context),
               Column(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  Text(
-                    '15:00',
-                    style: isTabletPortrait(context)
-                        ? textTheme.titleMedium?.copyWith(fontSize: 15.sp)
-                        : isTabletLandscape(context)
-                            ? textTheme.titleMedium?.copyWith(fontSize: 8.sp)
-                            : isPhoneLandscape(context)
-                                ? textTheme.bodySmall?.copyWith(fontSize: 7.sp)
-                                : textTheme.titleMedium,
-                  ),
+                  displayTime(context, textTheme),
                   sizedH4,
-                  RichText(
-                    text: TextSpan(
-                      text: '30',
-                      style: textTheme.bodyMedium?.copyWith(
-                        fontSize: isTabletPortrait(context)
-                            ? 20.sp
-                            : isPhoneLandscape(context)
-                                ? 10.sp
-                                : isTabletLandscape(context)
-                                    ? 15.sp
-                                    : 20.sp,
-                        fontWeight: FontWeight.normal,
-                        color: Colors.white,
-                      ),
-                      children: <InlineSpan>[
-                        TextSpan(
-                          text: '°C',
-                          style: textTheme.bodyMedium?.copyWith(
-                            fontSize: isTabletPortrait(context)
-                                ? 20.sp
-                                : isPhoneLandscape(context)
-                                    ? 10.sp
-                                    : isTabletLandscape(context)
-                                        ? 15.sp
-                                        : 20.sp,
-                            fontWeight: FontWeight.normal,
-                            color: Colors.white,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
+                  displayTemp(textTheme, context),
                 ],
               )
             ],
           ),
         ),
+      ),
+    );
+  }
+
+  RichText displayTemp(TextTheme textTheme, BuildContext context) {
+    return RichText(
+      text: TextSpan(
+        text: '30',
+        style: textTheme.bodyMedium?.copyWith(
+          fontSize: isTabletPortrait(context)
+              ? 20.sp
+              : isPhoneLandscape(context)
+                  ? 10.sp
+                  : isTabletLandscape(context)
+                      ? 15.sp
+                      : 20.sp,
+          fontWeight: FontWeight.normal,
+          color: Colors.white,
+        ),
+        children: <InlineSpan>[
+          TextSpan(
+            text: '°C',
+            style: textTheme.bodyMedium?.copyWith(
+              fontSize: isTabletPortrait(context)
+                  ? 20.sp
+                  : isPhoneLandscape(context)
+                      ? 10.sp
+                      : isTabletLandscape(context)
+                          ? 15.sp
+                          : 20.sp,
+              fontWeight: FontWeight.normal,
+              color: Colors.white,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Text displayTime(BuildContext context, TextTheme textTheme) {
+    return Text(
+      '15:00',
+      style: isTabletPortrait(context)
+          ? textTheme.titleMedium?.copyWith(fontSize: 15.sp)
+          : isTabletLandscape(context)
+              ? textTheme.titleMedium?.copyWith(fontSize: 8.sp)
+              : isPhoneLandscape(context)
+                  ? textTheme.bodySmall?.copyWith(fontSize: 7.sp)
+                  : textTheme.titleMedium,
+    );
+  }
+
+  AspectRatio displayAnimation(BuildContext context) {
+    return AspectRatio(
+      aspectRatio: isTabletPortrait(context) ? 5 / 4 : 1,
+      child: Lottie.asset(
+        AssetPath.animatedSnowy,
+        width: 50,
+        height: 50,
+        fit: BoxFit.contain,
       ),
     );
   }

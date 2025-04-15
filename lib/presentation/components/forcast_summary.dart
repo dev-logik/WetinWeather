@@ -1,3 +1,4 @@
+import 'package:bloc_app/presentation/components/weather_summary_parameter.dart';
 import 'package:bloc_app/utilities/assets_path_constants.dart';
 import 'package:bloc_app/utilities/helper_funtions.dart';
 import 'package:bloc_app/utilities/sizedbox_constants.dart';
@@ -6,8 +7,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:lottie/lottie.dart';
 
-class ForcastSummary extends StatelessWidget {
-  const ForcastSummary({super.key});
+class ForecastSummary extends StatelessWidget {
+  const ForecastSummary({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -25,130 +26,46 @@ class ForcastSummary extends StatelessWidget {
         color: Color.fromRGBO(225, 225, 225, 225),
         child: Column(
           children: <Widget>[
-            AspectRatio(
-              aspectRatio: isTabletPortrait(context) ? 5 / 3 : 4 / 3,
-              child: Lottie.asset(
-                AssetPath.animatedNightRain,
-                height: 300.h,
-                width: 300.w,
-                fit: BoxFit.contain,
-              ),
-            ),
-            isTabletPortrait(context) ? Container() : sizedH32,
+            displayAnimation(context),
+            isTabletPortrait(context) ? Container() : sizedH24,
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: <Widget>[
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    //Todo: Check if an icon can replace this.
-                    //Todo: the values will be passed dynamically.
-                    FaIcon(
-                      FontAwesomeIcons.temperatureQuarter,
-                      size: isTabletPortrait(context) ? 10.dg : null,
-                    ),
-                    RichText(
-                      text: TextSpan(
-                        text: '33',
-                        style: isTabletPortrait(context)
-                            ? textTheme.titleMedium?.copyWith(fontSize: 15.sp)
-                            : textTheme.titleMedium?.copyWith(fontSize: 24.sp),
-                        children: <InlineSpan>[
-                          TextSpan(
-                            text: '°C',
-                            style: isTabletPortrait(context)
-                                ? textTheme.titleMedium
-                                    ?.copyWith(fontSize: 15.sp)
-                                : textTheme.titleMedium
-                                    ?.copyWith(fontSize: 24.sp),
-                          ),
-                        ],
-                      ),
-                    ),
-                    Text(
-                      'Temperature',
-                      style: isTabletPortrait(context)
-                          ? textTheme.titleMedium?.copyWith(fontSize: 10.sp)
-                          : null,
-                    ),
-                  ],
+                WeatherSummaryParameter(
+                  weatherParameterIcon: FontAwesomeIcons.temperatureHalf,
+                  weatherParameterName: 'Temperature',
+                  weatherParameterValue: 33.toString(),
+                  weatherParameterUnit: '°C',
                 ),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    //Todo: Check if an icon can replace this.
-                    //Todo: the values will be passed dynamically.
-                    FaIcon(
-                      FontAwesomeIcons.wind,
-                      size: isTabletPortrait(context) ? 10.dg : null,
-                    ),
-                    RichText(
-                      text: TextSpan(
-                        text: '3',
-                        style: isTabletPortrait(context)
-                            ? textTheme.titleMedium?.copyWith(fontSize: 15.sp)
-                            : textTheme.titleMedium?.copyWith(fontSize: 24.sp),
-                        children: <InlineSpan>[
-                          TextSpan(
-                            text: 'm/s',
-                            style: isTabletPortrait(context)
-                                ? textTheme.titleMedium
-                                    ?.copyWith(fontSize: 15.sp)
-                                : textTheme.titleMedium
-                                    ?.copyWith(fontSize: 24.sp),
-                          ),
-                        ],
-                      ),
-                    ),
-                    Text(
-                      'Wind',
-                      style: isTabletPortrait(context)
-                          ? textTheme.titleMedium?.copyWith(fontSize: 10.sp)
-                          : null,
-                    ),
-                  ],
+                WeatherSummaryParameter(
+                  weatherParameterIcon: FontAwesomeIcons.wind,
+                  weatherParameterName: 'Wind',
+                  weatherParameterUnit: 'm/s',
+                  weatherParameterValue: '4',
                 ),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    //Todo: Check if an icon can replace this.
-                    //Todo: the values will be passed dynamically.
-                    FaIcon(
-                      FontAwesomeIcons.droplet,
-                      size: isTabletPortrait(context) ? 10.dg : null,
-                    ),
-
-                    RichText(
-                      text: TextSpan(
-                        text: '3',
-                        style: isTabletPortrait(context)
-                            ? textTheme.titleMedium?.copyWith(fontSize: 15.sp)
-                            : textTheme.titleMedium?.copyWith(fontSize: 24.sp),
-                        children: <InlineSpan>[
-                          TextSpan(
-                            text: '%',
-                            style: isTabletPortrait(context)
-                                ? textTheme.titleMedium
-                                    ?.copyWith(fontSize: 15.sp)
-                                : textTheme.titleMedium
-                                    ?.copyWith(fontSize: 24.sp),
-                          ),
-                        ],
-                      ),
-                    ),
-                    Text(
-                      'Humidity',
-                      style: isTabletPortrait(context)
-                          ? textTheme.titleMedium?.copyWith(fontSize: 10.sp)
-                          : null,
-                    ),
-                  ],
-                )
+                WeatherSummaryParameter(
+                  weatherParameterIcon: FontAwesomeIcons.droplet,
+                  weatherParameterName: 'Humidity',
+                  weatherParameterUnit: '%',
+                  weatherParameterValue: '8',
+                ),
               ],
             ),
             sizedH4
           ],
         ),
+      ),
+    );
+  }
+
+  AspectRatio displayAnimation(BuildContext context) {
+    return AspectRatio(
+      aspectRatio: isTabletPortrait(context) ? 5 / 3 : 4 / 3,
+      child: Lottie.asset(
+        AssetPath.animatedNightRain,
+        height: 300.h,
+        width: 300.w,
+        fit: BoxFit.contain,
       ),
     );
   }

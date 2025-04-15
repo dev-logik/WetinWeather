@@ -66,17 +66,21 @@ class NextForecastCard extends StatelessWidget {
                 )
               ],
             ),
-            trailing: AspectRatio(
-              aspectRatio: 5 / 4,
-              child: Lottie.asset(
-                AssetPath.animatedSnowy,
-                width: 40.w,
-                height: 40.h,
-                fit: BoxFit.cover,
-              ),
-            ),
+            trailing: displayAnimation(),
           ),
         ),
+      ),
+    );
+  }
+
+  AspectRatio displayAnimation() {
+    return AspectRatio(
+      aspectRatio: 5 / 4,
+      child: Lottie.asset(
+        AssetPath.animatedSnowy,
+        width: 40.w,
+        height: 40.h,
+        fit: BoxFit.cover,
       ),
     );
   }

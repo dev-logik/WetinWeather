@@ -75,7 +75,7 @@ class WeatherDetails extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
                   Icon(
-                    FontAwesomeIcons.cloudBolt,
+                    FontAwesomeIcons.cloudShowersWater,
                     size: 60.dg,
                   ),
                   Column(
@@ -83,7 +83,7 @@ class WeatherDetails extends StatelessWidget {
                     children: [
                       RichText(
                         text: TextSpan(
-                          text: '10',
+                          text: '33',
                           style:
                               textTheme.displayLarge?.copyWith(fontSize: 65.sp),
                           children: [
@@ -98,7 +98,7 @@ class WeatherDetails extends StatelessWidget {
                                   ?.copyWith(fontSize: 15.sp),
                             ),
                             TextSpan(
-                              text: '\n                             9°',
+                              text: '\n                             30°',
                               style: textTheme.bodyMedium?.copyWith(
                                   fontSize: 18.sp, fontWeight: FontWeight.w600),
                             ),
