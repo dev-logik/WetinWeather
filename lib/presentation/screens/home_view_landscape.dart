@@ -1,4 +1,4 @@
-import 'package:bloc_app/presentation/screen sections/hourly_section.dart';
+import 'package:bloc_app/presentation/screen%20sections/hourly_section.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -24,9 +24,7 @@ class HomeScreenMobileLandscape extends StatelessWidget {
         ),
         Text(
           'May 27, 2025',
-          style: textTheme.headlineSmall?.copyWith(
-            fontSize: 8.sp,
-          ),
+          style: textTheme.headlineSmall?.copyWith(fontSize: 8.sp),
         ),
         isTabletLandscape(context) ? sizedH16 : Container(),
         Row(
@@ -34,11 +32,14 @@ class HomeScreenMobileLandscape extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             ConstrainedBox(
-              constraints:
-                  BoxConstraints(maxWidth: 0.67.sw, maxHeight: 0.55.sh),
+              constraints: BoxConstraints(
+                maxWidth: 0.67.sw,
+                maxHeight: 0.55.sh,
+              ),
               child: Padding(
-                padding:
-                    EdgeInsets.all(isTabletLandscape(context) ? 1.5.dm : 0),
+                padding: EdgeInsets.all(
+                  isTabletLandscape(context) ? 1.5.dm : 0,
+                ),
                 child: Card(
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -55,7 +56,7 @@ class HomeScreenMobileLandscape extends StatelessWidget {
               child: Column(
                 children: [
                   _pageBreakHeaderSection(textTheme, context),
-                  HourlySection()
+                  HourlySection(),
                 ],
               ),
             ),
@@ -75,25 +76,29 @@ class HomeScreenMobileLandscape extends StatelessWidget {
         children: <Widget>[
           Text(
             'Today',
-            style: isTabletLandscape(context)
-                ? textTheme.headlineMedium
-                : textTheme.headlineSmall,
+            style:
+                isTabletLandscape(context)
+                    ? textTheme.headlineMedium
+                    : textTheme.headlineSmall,
           ),
           InkWell(
             child: Text(
               'View full report',
-              style: isTabletLandscape(context)
-                  ? textTheme.labelLarge?.copyWith(
-                      color: (Theme.of(context).brightness == Brightness.light)
-                          ? LightColorConstants.secondaryColor_1
-                          : DarkColorConstants.secondaryColor_1,
-                      fontSize: 5.sp,
-                    )
-                  : textTheme.labelSmall?.copyWith(
-                      color: (Theme.of(context).brightness == Brightness.light)
-                          ? LightColorConstants.secondaryColor_1
-                          : DarkColorConstants.secondaryColor_1,
-                    ),
+              style:
+                  isTabletLandscape(context)
+                      ? textTheme.labelLarge?.copyWith(
+                        color:
+                            (Theme.of(context).brightness == Brightness.light)
+                                ? LightColorConstants.secondaryColor_1
+                                : DarkColorConstants.secondaryColor_1,
+                        fontSize: 5.sp,
+                      )
+                      : textTheme.labelSmall?.copyWith(
+                        color:
+                            (Theme.of(context).brightness == Brightness.light)
+                                ? LightColorConstants.secondaryColor_1
+                                : DarkColorConstants.secondaryColor_1,
+                      ),
             ),
             //Todo: Implement the onTap function.
             onTap: () {},
@@ -104,11 +109,7 @@ class HomeScreenMobileLandscape extends StatelessWidget {
   }
 
   Container _separator() {
-    return Container(
-      color: Colors.white,
-      width: 1.w,
-      height: 220.h,
-    );
+    return Container(color: Colors.white, width: 1.w, height: 220.h);
   }
 
   Column _airQualitySection(TextTheme textTheme, BuildContext context) {
@@ -123,7 +124,8 @@ class HomeScreenMobileLandscape extends StatelessWidget {
             Text(
               '200',
               style: textTheme.displayLarge?.copyWith(
-                  fontSize: isTabletLandscape(context) ? 50.sp : 40.sp),
+                fontSize: isTabletLandscape(context) ? 50.sp : 40.sp,
+              ),
             ),
             Text(
               'AQI',
@@ -153,21 +155,25 @@ class HomeScreenMobileLandscape extends StatelessWidget {
                   RichText(
                     text: TextSpan(
                       text: '33',
-                      style: isTabletLandscape(context)
-                          ? textTheme.titleMedium?.copyWith(fontSize: 8.sp)
-                          : textTheme.titleSmall?.copyWith(
-                              fontSize: 8.sp,
-                              fontWeight: FontWeight.bold,
-                            ),
+                      style:
+                          isTabletLandscape(context)
+                              ? textTheme.titleMedium?.copyWith(fontSize: 8.sp)
+                              : textTheme.titleSmall?.copyWith(
+                                fontSize: 8.sp,
+                                fontWeight: FontWeight.bold,
+                              ),
                       children: <InlineSpan>[
                         TextSpan(
                           text: 'unit',
-                          style: isTabletLandscape(context)
-                              ? textTheme.titleMedium?.copyWith(fontSize: 8.sp)
-                              : textTheme.titleSmall?.copyWith(
-                                  fontSize: 8.sp,
-                                  fontWeight: FontWeight.bold,
-                                ),
+                          style:
+                              isTabletLandscape(context)
+                                  ? textTheme.titleMedium?.copyWith(
+                                    fontSize: 8.sp,
+                                  )
+                                  : textTheme.titleSmall?.copyWith(
+                                    fontSize: 8.sp,
+                                    fontWeight: FontWeight.bold,
+                                  ),
                         ),
                       ],
                     ),
@@ -178,7 +184,7 @@ class HomeScreenMobileLandscape extends StatelessWidget {
                       fontWeight: FontWeight.w500,
                       fontSize: isTabletLandscape(context) ? 6.sp : 5.sp,
                     ),
-                  )
+                  ),
                 ],
               ),
               Column(
@@ -194,21 +200,25 @@ class HomeScreenMobileLandscape extends StatelessWidget {
                   RichText(
                     text: TextSpan(
                       text: '3.3',
-                      style: isTabletLandscape(context)
-                          ? textTheme.titleMedium?.copyWith(fontSize: 8.sp)
-                          : textTheme.titleSmall?.copyWith(
-                              fontSize: 8.sp,
-                              fontWeight: FontWeight.bold,
-                            ),
+                      style:
+                          isTabletLandscape(context)
+                              ? textTheme.titleMedium?.copyWith(fontSize: 8.sp)
+                              : textTheme.titleSmall?.copyWith(
+                                fontSize: 8.sp,
+                                fontWeight: FontWeight.bold,
+                              ),
                       children: <InlineSpan>[
                         TextSpan(
                           text: 'unit',
-                          style: isTabletLandscape(context)
-                              ? textTheme.titleMedium?.copyWith(fontSize: 8.sp)
-                              : textTheme.titleSmall?.copyWith(
-                                  fontSize: 8.sp,
-                                  fontWeight: FontWeight.bold,
-                                ),
+                          style:
+                              isTabletLandscape(context)
+                                  ? textTheme.titleMedium?.copyWith(
+                                    fontSize: 8.sp,
+                                  )
+                                  : textTheme.titleSmall?.copyWith(
+                                    fontSize: 8.sp,
+                                    fontWeight: FontWeight.bold,
+                                  ),
                         ),
                       ],
                     ),
@@ -219,7 +229,7 @@ class HomeScreenMobileLandscape extends StatelessWidget {
                       fontWeight: FontWeight.w500,
                       fontSize: isTabletLandscape(context) ? 6.sp : 5.sp,
                     ),
-                  )
+                  ),
                 ],
               ),
               Column(
@@ -235,21 +245,25 @@ class HomeScreenMobileLandscape extends StatelessWidget {
                   RichText(
                     text: TextSpan(
                       text: '3.34',
-                      style: isTabletLandscape(context)
-                          ? textTheme.titleMedium?.copyWith(fontSize: 8.sp)
-                          : textTheme.titleSmall?.copyWith(
-                              fontSize: 8.sp,
-                              fontWeight: FontWeight.bold,
-                            ),
+                      style:
+                          isTabletLandscape(context)
+                              ? textTheme.titleMedium?.copyWith(fontSize: 8.sp)
+                              : textTheme.titleSmall?.copyWith(
+                                fontSize: 8.sp,
+                                fontWeight: FontWeight.bold,
+                              ),
                       children: <InlineSpan>[
                         TextSpan(
                           text: 'unit',
-                          style: isTabletLandscape(context)
-                              ? textTheme.titleMedium?.copyWith(fontSize: 8.sp)
-                              : textTheme.titleSmall?.copyWith(
-                                  fontSize: 8.sp,
-                                  fontWeight: FontWeight.bold,
-                                ),
+                          style:
+                              isTabletLandscape(context)
+                                  ? textTheme.titleMedium?.copyWith(
+                                    fontSize: 8.sp,
+                                  )
+                                  : textTheme.titleSmall?.copyWith(
+                                    fontSize: 8.sp,
+                                    fontWeight: FontWeight.bold,
+                                  ),
                         ),
                       ],
                     ),
@@ -260,12 +274,12 @@ class HomeScreenMobileLandscape extends StatelessWidget {
                       fontWeight: FontWeight.w500,
                       fontSize: isTabletLandscape(context) ? 6.sp : 5.sp,
                     ),
-                  )
+                  ),
                 ],
-              )
+              ),
             ],
           ),
-        )
+        ),
       ],
     );
   }
@@ -301,21 +315,25 @@ class HomeScreenMobileLandscape extends StatelessWidget {
                   RichText(
                     text: TextSpan(
                       text: '10',
-                      style: isTabletLandscape(context)
-                          ? textTheme.titleMedium?.copyWith(fontSize: 8.sp)
-                          : textTheme.titleSmall?.copyWith(
-                              fontSize: 8.sp,
-                              fontWeight: FontWeight.bold,
-                            ),
+                      style:
+                          isTabletLandscape(context)
+                              ? textTheme.titleMedium?.copyWith(fontSize: 8.sp)
+                              : textTheme.titleSmall?.copyWith(
+                                fontSize: 8.sp,
+                                fontWeight: FontWeight.bold,
+                              ),
                       children: <InlineSpan>[
                         TextSpan(
                           text: ' °C',
-                          style: isTabletLandscape(context)
-                              ? textTheme.titleMedium?.copyWith(fontSize: 8.sp)
-                              : textTheme.titleSmall?.copyWith(
-                                  fontSize: 8.sp,
-                                  fontWeight: FontWeight.bold,
-                                ),
+                          style:
+                              isTabletLandscape(context)
+                                  ? textTheme.titleMedium?.copyWith(
+                                    fontSize: 8.sp,
+                                  )
+                                  : textTheme.titleSmall?.copyWith(
+                                    fontSize: 8.sp,
+                                    fontWeight: FontWeight.bold,
+                                  ),
                         ),
                       ],
                     ),
@@ -342,21 +360,25 @@ class HomeScreenMobileLandscape extends StatelessWidget {
                   RichText(
                     text: TextSpan(
                       text: '10',
-                      style: isTabletLandscape(context)
-                          ? textTheme.titleMedium?.copyWith(fontSize: 8.sp)
-                          : textTheme.titleSmall?.copyWith(
-                              fontSize: 8.sp,
-                              fontWeight: FontWeight.bold,
-                            ),
+                      style:
+                          isTabletLandscape(context)
+                              ? textTheme.titleMedium?.copyWith(fontSize: 8.sp)
+                              : textTheme.titleSmall?.copyWith(
+                                fontSize: 8.sp,
+                                fontWeight: FontWeight.bold,
+                              ),
                       children: <InlineSpan>[
                         TextSpan(
                           text: 'm/s',
-                          style: isTabletLandscape(context)
-                              ? textTheme.titleMedium?.copyWith(fontSize: 8.sp)
-                              : textTheme.titleSmall?.copyWith(
-                                  fontSize: 8.sp,
-                                  fontWeight: FontWeight.bold,
-                                ),
+                          style:
+                              isTabletLandscape(context)
+                                  ? textTheme.titleMedium?.copyWith(
+                                    fontSize: 8.sp,
+                                  )
+                                  : textTheme.titleSmall?.copyWith(
+                                    fontSize: 8.sp,
+                                    fontWeight: FontWeight.bold,
+                                  ),
                         ),
                       ],
                     ),
@@ -384,21 +406,25 @@ class HomeScreenMobileLandscape extends StatelessWidget {
                   RichText(
                     text: TextSpan(
                       text: '33',
-                      style: isTabletLandscape(context)
-                          ? textTheme.titleMedium?.copyWith(fontSize: 8.sp)
-                          : textTheme.titleSmall?.copyWith(
-                              fontSize: 8.sp,
-                              fontWeight: FontWeight.bold,
-                            ),
+                      style:
+                          isTabletLandscape(context)
+                              ? textTheme.titleMedium?.copyWith(fontSize: 8.sp)
+                              : textTheme.titleSmall?.copyWith(
+                                fontSize: 8.sp,
+                                fontWeight: FontWeight.bold,
+                              ),
                       children: <InlineSpan>[
                         TextSpan(
                           text: '%',
-                          style: isTabletLandscape(context)
-                              ? textTheme.titleMedium?.copyWith(fontSize: 8.sp)
-                              : textTheme.titleSmall?.copyWith(
-                                  fontSize: 8.sp,
-                                  fontWeight: FontWeight.bold,
-                                ),
+                          style:
+                              isTabletLandscape(context)
+                                  ? textTheme.titleMedium?.copyWith(
+                                    fontSize: 8.sp,
+                                  )
+                                  : textTheme.titleSmall?.copyWith(
+                                    fontSize: 8.sp,
+                                    fontWeight: FontWeight.bold,
+                                  ),
                         ),
                       ],
                     ),
@@ -406,14 +432,15 @@ class HomeScreenMobileLandscape extends StatelessWidget {
                   Text(
                     'Humidity',
                     style: textTheme.titleSmall?.copyWith(
-                        fontWeight: FontWeight.w100,
-                        fontSize: isTabletLandscape(context) ? 6.sp : 5.sp),
+                      fontWeight: FontWeight.w100,
+                      fontSize: isTabletLandscape(context) ? 6.sp : 5.sp,
+                    ),
                   ),
                 ],
               ),
             ],
           ),
-        )
+        ),
       ],
     );
   }

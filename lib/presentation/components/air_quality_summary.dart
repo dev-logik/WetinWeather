@@ -20,7 +20,6 @@ class AirQualitySummary extends StatelessWidget {
         maxHeight: 0.5.sh,
       ),
       child: Card(
-        color: Color.fromRGBO(225, 225, 225, 225),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: <Widget>[
@@ -100,9 +99,7 @@ class AirQualitySummary extends StatelessWidget {
             ],
             pointers: <GaugePointer>[
               //Todo:Replace the value with a variable of the acutal AQL.
-              NeedlePointer(
-                value: 200,
-              ),
+              NeedlePointer(value: 200),
             ],
             annotations: <GaugeAnnotation>[
               GaugeAnnotation(
@@ -113,14 +110,11 @@ class AirQualitySummary extends StatelessWidget {
                       '200',
                       style: textTheme.displayMedium?.copyWith(fontSize: 30.sp),
                     ),
-                    Text(
-                      'AQI',
-                      style: textTheme.titleMedium,
-                    )
+                    Text('AQI', style: textTheme.titleMedium),
                   ],
                 ),
                 verticalAlignment: GaugeAlignment.near,
-              )
+              ),
             ],
           ),
         ],

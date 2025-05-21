@@ -8,53 +8,45 @@ import 'package:stylish_bottom_bar/stylish_bottom_bar.dart';
 class BottomNavigator extends StatelessWidget {
   BottomNavigator({super.key, required this.navigationShell});
   final StatefulNavigationShell navigationShell;
+  final double iconFontSize = 18.sp;
 
   //Defines the list of bottom navigation bar items.
   late final _bottomNavigationSylishItems = <BottomBarItem>[
     BottomBarItem(
-      icon: FaIcon(
-        FontAwesomeIcons.house,
-        size: 14.sp,
-      ),
+      icon: FaIcon(FontAwesomeIcons.house, size: iconFontSize),
       title: Text('Home'),
       backgroundColor: Colors.white,
     ),
     BottomBarItem(
-      icon: FaIcon(
-        FontAwesomeIcons.microscope,
-        size: 14.sp,
-      ),
+      icon: FaIcon(FontAwesomeIcons.microscope, size: iconFontSize),
       title: Text('Search'),
       backgroundColor: Colors.white,
     ),
     BottomBarItem(
-      icon: FaIcon(
-        FontAwesomeIcons.chartColumn,
-        size: 14.sp,
-      ),
+      icon: FaIcon(FontAwesomeIcons.chartColumn, size: iconFontSize),
       title: Text('Forcast'),
       backgroundColor: Colors.white,
     ),
     BottomBarItem(
-      icon: FaIcon(
-        FontAwesomeIcons.gear,
-        size: 14.sp,
-      ),
+      icon: FaIcon(FontAwesomeIcons.gear, size: iconFontSize),
       title: Text('Settings'),
       backgroundColor: Colors.white,
     ),
   ];
   @override
   Widget build(BuildContext context) {
-    final isMobileNTablet = MediaQuery.of(context).size.width <
+    final isMobileNTablet =
+        MediaQuery.of(context).size.width <
         ScreenSizesConstant.tabletMaxPortWidth;
-    return LayoutBuilder(builder: (context, constraints) {
-      return Scaffold(
-        body: navigationShell,
-        bottomNavigationBar:
-            (isMobileNTablet) ? _buildBottomNavigationBar(context) : null,
-      );
-    });
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        return Scaffold(
+          body: navigationShell,
+          bottomNavigationBar:
+              (isMobileNTablet) ? _buildBottomNavigationBar(context) : null,
+        );
+      },
+    );
   }
 
   Widget _buildBottomNavigationBar(BuildContext context) {
@@ -70,15 +62,16 @@ class BottomNavigator extends StatelessWidget {
                 : LightColorConstants.gradientColor_1,
             (Theme.of(context).brightness == Brightness.dark)
                 ? DarkColorConstants.gradientColor_2
-                : LightColorConstants.gradientColor_2
+                : LightColorConstants.gradientColor_2,
           ],
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
         ),
       ),
-      backgroundColor: (Theme.of(context).brightness == Brightness.dark)
-          ? DarkColorConstants.primaryColor
-          : LightColorConstants.primaryColor,
+      backgroundColor:
+          (Theme.of(context).brightness == Brightness.dark)
+              ? DarkColorConstants.primaryColor
+              : LightColorConstants.primaryColor,
       currentIndex: navigationShell.currentIndex,
       onTap: (index) {
         navigationShell.goBranch(

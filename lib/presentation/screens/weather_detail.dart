@@ -21,7 +21,7 @@ class WeatherDetails extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              header_section(textTheme, brightness),
+              headerSection(textTheme, brightness),
               Text(
                 'San Francisco',
                 style: textTheme.bodyLarge?.copyWith(
@@ -223,7 +223,7 @@ class WeatherDetails extends StatelessWidget {
     );
   }
 
-  Row header_section(TextTheme textTheme, Brightness brightness) {
+  Row headerSection(TextTheme textTheme, Brightness brightness) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [

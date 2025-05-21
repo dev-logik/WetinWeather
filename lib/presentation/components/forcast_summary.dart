@@ -22,7 +22,6 @@ class ForecastSummary extends StatelessWidget {
         maxHeight: 0.48.sh,
       ),
       child: Card(
-        color: Color.fromRGBO(225, 225, 225, 225),
         child: Column(
           children: <Widget>[
             displayAnimation(context),
@@ -50,7 +49,7 @@ class ForecastSummary extends StatelessWidget {
                 ),
               ],
             ),
-            sizedH4
+            sizedH4,
           ],
         ),
       ),

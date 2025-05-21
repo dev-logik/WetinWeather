@@ -1,10 +1,5 @@
-import 'package:bloc_app/presentation/components/bottom_navigator.dart';
-import 'package:bloc_app/presentation/screens/air_quality_details.dart';
-import 'package:bloc_app/presentation/screens/home_view.dart';
-import 'package:bloc_app/presentation/screens/orientation%20controllers/report_orientation_view.dart';
-import 'package:bloc_app/presentation/screens/search.dart';
-import 'package:bloc_app/presentation/screens/settings.dart';
-import 'package:bloc_app/presentation/screens/weather_detail.dart';
+import 'package:bloc_app/presentation/components/components.dart';
+import 'package:bloc_app/presentation/screens/screens.dart';
 import 'package:go_router/go_router.dart';
 
 mixin class GoRouterConfig {

@@ -27,10 +27,13 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> with GoRouterConfig {
   @override
   Widget build(BuildContext context) {
+    final screenSize = MediaQuery.of(context).size;
+    var screenWidth = screenSize.width;
+    var screenHeight = screenSize.height;
     return BlocBuilder<ThemeModeCubit, ThemeState>(
       builder: (context, state) {
         return ScreenUtilInit(
-          designSize: Size(360, 690),
+          designSize: Size(screenWidth, screenHeight),
           builder: (context, child) => MaterialApp.router(
             title: 'WetinWeather',
             theme: AppLightTheme.lightThemeData,
