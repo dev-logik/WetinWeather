@@ -23,7 +23,7 @@ class GradientSpot extends StatelessWidget {
             shape: BoxShape.circle,
             gradient: LinearGradient(
               colors: [
-                DarkColorConstants.gradientColor1,
+                DarkColorConstants.gradientColor_1,
                 DarkColorConstants.gradientColor_2,
               ],
               transform: GradientRotation(4 * 3.142),

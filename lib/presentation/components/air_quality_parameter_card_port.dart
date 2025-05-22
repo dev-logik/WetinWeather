@@ -78,7 +78,7 @@ class AirQualityParameterCardPortrait extends StatelessWidget {
                     ),
                     height: 5.h,
                     width: 5.w,
-                  )
+                  ),
                 ],
               ),
               RichText(
@@ -90,7 +90,7 @@ class AirQualityParameterCardPortrait extends StatelessWidget {
                   ),
                   children: <TextSpan>[
                     TextSpan(
-                      text: ' µg/m²',
+                      text: ' µg/m³',
                       style: textTheme.bodySmall?.copyWith(
                         fontWeight: FontWeight.w100,
                         color: Colors.grey,

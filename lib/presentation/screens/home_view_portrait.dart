@@ -19,34 +19,32 @@ class _HomeScreenMobilePortraitState extends State<HomeScreenMobilePortrait> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
-        child: Stack(
-          children: <Widget>[
-            Positioned(
-              right: -80.0,
-              top: -80.0,
-              child: GradientSpot(),
-            ),
-            Positioned(
-              left: 0,
-              right: 0,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: <Widget>[
-                  sizedH16,
-                  //Todo: Pass Dynamic Location name.
-                  HomeHeader(),
-                  sizedH8,
-                  //Todo: Define a bloc for handling these events
-                  HomeSummary(),
-                  sizedH8,
-                  HourlyHeader(),
-                  //Todo: Replace with a list view builder to display
-                  //Todo: the hourly reports dynamically.
-                  HourlySection(),
-                ],
+        child: Center(
+          child: Stack(
+            children: <Widget>[
+              Positioned(right: -80.0, top: -80.0, child: GradientSpot()),
+              Positioned(
+                left: 0,
+                right: 0,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: <Widget>[
+                    sizedH16,
+                    //Todo: Pass Dynamic Location name.
+                    HomeHeader(),
+                    sizedH8,
+                    //Todo: Define a bloc for handling these events
+                    HomeSummary(),
+                    sizedH8,
+                    HourlyHeader(),
+                    //Todo: Replace with a list view builder to display
+                    //Todo: the hourly reports dynamically.
+                    HourlySection(),
+                  ],
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:bloc_app/utilities/helper_funtions.dart';
 import 'package:bloc_app/utilities/sizedbox_constants.dart';
 import 'package:flutter/material.dart';
@@ -16,20 +17,17 @@ class SearchHeader extends StatelessWidget {
         //Page Header name
         Text(
           'Pick Location',
-          style: isTabletLandscape(context)
-              ? textTheme.headlineLarge?.copyWith(fontSize: 15.sp)
-              : textTheme.headlineLarge,
+          style: textTheme.headlineLarge?.copyWith(
+            fontSize: isTabletPortrait(context) ? 70.sp : null,
+          ),
         ),
         sizedH8,
-        Text(
+        AutoSizeText(
+          textScaleFactor: 1.2.sp,
           'Find the area or city that you want to know the detailed weather info at this time.',
           style: textTheme.bodyMedium?.copyWith(
             fontWeight: FontWeight.w100,
-            fontSize: setLandscapeValues(
-              ifTrue: 8.0.sp,
-              ifFalse: 15.0.sp,
-              context: context,
-            ),
+            fontSize: isTabletPortrait(context) ? 25.sp : null,
             color: Colors.white,
           ),
           textAlign: TextAlign.center,

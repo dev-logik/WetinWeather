@@ -26,31 +26,32 @@ class AirQualitySummaryParameter extends StatelessWidget {
         //Todo: the values will be passed dynamically.
         Image.asset(
           aqIconPath,
-          width: 30.w,
-          height: 30.w,
+          width: isTabletPortrait(context) ? 60.w : 30.w,
+          height: isTabletPortrait(context) ? 60.h : 30.h,
           color: (aqParameterName == 'Carbon 1') ? Colors.white : null,
         ),
         RichText(
           text: TextSpan(
             text: aqParameterValue,
-            style: isTabletPortrait(context)
-                ? textTheme.titleMedium?.copyWith(fontSize: 12.sp)
-                : textTheme.titleMedium?.copyWith(fontSize: 22.sp),
+            style: textTheme.titleMedium?.copyWith(
+              fontSize: isTabletPortrait(context) ? 35.sp : 24.sp,
+            ),
             children: <InlineSpan>[
               TextSpan(
                 text: aqParameterUnit,
-                style: isTabletPortrait(context)
-                    ? textTheme.titleMedium?.copyWith(fontSize: 12.sp)
-                    : textTheme.titleMedium?.copyWith(fontSize: 16.sp),
+                style: textTheme.titleMedium?.copyWith(
+                  fontSize: isTabletPortrait(context) ? 27.sp : 16.sp,
+                  color: Colors.grey,
+                ),
               ),
             ],
           ),
         ),
         Text(
           aqParameterName,
-          style: isTabletPortrait(context)
-              ? textTheme.titleMedium?.copyWith(fontSize: 10.sp)
-              : null,
+          style: textTheme.titleSmall?.copyWith(
+            fontSize: isTabletPortrait(context) ? 25.sp : null,
+          ),
         ),
       ],
     );

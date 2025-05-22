@@ -4,12 +4,13 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../utilities/utilities.dart';
 
 class WeatherCompleteParameter extends StatelessWidget {
-  const WeatherCompleteParameter(
-      {super.key,
-      required this.iconData,
-      required this.weatherParameterName,
-      required this.weatherParameterValue,
-      required this.weatherParameterUnit});
+  const WeatherCompleteParameter({
+    super.key,
+    required this.iconData,
+    required this.weatherParameterName,
+    required this.weatherParameterValue,
+    required this.weatherParameterUnit,
+  });
   final IconData iconData;
   final String weatherParameterName;
   final String weatherParameterValue;
@@ -21,18 +22,17 @@ class WeatherCompleteParameter extends StatelessWidget {
       children: [
         Card(
           child: Padding(
-            padding: EdgeInsets.symmetric(
-              vertical: 4.h,
-              horizontal: 16.w,
-            ),
+            padding: EdgeInsets.symmetric(vertical: 12.h, horizontal: 16.w),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Icon(iconData),
+                Icon(iconData, size: isTabletPortrait(context) ? 45.sp : null),
                 sizedW8,
                 Text(
                   weatherParameterName,
-                  style: textTheme.bodyMedium?.copyWith(fontSize: 18.sp),
+                  style: textTheme.bodyMedium?.copyWith(
+                    fontSize: isTabletPortrait(context) ? 25.sp : 18.sp,
+                  ),
                 ),
               ],
             ),
@@ -43,14 +43,14 @@ class WeatherCompleteParameter extends StatelessWidget {
             text: weatherParameterValue,
             style: textTheme.titleMedium?.copyWith(
               fontWeight: FontWeight.w100,
-              fontSize: 25.sp,
+              fontSize: isTabletPortrait(context) ? 35.sp : 24.sp,
             ),
             children: <InlineSpan>[
               TextSpan(
                 text: ' $weatherParameterUnit',
-                style: textTheme.bodySmall?.copyWith(
-                  fontSize: 25.sp,
-                  color: Colors.blueGrey,
+                style: textTheme.titleMedium?.copyWith(
+                  fontSize: isTabletPortrait(context) ? 27.sp : 16.sp,
+                  color: Colors.grey,
                 ),
               ),
             ],

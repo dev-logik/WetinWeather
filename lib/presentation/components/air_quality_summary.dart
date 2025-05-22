@@ -23,7 +23,7 @@ class AirQualitySummary extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: <Widget>[
-            sizedH8,
+            sizedH4,
             displayGuage(context, textTheme),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -31,20 +31,20 @@ class AirQualitySummary extends StatelessWidget {
                 AirQualitySummaryParameter(
                   aqIconPath: AssetPath.coIcon,
                   aqParameterName: 'Carbon 1',
-                  aqParameterUnit: ' µmm/g',
+                  aqParameterUnit: 'µmm/g',
                   aqParameterValue: 5.0.toString(),
                 ),
                 AirQualitySummaryParameter(
                   aqIconPath: AssetPath.pm25Icon,
                   aqParameterName: 'PM 2.5',
                   aqParameterValue: '100',
-                  aqParameterUnit: ' µmm/g',
+                  aqParameterUnit: 'µmm/g',
                 ),
                 AirQualitySummaryParameter(
                   aqIconPath: AssetPath.o3Icon,
                   aqParameterName: 'Ozone',
                   aqParameterValue: '2.5',
-                  aqParameterUnit: ' µmm/g',
+                  aqParameterUnit: 'µmm/g',
                 ),
               ],
             ),

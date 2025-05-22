@@ -20,13 +20,13 @@ class HomeScreenMobileLandscape extends StatelessWidget {
         sizedH24,
         Text(
           'San Francisco',
-          style: textTheme.headlineLarge?.copyWith(fontSize: 15.sp),
+          style: textTheme.headlineLarge?.copyWith(fontSize: 40.sp),
         ),
         Text(
           'May 27, 2025',
-          style: textTheme.headlineSmall?.copyWith(fontSize: 8.sp),
+          style: textTheme.headlineSmall?.copyWith(fontSize: 14.sp),
         ),
-        isTabletLandscape(context) ? sizedH16 : Container(),
+        isTabletLandscape(context) ? sizedH8 : Container(),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           crossAxisAlignment: CrossAxisAlignment.start,

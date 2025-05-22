@@ -13,23 +13,18 @@ class HomeHeader extends StatelessWidget {
       children: [
         Text(
           'San Francisco',
-          style: isTabletPortrait(context)
-              ? textTheme.headlineLarge?.copyWith(fontSize: 30.sp)
-              : textTheme.headlineLarge,
+          style: textTheme.headlineLarge?.copyWith(
+            fontSize: isTabletPortrait(context) ? 70.sp : null,
+          ),
         ),
         sizedH8,
         //Todo: Pass dynamic date string.
         Text(
           'May 27, 2025',
-          style: isTabletPortrait(context)
-              ? textTheme.titleLarge?.copyWith(
-                  //fontWeight: FontWeight.normal,
-                  fontSize: 12.sp,
-                  color: Colors.white,
-                )
-              : textTheme.titleSmall?.copyWith(
-                  fontWeight: FontWeight.w100,
-                ),
+          style: textTheme.titleSmall?.copyWith(
+            fontWeight: FontWeight.w100,
+            fontSize: isTabletPortrait(context) ? 25.sp : null,
+          ),
         ),
       ],
     );

@@ -19,24 +19,35 @@ class _SearchFieldState extends State<SearchField> {
   }
 
   @override
+  void dispose() {
+    textEditingController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
-    final brightness = Theme.of(context).brightness;
+    final isLightThemed = Theme.of(context).brightness == Brightness.light;
     return Row(
       children: [
         Expanded(
           child: Padding(
             padding: EdgeInsets.symmetric(
-              horizontal: isTabletPortrait(context) ? 8.w : 3.0.w,
+              horizontal: isTabletPortrait(context) ? 10.w : 5.0.w,
             ),
             child: TextField(
+              cursorHeight: 30.sp,
+              cursorColor: Colors.white,
+              cursorWidth: 2.sp,
+              style: textTheme.bodyMedium?.copyWith(
+                fontSize: isTabletPortrait(context) ? 24.sp : null,
+              ),
               controller: textEditingController,
               enabled: true,
               showCursor: true,
               scrollPhysics: ScrollPhysics(parent: BouncingScrollPhysics()),
-              keyboardAppearance: (brightness == Brightness.light)
-                  ? Brightness.light
-                  : Brightness.dark,
+              keyboardAppearance:
+                  (isLightThemed) ? Brightness.light : Brightness.dark,
               enableSuggestions: true,
             ),
           ),
@@ -46,18 +57,11 @@ class _SearchFieldState extends State<SearchField> {
             onPressed: () {},
             icon: Icon(
               Icons.location_on_outlined,
-              size: isTabletPortrait(context)
-                  ? 10.dg
-                  : isTabletLandscape(context)
-                      ? 8.dg
-                      : null,
+              size: isTabletPortrait(context) ? 30.sp : null,
             ),
-            padding: EdgeInsets.symmetric(
-              horizontal: 4.w,
-              vertical: 4.h,
-            ),
+            padding: EdgeInsets.symmetric(horizontal: 4.w, vertical: 4.h),
           ),
-        )
+        ),
       ],
     );
   }

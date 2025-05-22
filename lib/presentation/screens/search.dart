@@ -26,11 +26,7 @@ class _SearchScreenState extends State<SearchScreen> {
       body: SafeArea(
         child: Stack(
           children: <Widget>[
-            Positioned(
-              right: -80.0,
-              top: -80.0,
-              child: GradientSpot(),
-            ),
+            Positioned(right: -80.0, top: -80.0, child: GradientSpot()),
             Positioned(
               left: 0,
               right: 0,
@@ -42,7 +38,7 @@ class _SearchScreenState extends State<SearchScreen> {
                   sizedH8,
                   //Search input text form field.
                   SearchField(),
-                  //sizedH8,
+                  sizedH8,
                   //Todo: Place a gridbuilder that will generate a list of container.
                   SearchHistoryCard(),
                 ],

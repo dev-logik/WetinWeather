@@ -11,7 +11,7 @@ class ForecastSummary extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final textTheme = Theme.of(context).textTheme;
+    //final textTheme = Theme.of(context).textTheme;
 
     return ConstrainedBox(
       key: const ValueKey(0),
@@ -19,10 +19,12 @@ class ForecastSummary extends StatelessWidget {
         minHeight: 0.45.sh,
         minWidth: 0.4.sw,
         maxWidth: 0.95.sw,
-        maxHeight: 0.48.sh,
+        maxHeight: 0.5.sh,
       ),
       child: Card(
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: <Widget>[
             displayAnimation(context),
             isTabletPortrait(context) ? Container() : sizedH24,
@@ -33,23 +35,23 @@ class ForecastSummary extends StatelessWidget {
                   weatherParameterIcon: FontAwesomeIcons.temperatureHalf,
                   weatherParameterName: 'Temperature',
                   weatherParameterValue: 33.toString(),
-                  weatherParameterUnit: ' °C',
+                  weatherParameterUnit: '°C',
                 ),
                 WeatherSummaryParameter(
                   weatherParameterIcon: FontAwesomeIcons.wind,
                   weatherParameterName: 'Wind',
-                  weatherParameterUnit: ' m/s',
+                  weatherParameterUnit: 'm/s',
                   weatherParameterValue: '4',
                 ),
                 WeatherSummaryParameter(
                   weatherParameterIcon: FontAwesomeIcons.droplet,
                   weatherParameterName: 'Humidity',
-                  weatherParameterUnit: ' %',
+                  weatherParameterUnit: '%',
                   weatherParameterValue: '8',
                 ),
               ],
             ),
-            sizedH4,
+            //isTabletPortrait(context) ? sizedH8 : sizedH4,
           ],
         ),
       ),
@@ -60,7 +62,7 @@ class ForecastSummary extends StatelessWidget {
     return AspectRatio(
       aspectRatio: isTabletPortrait(context) ? 5 / 3 : 4 / 3,
       child: Lottie.asset(
-        AssetPath.animatedNightRain,
+        AssetPath.animatedSunny,
         height: 300.h,
         width: 300.w,
         fit: BoxFit.contain,

@@ -13,11 +13,12 @@ class NextForecastCard extends StatelessWidget {
       padding: EdgeInsets.symmetric(horizontal: 4.0.w),
       child: Card(
         child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 8.0.w, vertical: 4.0.h),
+          padding: EdgeInsets.symmetric(horizontal: 8.0.w, vertical: 16.0.h),
           child: ListTile(
             dense: false,
             contentPadding: REdgeInsets.symmetric(
-                vertical: isTabletLandscape(context) ? 10 : 8),
+              vertical: isTabletLandscape(context) ? 10 : 8,
+            ),
             visualDensity: VisualDensity.comfortable,
             leading: Column(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -26,44 +27,50 @@ class NextForecastCard extends StatelessWidget {
                   'Friday',
                   style: textTheme.titleSmall?.copyWith(
                     fontWeight: FontWeight.bold,
-                    fontSize: isPhoneLandscape(context)
-                        ? 8.sp
-                        : isTabletPortrait(context)
-                            ? 10.sp
+                    fontSize:
+                        isPhoneLandscape(context)
+                            ? 8.sp
+                            : isTabletPortrait(context)
+                            ? 23.sp
                             : isTabletLandscape(context)
-                                ? 5.sp
-                                : 18.sp,
+                            ? 5.sp
+                            : 18.sp,
                   ),
                 ),
                 Text(
                   'May, 28',
                   style: textTheme.bodySmall?.copyWith(
                     fontWeight: FontWeight.w100,
-                    fontSize: isPhoneLandscape(context)
-                        ? 7.sp
-                        : isTabletPortrait(context)
-                            ? 6.sp
+                    fontSize:
+                        isPhoneLandscape(context)
+                            ? 7.sp
+                            : isTabletPortrait(context)
+                            ? 14.sp
                             : isTabletLandscape(context)
-                                ? 4.sp
-                                : 14.sp,
+                            ? 4.sp
+                            : 14.sp,
                   ),
                 ),
               ],
             ),
             titleAlignment: ListTileTitleAlignment.center,
-            title: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  '30',
+            title: Align(
+              alignment: Alignment.center,
+              child: RichText(
+                text: TextSpan(
+                  text: '30',
                   style: textTheme.displayMedium,
+                  children: <InlineSpan>[
+                    TextSpan(
+                      text: ' °C',
+                      style: textTheme.titleMedium?.copyWith(
+                        fontSize: isTabletPortrait(context) ? 27.sp : 16.sp,
+                        color: Colors.grey,
+                      ),
+                    ),
+                  ],
                 ),
-                Text(
-                  '°C',
-                  style: textTheme.displayMedium,
-                )
-              ],
+              ),
             ),
             trailing: displayAnimation(),
           ),

@@ -26,29 +26,30 @@ class WeatherSummaryParameter extends StatelessWidget {
         //Todo: the values will be passed dynamically.
         FaIcon(
           weatherParameterIcon,
-          size: isTabletPortrait(context) ? 10.dg : null,
+          size: isTabletPortrait(context) ? 40.sp : null,
         ),
         RichText(
           text: TextSpan(
             text: weatherParameterValue,
-            style: isTabletPortrait(context)
-                ? textTheme.titleMedium?.copyWith(fontSize: 15.sp)
-                : textTheme.titleMedium?.copyWith(fontSize: 24.sp),
+            style: textTheme.titleMedium?.copyWith(
+              fontSize: isTabletPortrait(context) ? 35.sp : 24.sp,
+            ),
             children: <InlineSpan>[
               TextSpan(
                 text: weatherParameterUnit,
-                style: isTabletPortrait(context)
-                    ? textTheme.titleMedium?.copyWith(fontSize: 15.sp)
-                    : textTheme.titleMedium?.copyWith(fontSize: 16.sp),
+                style: textTheme.titleMedium?.copyWith(
+                  fontSize: isTabletPortrait(context) ? 27.sp : 16.sp,
+                  color: Colors.grey,
+                ),
               ),
             ],
           ),
         ),
         Text(
           weatherParameterName,
-          style: isTabletPortrait(context)
-              ? textTheme.titleMedium?.copyWith(fontSize: 10.sp)
-              : null,
+          style: textTheme.titleSmall?.copyWith(
+            fontSize: isTabletPortrait(context) ? 25.sp : null,
+          ),
         ),
       ],
     );

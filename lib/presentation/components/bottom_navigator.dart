@@ -13,22 +13,22 @@ class BottomNavigator extends StatelessWidget {
   //Defines the list of bottom navigation bar items.
   late final _bottomNavigationSylishItems = <BottomBarItem>[
     BottomBarItem(
-      icon: FaIcon(FontAwesomeIcons.house, size: iconFontSize),
+      icon: FaIcon(FontAwesomeIcons.house),
       title: Text('Home'),
       backgroundColor: Colors.white,
     ),
     BottomBarItem(
-      icon: FaIcon(FontAwesomeIcons.microscope, size: iconFontSize),
+      icon: FaIcon(FontAwesomeIcons.microscope),
       title: Text('Search'),
       backgroundColor: Colors.white,
     ),
     BottomBarItem(
-      icon: FaIcon(FontAwesomeIcons.chartColumn, size: iconFontSize),
+      icon: FaIcon(FontAwesomeIcons.chartColumn),
       title: Text('Forcast'),
       backgroundColor: Colors.white,
     ),
     BottomBarItem(
-      icon: FaIcon(FontAwesomeIcons.gear, size: iconFontSize),
+      icon: FaIcon(FontAwesomeIcons.gear),
       title: Text('Settings'),
       backgroundColor: Colors.white,
     ),
@@ -50,17 +50,19 @@ class BottomNavigator extends StatelessWidget {
   }
 
   Widget _buildBottomNavigationBar(BuildContext context) {
+    final isDarkThemed = Theme.of(context).brightness == Brightness.dark;
+    final isLightThemed = Theme.of(context).brightness == Brightness.light;
     return StylishBottomBar(
       items: _bottomNavigationSylishItems,
       option: DotBarOptions(
         dotStyle: DotStyle.tile,
-        iconSize: 18.dg,
+        iconSize: isTabletPortrait(context) ? 30.sp : iconFontSize,
         gradient: LinearGradient(
           colors: [
-            (Theme.of(context).brightness == Brightness.dark)
-                ? DarkColorConstants.gradientColor1
+            (isDarkThemed)
+                ? DarkColorConstants.gradientColor_1
                 : LightColorConstants.gradientColor_1,
-            (Theme.of(context).brightness == Brightness.dark)
+            (isLightThemed)
                 ? DarkColorConstants.gradientColor_2
                 : LightColorConstants.gradientColor_2,
           ],
@@ -69,7 +71,7 @@ class BottomNavigator extends StatelessWidget {
         ),
       ),
       backgroundColor:
-          (Theme.of(context).brightness == Brightness.dark)
+          (isDarkThemed)
               ? DarkColorConstants.primaryColor
               : LightColorConstants.primaryColor,
       currentIndex: navigationShell.currentIndex,
