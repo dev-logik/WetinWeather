@@ -13,27 +13,23 @@ class NextForecastCard extends StatelessWidget {
       padding: EdgeInsets.symmetric(horizontal: 4.0.w),
       child: Card(
         child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 8.0.w, vertical: 16.0.h),
+          padding: EdgeInsets.symmetric(horizontal: 8.0.w, vertical: 24.0.h),
           child: ListTile(
             dense: false,
-            contentPadding: REdgeInsets.symmetric(
-              vertical: isTabletLandscape(context) ? 10 : 8,
-            ),
             visualDensity: VisualDensity.comfortable,
             leading: Column(
               mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Text(
                   'Friday',
                   style: textTheme.titleSmall?.copyWith(
-                    fontWeight: FontWeight.bold,
+                    fontWeight: FontWeight.w700,
                     fontSize:
-                        isPhoneLandscape(context)
-                            ? 8.sp
-                            : isTabletPortrait(context)
+                        isPhoneLandscape(context) ||
+                                isTabletPortrait(context) ||
+                                isTabletLandscape(context)
                             ? 23.sp
-                            : isTabletLandscape(context)
-                            ? 5.sp
                             : 18.sp,
                   ),
                 ),
@@ -41,14 +37,7 @@ class NextForecastCard extends StatelessWidget {
                   'May, 28',
                   style: textTheme.bodySmall?.copyWith(
                     fontWeight: FontWeight.w100,
-                    fontSize:
-                        isPhoneLandscape(context)
-                            ? 7.sp
-                            : isTabletPortrait(context)
-                            ? 14.sp
-                            : isTabletLandscape(context)
-                            ? 4.sp
-                            : 14.sp,
+                    fontSize: isTabletLandscape(context) ? 14.sp.sp : 14.sp,
                   ),
                 ),
               ],
@@ -59,12 +48,25 @@ class NextForecastCard extends StatelessWidget {
               child: RichText(
                 text: TextSpan(
                   text: '30',
-                  style: textTheme.displayMedium,
+                  style: textTheme.displayMedium?.copyWith(
+                    fontSize:
+                        isPhoneLandscape(context)
+                            ? 60.sp
+                            : isTabletLandscape(context)
+                            ? 50.sp
+                            : null,
+                  ),
                   children: <InlineSpan>[
                     TextSpan(
                       text: ' °C',
                       style: textTheme.titleMedium?.copyWith(
-                        fontSize: isTabletPortrait(context) ? 27.sp : 16.sp,
+                        fontSize:
+                            isTabletPortrait(context)
+                                ? 27.sp
+                                : isTabletLandscape(context) ||
+                                    isPhoneLandscape(context)
+                                ? 35.sp
+                                : 18.sp,
                         color: Colors.grey,
                       ),
                     ),
@@ -72,16 +74,16 @@ class NextForecastCard extends StatelessWidget {
                 ),
               ),
             ),
-            trailing: displayAnimation(),
+            trailing: displayAnimation(context),
           ),
         ),
       ),
     );
   }
 
-  AspectRatio displayAnimation() {
+  AspectRatio displayAnimation(BuildContext context) {
     return AspectRatio(
-      aspectRatio: 5 / 4,
+      aspectRatio: isPhoneLandscape(context) ? 5 / 3 : 5 / 4,
       child: Lottie.asset(
         AssetPath.animatedSnowy,
         width: 40.w,

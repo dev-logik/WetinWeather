@@ -1,4 +1,5 @@
 import 'package:bloc_app/presentation/components/next_forecast_container.dart';
+import 'package:bloc_app/utilities/helper_funtions.dart';
 import 'package:bloc_app/utilities/sizedbox_constants.dart';
 import 'package:flutter/material.dart';
 
@@ -8,8 +9,16 @@ class NextForecasts extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListView(
-      shrinkWrap: false,
+      shrinkWrap:
+          isPhoneLandscape(context) || isTabletLandscape(context)
+              ? true
+              : false,
+      physics:
+          isPhoneLandscape(context) || isTabletLandscape(context)
+              ? NeverScrollableScrollPhysics()
+              : BouncingScrollPhysics(),
       scrollDirection: Axis.vertical,
+
       children: [
         NextForecastCard(),
         sizedH4,

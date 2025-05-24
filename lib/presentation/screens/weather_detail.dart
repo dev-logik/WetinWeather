@@ -18,8 +18,9 @@ class WeatherDetails extends StatelessWidget {
       child: Scaffold(
         body: Padding(
           padding: EdgeInsets.symmetric(horizontal: 8.0.w),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+          child: ListView(
+            scrollDirection: Axis.vertical,
+            physics: BouncingScrollPhysics(parent: CarouselScrollPhysics()),
             children: [
               sizedH8,
               headerSection(textTheme, brightness, context),
@@ -29,24 +30,45 @@ class WeatherDetails extends StatelessWidget {
                   fontWeight: FontWeight.w100,
                   color: Colors.white,
                   textBaseline: TextBaseline.alphabetic,
-                  fontSize: isTabletPortrait(context) ? 60.sp : 30.sp,
+                  fontSize:
+                      isTabletPortrait(context)
+                          ? 60.sp
+                          : isTabletLandscape(context)
+                          ? 50.sp
+                          : isPhoneLandscape(context)
+                          ? 45.sp
+                          : 30.sp,
                 ),
               ),
               sizedH4,
-              Demarcation(length: 0.5.sw),
+              Demarcation(length: 0.4.sw),
               sizedH8,
               RichText(
                 text: TextSpan(
                   text: 'Clear and Sunny',
                   style: textTheme.bodyLarge?.copyWith(
-                    fontSize: isTabletPortrait(context) ? 40.sp : 20.sp,
+                    fontSize:
+                        isTabletPortrait(context)
+                            ? 40.sp
+                            : isTabletLandscape(context)
+                            ? 35.sp
+                            : isPhoneLandscape(context)
+                            ? 30.sp
+                            : 20.sp,
                     color: Colors.white,
                   ),
                   children: [
                     TextSpan(
                       text: '\nDay',
                       style: textTheme.bodyMedium?.copyWith(
-                        fontSize: isTabletPortrait(context) ? 40.sp : 20.sp,
+                        fontSize:
+                            isTabletPortrait(context)
+                                ? 40.sp
+                                : isTabletLandscape(context)
+                                ? 35.sp
+                                : isPhoneLandscape(context)
+                                ? 30.sp
+                                : 20.sp,
                       ),
                     ),
                   ],
@@ -59,28 +81,32 @@ class WeatherDetails extends StatelessWidget {
                 padding: EdgeInsets.symmetric(horizontal: 10.w),
                 child: weblinkSection(textTheme, brightness, context),
               ),
-              sizedH8,
+              isPhoneLandscape(context) ? sizedH4 : sizedH8,
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: 10.w),
-                child: Divider(height: 0.sp, color: Colors.grey),
+                child: Divider(thickness: 1.2.sp, color: Colors.white),
               ),
               sizedH16,
               weatherStatsSection(),
-              sizedH8,
+              isPhoneLandscape(context) ? sizedH4 : sizedH8,
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: 10.w),
-                child: Divider(height: 0.sp, color: Colors.grey),
+                child: Divider(thickness: 1.2.sp, color: Colors.white),
               ),
               sizedH16,
               Align(
                 alignment: Alignment.center,
-                child: ElevatedButton(
+                child: OutlinedButton(
                   onPressed: () {
                     context.pushNamed('home');
                   },
                   child: Icon(
                     FontAwesomeIcons.arrowLeft,
-                    size: isTabletPortrait(context) ? 24.sp : 14.sp,
+                    size: isTabletPortrait(context) ? 30.sp : 14.sp,
+                    color:
+                        (brightness == Brightness.light)
+                            ? Colors.white
+                            : Colors.grey,
                   ),
                 ),
               ),
@@ -94,7 +120,7 @@ class WeatherDetails extends StatelessWidget {
   ConstrainedBox weatherStatsSection() {
     return ConstrainedBox(
       constraints: BoxConstraints(
-        maxHeight: 0.32.sh,
+        //maxHeight: 0.32.sh,
         minWidth: double.infinity,
       ),
       child: Column(
@@ -169,7 +195,14 @@ class WeatherDetails extends StatelessWidget {
         Text(
           'Details: ',
           style: textTheme.headlineSmall?.copyWith(
-            fontSize: isTabletPortrait(context) ? 35.sp : null,
+            fontSize:
+                isTabletPortrait(context)
+                    ? 35.sp
+                    : isTabletLandscape(context)
+                    ? 40.sp
+                    : isPhoneLandscape(context)
+                    ? 24.sp
+                    : null,
           ),
         ),
         Card(
@@ -185,7 +218,14 @@ class WeatherDetails extends StatelessWidget {
                         (Theme.of(context).brightness == Brightness.light)
                             ? LightColorConstants.secondaryColor_1
                             : DarkColorConstants.secondaryColor_1,
-                    fontSize: isTabletPortrait(context) ? 24.sp : null,
+                    fontSize:
+                        isTabletPortrait(context)
+                            ? 24.sp
+                            : isTabletLandscape(context)
+                            ? 20.sp
+                            : isPhoneLandscape(context)
+                            ? 20.sp
+                            : null,
                   ),
                 ),
                 sizedW4,
@@ -208,7 +248,10 @@ class WeatherDetails extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceAround,
       children: [
-        Icon(FontAwesomeIcons.sun, size: 80.sp),
+        Icon(
+          FontAwesomeIcons.sun,
+          size: isTabletLandscape(context) ? 95.sp : 80.sp,
+        ),
         Column(
           crossAxisAlignment: CrossAxisAlignment.end,
           children: [
@@ -216,7 +259,12 @@ class WeatherDetails extends StatelessWidget {
               text: TextSpan(
                 text: '33',
                 style: textTheme.displayLarge?.copyWith(
-                  fontSize: isTabletPortrait(context) ? 80.sp : 65.sp,
+                  fontSize:
+                      isTabletPortrait(context)
+                          ? 80.sp
+                          : isTabletLandscape(context)
+                          ? 70.sp
+                          : 65.sp,
                 ),
                 children: [
                   TextSpan(
@@ -226,13 +274,27 @@ class WeatherDetails extends StatelessWidget {
                   TextSpan(
                     text: '\n                 /Real Feel',
                     style: textTheme.bodyMedium?.copyWith(
-                      fontSize: isTabletPortrait(context) ? 25.sp : 15.sp,
+                      fontSize:
+                          isTabletPortrait(context)
+                              ? 25.sp
+                              : isTabletLandscape(context)
+                              ? 20.sp
+                              : isPhoneLandscape(context)
+                              ? 18.sp
+                              : 15.sp,
                     ),
                   ),
                   TextSpan(
-                    text: '\n                             30°',
+                    text: '\n                         30°',
                     style: textTheme.bodyMedium?.copyWith(
-                      fontSize: isTabletPortrait(context) ? 30.sp : 18.sp,
+                      fontSize:
+                          isTabletPortrait(context)
+                              ? 30.sp
+                              : isTabletLandscape(context)
+                              ? 24.sp
+                              : isPhoneLandscape(context)
+                              ? 20.sp
+                              : 18.sp,
                       fontWeight: FontWeight.w600,
                     ),
                   ),
@@ -257,7 +319,14 @@ class WeatherDetails extends StatelessWidget {
           child: Text(
             '21:30',
             style: textTheme.titleMedium?.copyWith(
-              fontSize: isTabletPortrait(context) ? 30.sp : 18.sp,
+              fontSize:
+                  isTabletPortrait(context)
+                      ? 30.sp
+                      : isTabletLandscape(context)
+                      ? 35.sp
+                      : isPhoneLandscape(context)
+                      ? 25.sp
+                      : 18.sp,
             ),
           ),
         ),
@@ -267,7 +336,14 @@ class WeatherDetails extends StatelessWidget {
             brightness == Brightness.light
                 ? FontAwesomeIcons.solidSun
                 : FontAwesomeIcons.moon,
-            size: isTabletPortrait(context) ? 30.sp : 24.sp,
+            size:
+                isTabletPortrait(context)
+                    ? 30.sp
+                    : isTabletLandscape(context)
+                    ? 35.sp
+                    : isPhoneLandscape(context)
+                    ? 25.sp
+                    : 24.sp,
           ),
         ),
       ],

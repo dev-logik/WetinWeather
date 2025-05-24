@@ -26,19 +26,40 @@ class WeatherSummaryParameter extends StatelessWidget {
         //Todo: the values will be passed dynamically.
         FaIcon(
           weatherParameterIcon,
-          size: isTabletPortrait(context) ? 40.sp : null,
+          size:
+              isTabletPortrait(context)
+                  ? 40.sp
+                  : isPhoneLandscape(context)
+                  ? isTabletLandscape(context)
+                      ? 30.sp
+                      : 24.sp
+                  : null,
         ),
         RichText(
           text: TextSpan(
             text: weatherParameterValue,
             style: textTheme.titleMedium?.copyWith(
-              fontSize: isTabletPortrait(context) ? 35.sp : 24.sp,
+              fontSize:
+                  isTabletPortrait(context)
+                      ? 35.sp
+                      : isPhoneLandscape(context)
+                      ? isTabletLandscape(context)
+                          ? 20.sp
+                          : 16.sp
+                      : 24.sp,
             ),
             children: <InlineSpan>[
               TextSpan(
                 text: weatherParameterUnit,
                 style: textTheme.titleMedium?.copyWith(
-                  fontSize: isTabletPortrait(context) ? 27.sp : 16.sp,
+                  fontSize:
+                      isTabletPortrait(context)
+                          ? 27.sp
+                          : isPhoneLandscape(context)
+                          ? isTabletLandscape(context)
+                              ? 16.sp
+                              : 12.sp
+                          : 16.sp,
                   color: Colors.grey,
                 ),
               ),
@@ -48,7 +69,14 @@ class WeatherSummaryParameter extends StatelessWidget {
         Text(
           weatherParameterName,
           style: textTheme.titleSmall?.copyWith(
-            fontSize: isTabletPortrait(context) ? 25.sp : null,
+            fontSize:
+                isTabletPortrait(context)
+                    ? 25.sp
+                    : isPhoneLandscape(context)
+                    ? isTabletLandscape(context)
+                        ? 20.sp
+                        : 14.sp
+                    : null,
           ),
         ),
       ],

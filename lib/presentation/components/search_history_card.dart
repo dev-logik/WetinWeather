@@ -12,8 +12,20 @@ class SearchHistoryCard extends StatelessWidget {
 
     return ConstrainedBox(
       constraints: BoxConstraints(
-        maxWidth: isTabletPortrait(context) ? .35.sw : .5.sw,
-        maxHeight: .12.sh,
+        maxWidth:
+            isTabletPortrait(context)
+                ? .35.sw
+                : isPhoneLandscape(context)
+                ? .3.sw
+                : isTabletLandscape(context)
+                ? .25.sw
+                : .5.sw,
+        maxHeight:
+            isPhoneLandscape(context)
+                ? .3.sh
+                : isTabletLandscape(context)
+                ? .22.sh
+                : .12.sh,
       ),
       child: Card(
         child: Padding(
@@ -29,14 +41,24 @@ class SearchHistoryCard extends StatelessWidget {
                     text: TextSpan(
                       text: '30',
                       style: textTheme.titleLarge?.copyWith(
-                        fontSize: isTabletPortrait(context) ? 35.sp : 24.sp,
+                        fontSize:
+                            isTabletPortrait(context)
+                                ? 35.sp
+                                : isTabletLandscape(context)
+                                ? 40.sp
+                                : 24.sp,
                         color: Colors.white,
                       ),
                       children: <InlineSpan>[
                         TextSpan(
                           text: '°C',
                           style: textTheme.titleLarge?.copyWith(
-                            fontSize: isTabletPortrait(context) ? 30.sp : 20.sp,
+                            fontSize:
+                                isTabletPortrait(context)
+                                    ? 30.sp
+                                    : isTabletLandscape(context)
+                                    ? 25.sp
+                                    : 20.sp,
                             color: Colors.grey,
                           ),
                         ),
@@ -47,7 +69,12 @@ class SearchHistoryCard extends StatelessWidget {
                   Text(
                     'Cloudy',
                     style: textTheme.titleMedium?.copyWith(
-                      fontSize: isTabletPortrait(context) ? 26.sp : 20.sp,
+                      fontSize:
+                          isTabletPortrait(context)
+                              ? 26.sp
+                              : isTabletLandscape(context)
+                              ? 30.sp
+                              : 20.sp,
                     ),
                   ),
                   sizedH4,
@@ -56,7 +83,14 @@ class SearchHistoryCard extends StatelessWidget {
                     child: Text(
                       'New York',
                       style: textTheme.titleSmall?.copyWith(
-                        fontSize: isTabletPortrait(context) ? 18.sp : 12.sp,
+                        fontSize:
+                            isTabletPortrait(context)
+                                ? 18.sp
+                                : isPhoneLandscape(context)
+                                ? 16.sp
+                                : isTabletLandscape(context)
+                                ? 20.sp
+                                : 12.sp,
                       ),
                     ),
                   ),

@@ -34,13 +34,23 @@ class AirQualitySummaryParameter extends StatelessWidget {
           text: TextSpan(
             text: aqParameterValue,
             style: textTheme.titleMedium?.copyWith(
-              fontSize: isTabletPortrait(context) ? 35.sp : 24.sp,
+              fontSize:
+                  isTabletPortrait(context)
+                      ? 35.sp
+                      : isPhoneLandscape(context)
+                      ? 16.sp
+                      : 24.sp,
             ),
             children: <InlineSpan>[
               TextSpan(
                 text: aqParameterUnit,
                 style: textTheme.titleMedium?.copyWith(
-                  fontSize: isTabletPortrait(context) ? 27.sp : 16.sp,
+                  fontSize:
+                      isTabletPortrait(context)
+                          ? 27.sp
+                          : isPhoneLandscape(context)
+                          ? 12.sp
+                          : 16.sp,
                   color: Colors.grey,
                 ),
               ),
@@ -50,7 +60,12 @@ class AirQualitySummaryParameter extends StatelessWidget {
         Text(
           aqParameterName,
           style: textTheme.titleSmall?.copyWith(
-            fontSize: isTabletPortrait(context) ? 25.sp : null,
+            fontSize:
+                isTabletPortrait(context)
+                    ? 25.sp
+                    : isPhoneLandscape(context)
+                    ? 14.sp
+                    : null,
           ),
         ),
       ],

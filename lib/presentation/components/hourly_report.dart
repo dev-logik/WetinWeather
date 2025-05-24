@@ -22,8 +22,8 @@ class HourlyReportCard extends StatelessWidget {
             isTabletLandscape(context)
                 ? 0.40.sh
                 : isPhoneLandscape(context)
-                ? 0.20.sh
-                : 0.3.sh,
+                ? .30.sh
+                : 0.30.sh,
       ),
       child: Card(
         child: Padding(
@@ -56,7 +56,14 @@ class HourlyReportCard extends StatelessWidget {
       text: TextSpan(
         text: '30',
         style: textTheme.titleLarge?.copyWith(
-          fontSize: isTabletPortrait(context) ? 40.sp : 24.sp,
+          fontSize:
+              isTabletPortrait(context)
+                  ? 40.sp
+                  : isTabletLandscape(context)
+                  ? 40.sp
+                  : isPhoneLandscape(context)
+                  ? 28.sp
+                  : 24.sp,
           fontWeight: FontWeight.w500,
           color: Colors.white,
         ),
@@ -64,7 +71,14 @@ class HourlyReportCard extends StatelessWidget {
           TextSpan(
             text: ' °C',
             style: textTheme.titleLarge?.copyWith(
-              fontSize: isTabletPortrait(context) ? 30.sp : 15.sp,
+              fontSize:
+                  isTabletPortrait(context)
+                      ? 30.sp
+                      : isTabletLandscape(context)
+                      ? 28.sp
+                      : isPhoneLandscape(context)
+                      ? 18.sp
+                      : 15.sp,
               fontWeight: FontWeight.w700,
               color: Colors.grey,
             ),
@@ -79,7 +93,12 @@ class HourlyReportCard extends StatelessWidget {
       '15:00',
       style: textTheme.titleLarge?.copyWith(
         color: Colors.white,
-        fontSize: isTabletPortrait(context) ? 40.sp : null,
+        fontSize:
+            isTabletPortrait(context)
+                ? 40.sp
+                : isTabletLandscape(context)
+                ? 35.sp
+                : null,
       ),
     );
   }

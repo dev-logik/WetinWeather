@@ -15,14 +15,26 @@ class HourlyHeaderWithDate extends StatelessWidget {
         Text(
           'Today',
           style: textTheme.headlineSmall?.copyWith(
-            fontSize: isTabletPortrait(context) ? 35.sp : null,
+            fontSize:
+                isTabletPortrait(context)
+                    ? 35.sp
+                    : isTabletLandscape(context)
+                    ? 40.sp
+                    : isPhoneLandscape(context)
+                    ? 35.sp
+                    : null,
           ),
         ),
         Text(
           'May 27, 2025',
           style: textTheme.titleSmall?.copyWith(
             color: Colors.white,
-            fontSize: isTabletPortrait(context) ? 24.sp : null,
+            fontSize:
+                isTabletPortrait(context) || isTabletLandscape(context)
+                    ? 24.sp
+                    : isPhoneLandscape(context)
+                    ? 18.sp
+                    : null,
             //fontWeight: FontWeight.w100,
           ),
         ),

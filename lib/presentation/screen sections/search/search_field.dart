@@ -40,7 +40,12 @@ class _SearchFieldState extends State<SearchField> {
               cursorColor: Colors.white,
               cursorWidth: 2.sp,
               style: textTheme.bodyMedium?.copyWith(
-                fontSize: isTabletPortrait(context) ? 24.sp : null,
+                fontSize:
+                    isTabletPortrait(context)
+                        ? 24.sp
+                        : isTabletLandscape(context)
+                        ? 30.sp
+                        : null,
               ),
               controller: textEditingController,
               enabled: true,
@@ -57,9 +62,17 @@ class _SearchFieldState extends State<SearchField> {
             onPressed: () {},
             icon: Icon(
               Icons.location_on_outlined,
-              size: isTabletPortrait(context) ? 30.sp : null,
+              size:
+                  isTabletPortrait(context)
+                      ? 30.sp
+                      : isTabletLandscape(context)
+                      ? 40.sp
+                      : null,
             ),
-            padding: EdgeInsets.symmetric(horizontal: 4.w, vertical: 4.h),
+            padding: EdgeInsets.symmetric(
+              horizontal: isTabletLandscape(context) ? 12.w : 4.w,
+              vertical: isTabletLandscape(context) ? 12.h : 4.h,
+            ),
           ),
         ),
       ],

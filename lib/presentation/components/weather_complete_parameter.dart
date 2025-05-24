@@ -26,12 +26,29 @@ class WeatherCompleteParameter extends StatelessWidget {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Icon(iconData, size: isTabletPortrait(context) ? 45.sp : null),
+                Icon(
+                  iconData,
+                  size:
+                      isTabletPortrait(context)
+                          ? 45.sp
+                          : isTabletLandscape(context)
+                          ? 50.sp
+                          : isPhoneLandscape(context)
+                          ? 30.sp
+                          : null,
+                ),
                 sizedW8,
                 Text(
                   weatherParameterName,
                   style: textTheme.bodyMedium?.copyWith(
-                    fontSize: isTabletPortrait(context) ? 25.sp : 18.sp,
+                    fontSize:
+                        isTabletPortrait(context)
+                            ? 25.sp
+                            : isTabletLandscape(context)
+                            ? 30.sp
+                            : isPhoneLandscape(context)
+                            ? 20.sp
+                            : 18.sp,
                   ),
                 ),
               ],
@@ -43,14 +60,28 @@ class WeatherCompleteParameter extends StatelessWidget {
             text: weatherParameterValue,
             style: textTheme.titleMedium?.copyWith(
               fontWeight: FontWeight.w100,
-              fontSize: isTabletPortrait(context) ? 35.sp : 24.sp,
+              fontSize:
+                  isTabletPortrait(context)
+                      ? 35.sp
+                      : isTabletLandscape(context)
+                      ? 40.sp
+                      : isPhoneLandscape(context)
+                      ? 28.sp
+                      : 24.sp,
             ),
             children: <InlineSpan>[
               TextSpan(
                 text: ' $weatherParameterUnit',
                 style: textTheme.titleMedium?.copyWith(
-                  fontSize: isTabletPortrait(context) ? 27.sp : 16.sp,
-                  color: Colors.grey,
+                  fontSize:
+                      isTabletPortrait(context)
+                          ? 27.sp
+                          : isTabletLandscape(context)
+                          ? 30.sp
+                          : isPhoneLandscape(context)
+                          ? 18.sp
+                          : 16.sp,
+                  color: Colors.blueGrey,
                 ),
               ),
             ],

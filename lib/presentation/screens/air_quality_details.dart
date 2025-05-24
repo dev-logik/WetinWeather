@@ -1,5 +1,5 @@
 import 'package:auto_size_text/auto_size_text.dart';
-import 'package:bloc_app/presentation/components/air_quality_parameter_card_port.dart';
+import 'package:bloc_app/presentation/components/air_quality_parameter_card.dart';
 import 'package:bloc_app/utilities/utilities.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -13,23 +13,28 @@ class AirQualityDetails extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
+    final isLightThemed = Theme.of(context).brightness == Brightness.light;
     return Scaffold(
       body: SafeArea(
         child: SizedBox(
           height: 1.sh,
           width: 1.sw,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+          child: ListView(
+            scrollDirection: Axis.vertical,
             children: [
               sizedH8,
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: 16.w),
-                child: _headerSection(context, textTheme),
+                child: _headerSection(context, textTheme, isLightThemed),
               ),
               sizedH24,
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: 8.w),
-                child: _airQualityIndexSection(context, textTheme),
+                child: _airQualityIndexSection(
+                  context,
+                  textTheme,
+                  isLightThemed,
+                ),
               ),
               sizedH24,
               Padding(
@@ -51,7 +56,11 @@ class AirQualityDetails extends StatelessWidget {
     );
   }
 
-  Widget _headerSection(BuildContext context, TextTheme textTheme) {
+  Widget _headerSection(
+    BuildContext context,
+    TextTheme textTheme,
+    bool isLightThemed,
+  ) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
@@ -60,14 +69,30 @@ class AirQualityDetails extends StatelessWidget {
           children: [
             Text(
               "Today's Air Quality",
-              style: textTheme.displaySmall?.copyWith(fontSize: 28.sp),
+              style: textTheme.displaySmall?.copyWith(
+                fontSize:
+                    isTabletPortrait(context)
+                        ? 40.sp
+                        : isTabletLandscape(context)
+                        ? 50.sp
+                        : isPhoneLandscape(context)
+                        ? 35.sp
+                        : 28.sp,
+              ),
             ),
             Text(
-              'San Francisco, USA',
+              ' San Francisco, USA.',
               style: textTheme.labelSmall?.copyWith(
                 fontWeight: FontWeight.w100,
-                fontSize: 16.sp,
-                color: Colors.grey,
+                fontSize:
+                    isTabletPortrait(context)
+                        ? 28.sp
+                        : isTabletLandscape(context)
+                        ? 30.sp
+                        : isPhoneLandscape(context)
+                        ? 24.sp
+                        : 16.sp,
+                color: (isLightThemed) ? Colors.white : Colors.grey,
               ),
             ),
           ],
@@ -81,6 +106,7 @@ class AirQualityDetails extends StatelessWidget {
             child: Icon(
               FontAwesomeIcons.arrowLeft,
               size: isTabletPortrait(context) ? 24.sp : 14.sp,
+              color: isLightThemed ? Colors.white : Colors.blueGrey,
             ),
           ),
         ),
@@ -88,29 +114,63 @@ class AirQualityDetails extends StatelessWidget {
     );
   }
 
-  Widget _airQualityIndexSection(BuildContext context, TextTheme textTheme) {
+  Widget _airQualityIndexSection(
+    BuildContext context,
+    TextTheme textTheme,
+    bool isLightThemed,
+  ) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceAround,
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         CircularPercentIndicator(
-          radius: 50.r,
+          radius:
+              isTabletPortrait(context)
+                  ? 70.r
+                  : isTabletLandscape(context)
+                  ? 90.r
+                  : isPhoneLandscape(context)
+                  ? 60.sp
+                  : 50.r,
           center: Center(
             child: Text(
               '25%',
-              style: textTheme.titleMedium?.copyWith(fontSize: 20.sp),
+              style: textTheme.titleMedium?.copyWith(
+                fontSize:
+                    isTabletPortrait(context)
+                        ? 24.sp
+                        : isTabletLandscape(context)
+                        ? 30.sp
+                        : isPhoneLandscape(context)
+                        ? 22.sp
+                        : 20.sp,
+              ),
             ),
           ),
           animateToInitialPercent: true,
           animateFromLastPercent: true,
           animation: true,
-          //arcBackgroundColor: Colors.grey,
-          //arcType: ArcType.FULL,
+          arcBackgroundColor: Colors.grey,
+          arcType: ArcType.FULL,
           curve: Curves.easeInOut,
-          lineWidth: 4.w,
+          lineWidth:
+              isTabletPortrait(context)
+                  ? 8.w
+                  : isTabletLandscape(context)
+                  ? 10.w
+                  : 5.w,
           footer: Text(
             'AQI',
-            style: textTheme.titleMedium?.copyWith(fontSize: 12.sp),
+            style: textTheme.titleMedium?.copyWith(
+              fontSize:
+                  isTabletPortrait(context)
+                      ? 20.sp
+                      : isTabletLandscape(context)
+                      ? 16.sp
+                      : isPhoneLandscape(context)
+                      ? 14.sp
+                      : 12.sp,
+            ),
           ),
           onPercentValue: (value) {},
           rotateLinearGradient: true,
@@ -125,18 +185,36 @@ class AirQualityDetails extends StatelessWidget {
             children: [
               Text(
                 'Good',
-                style: textTheme.titleMedium?.copyWith(fontSize: 24.sp),
+                style: textTheme.titleMedium?.copyWith(
+                  fontSize:
+                      isTabletPortrait(context)
+                          ? 30.sp
+                          : isTabletLandscape(context)
+                          ? 35.sp
+                          : isPhoneLandscape(context)
+                          ? 28.sp
+                          : 24.sp,
+                ),
               ),
               AutoSizeText(
                 'Air quality is acceptable. However, for some pollutants there may be'
-                        ' a moderate health concern for a very small number of people who are' +
-                    ' unusually sensitive to air pollution.',
+                ' a moderate health concern for a very small number of people who are'
+                ' unusually sensitive to air pollution.',
                 maxLines: 5,
                 wrapWords: true,
                 textAlign: TextAlign.left,
                 style: textTheme.bodyMedium?.copyWith(
-                  fontSize: 16.sp,
-                  color: Colors.grey,
+                  fontSize:
+                      isTabletPortrait(context)
+                          ? 18.sp
+                          : isTabletLandscape(context)
+                          ? 24.sp
+                          : isPhoneLandscape(context)
+                          ? 18.sp
+                          : 14.sp,
+                  color: (isLightThemed) ? Colors.white : Colors.grey,
+                  fontWeight:
+                      isTabletPortrait(context) ? FontWeight.w500 : null,
                 ),
               ),
             ],
@@ -148,15 +226,17 @@ class AirQualityDetails extends StatelessWidget {
 
   Widget airQualityParameters(BuildContext context, TextTheme textTheme) {
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         Row(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            AirQualityParameterCardPortrait(
+            AirQualityParameterCard(
               parameterName: ' (Particles < 2.5µm)',
               parameterSymbol: 'PM25',
               parameterValue: '17.59',
             ),
-            AirQualityParameterCardPortrait(
+            AirQualityParameterCard(
               parameterName: ' (Nitrogen Dioxide)',
               parameterSymbol: 'NO₂',
               parameterValue: '18.89',
@@ -164,13 +244,15 @@ class AirQualityDetails extends StatelessWidget {
           ],
         ),
         Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+
           children: [
-            AirQualityParameterCardPortrait(
+            AirQualityParameterCard(
               parameterName: ' (Ozone)',
               parameterSymbol: 'O₃',
               parameterValue: '79.49',
             ),
-            AirQualityParameterCardPortrait(
+            AirQualityParameterCard(
               parameterName: ' (Sulphur Dioxide)',
               parameterSymbol: 'SO₂',
               parameterValue: '5.09',
@@ -178,13 +260,15 @@ class AirQualityDetails extends StatelessWidget {
           ],
         ),
         Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+
           children: [
-            AirQualityParameterCardPortrait(
+            AirQualityParameterCard(
               parameterName: ' (Carbon Monoxide)',
               parameterSymbol: 'CO',
               parameterValue: '1360.59',
             ),
-            AirQualityParameterCardPortrait(
+            AirQualityParameterCard(
               parameterName: ' (Particles < 10µm)',
               parameterSymbol: 'PM10',
               parameterValue: '34.24',

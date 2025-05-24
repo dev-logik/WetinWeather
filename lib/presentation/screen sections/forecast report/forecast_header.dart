@@ -16,14 +16,26 @@ class NextForecastHeader extends StatelessWidget {
         Text(
           'Next Forcast',
           style: textTheme.headlineSmall?.copyWith(
-            fontSize: isTabletPortrait(context) ? 35.sp : null,
+            fontSize:
+                isTabletPortrait(context)
+                    ? 35.sp
+                    : isTabletLandscape(context)
+                    ? 40.sp
+                    : isPhoneLandscape(context)
+                    ? 35.sp
+                    : null,
           ),
         ),
         IconButton(
           onPressed: () {},
           icon: Icon(
             FontAwesomeIcons.calendar,
-            size: isTabletPortrait(context) ? 32.sp : 24.sp,
+            size:
+                isTabletPortrait(context)
+                    ? 32.sp
+                    : isPhoneLandscape(context)
+                    ? 18.sp
+                    : 24.sp,
           ),
           padding: EdgeInsets.all(8.0.dg),
         ),

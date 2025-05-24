@@ -2,9 +2,12 @@ import 'package:bloc_app/presentation/screen%20sections/hourly_section.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:go_router/go_router.dart';
 import 'package:lottie/lottie.dart';
+import 'package:percent_indicator/circular_percent_indicator.dart';
 
 import '../../utilities/utilities.dart';
+import '../components/components.dart';
 
 class HomeScreenMobileLandscape extends StatelessWidget {
   const HomeScreenMobileLandscape({super.key});
@@ -14,19 +17,26 @@ class HomeScreenMobileLandscape extends StatelessWidget {
     final textTheme = Theme.of(context).textTheme;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.center,
-      mainAxisAlignment: MainAxisAlignment.center,
+      mainAxisAlignment:
+          isTabletLandscape(context)
+              ? MainAxisAlignment.start
+              : MainAxisAlignment.center,
       //mainAxisAlignment: MainAxisAlignment.spaceAround,
       children: [
-        sizedH24,
+        isTabletLandscape(context) ? sizedH32 : sizedH24,
         Text(
           'San Francisco',
-          style: textTheme.headlineLarge?.copyWith(fontSize: 40.sp),
+          style: textTheme.headlineLarge?.copyWith(
+            fontSize: isTabletLandscape(context) ? 70.sp : 35.sp,
+          ),
         ),
         Text(
           'May 27, 2025',
-          style: textTheme.headlineSmall?.copyWith(fontSize: 14.sp),
+          style: textTheme.headlineSmall?.copyWith(
+            fontSize: isTabletLandscape(context) ? 28.sp : 16.sp,
+          ),
         ),
-        isTabletLandscape(context) ? sizedH8 : Container(),
+        isTabletLandscape(context) ? sizedH24 : Container(),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -36,19 +46,28 @@ class HomeScreenMobileLandscape extends StatelessWidget {
                 maxWidth: 0.67.sw,
                 maxHeight: 0.55.sh,
               ),
-              child: Padding(
-                padding: EdgeInsets.all(
-                  isTabletLandscape(context) ? 1.5.dm : 0,
-                ),
-                child: Card(
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: <Widget>[
-                      _forecastSection(textTheme, context),
-                      _separator(),
-                      _airQualitySection(textTheme, context),
-                    ],
-                  ),
+              child: Card(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: <Widget>[
+                    GestureDetector(
+                      child: Flexible(
+                        child: _forecastSection(textTheme, context),
+                      ),
+                      onTap: () {
+                        context.pushNamed('forcast details');
+                      },
+                    ),
+                    _separator(),
+                    GestureDetector(
+                      child: Flexible(
+                        child: _airQualitySection(textTheme, context),
+                      ),
+                      onTap: () {
+                        context.pushNamed('air quality details');
+                      },
+                    ),
+                  ],
                 ),
               ),
             ),
@@ -76,29 +95,20 @@ class HomeScreenMobileLandscape extends StatelessWidget {
         children: <Widget>[
           Text(
             'Today',
-            style:
-                isTabletLandscape(context)
-                    ? textTheme.headlineMedium
-                    : textTheme.headlineSmall,
+            style: textTheme.headlineSmall?.copyWith(
+              fontSize: isTabletLandscape(context) ? 35.sp : 24.sp,
+            ),
           ),
           InkWell(
             child: Text(
               'View full report',
-              style:
-                  isTabletLandscape(context)
-                      ? textTheme.labelLarge?.copyWith(
-                        color:
-                            (Theme.of(context).brightness == Brightness.light)
-                                ? LightColorConstants.secondaryColor_1
-                                : DarkColorConstants.secondaryColor_1,
-                        fontSize: 5.sp,
-                      )
-                      : textTheme.labelSmall?.copyWith(
-                        color:
-                            (Theme.of(context).brightness == Brightness.light)
-                                ? LightColorConstants.secondaryColor_1
-                                : DarkColorConstants.secondaryColor_1,
-                      ),
+              style: textTheme.labelSmall?.copyWith(
+                color:
+                    (Theme.of(context).brightness == Brightness.light)
+                        ? LightColorConstants.secondaryColor_1
+                        : DarkColorConstants.secondaryColor_1,
+                fontSize: isTabletLandscape(context) ? 18.sp : null,
+              ),
             ),
             //Todo: Implement the onTap function.
             onTap: () {},
@@ -109,28 +119,43 @@ class HomeScreenMobileLandscape extends StatelessWidget {
   }
 
   Container _separator() {
-    return Container(color: Colors.white, width: 1.w, height: 220.h);
+    return Container(color: Colors.white, width: 1.w, height: .5.sh);
   }
 
   Column _airQualitySection(TextTheme textTheme, BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.center,
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      mainAxisAlignment: MainAxisAlignment.spaceAround,
       children: <Widget>[
         Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text(
-              '200',
-              style: textTheme.displayLarge?.copyWith(
-                fontSize: isTabletLandscape(context) ? 50.sp : 40.sp,
-              ),
-            ),
-            Text(
-              'AQI',
-              style: textTheme.titleSmall?.copyWith(
-                fontSize: isTabletLandscape(context) ? 8.sp : 7.sp,
+            Padding(
+              padding: EdgeInsets.all(isTabletLandscape(context) ? 6.dm : 2.dm),
+              child: CircularPercentIndicator(
+                onPercentValue: (value) {},
+                progressColor: Colors.greenAccent,
+                curve: Curves.easeInCubic,
+                percent: 0.25,
+                radius: isTabletLandscape(context) ? 125.r : 50.r,
+                arcType: ArcType.FULL,
+                arcBackgroundColor: Colors.grey,
+                animateFromLastPercent: true,
+                animateToInitialPercent: true,
+                center: Text(
+                  '25%',
+                  style: textTheme.titleSmall?.copyWith(
+                    fontSize: isPhoneLandscape(context) ? 14.sp : 24.sp,
+                  ),
+                ),
+                footer: Text(
+                  'AQI',
+                  style: textTheme.titleSmall?.copyWith(
+                    fontSize: isPhoneLandscape(context) ? 12.sp : 24.sp,
+                  ),
+                ),
+                lineWidth: isTabletLandscape(context) ? 8.w : 4.w,
               ),
             ),
           ],
@@ -138,144 +163,28 @@ class HomeScreenMobileLandscape extends StatelessWidget {
         Padding(
           padding: EdgeInsets.symmetric(horizontal: 4.w, vertical: 4.h),
           child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            mainAxisSize: MainAxisSize.min,
             children: <Widget>[
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  //Todo: Check if an icon can replace this.
-                  //Todo: the values will be passed dynamically.
-                  Image.asset(
-                    AssetPath.coIcon,
-                    width: isTabletLandscape(context) ? 40.0.w : 40.0.w,
-                    height: isTabletLandscape(context) ? 40.0.h : 40.0.h,
-                    color: Colors.white,
-                  ),
-                  RichText(
-                    text: TextSpan(
-                      text: '33',
-                      style:
-                          isTabletLandscape(context)
-                              ? textTheme.titleMedium?.copyWith(fontSize: 8.sp)
-                              : textTheme.titleSmall?.copyWith(
-                                fontSize: 8.sp,
-                                fontWeight: FontWeight.bold,
-                              ),
-                      children: <InlineSpan>[
-                        TextSpan(
-                          text: 'unit',
-                          style:
-                              isTabletLandscape(context)
-                                  ? textTheme.titleMedium?.copyWith(
-                                    fontSize: 8.sp,
-                                  )
-                                  : textTheme.titleSmall?.copyWith(
-                                    fontSize: 8.sp,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  Text(
-                    'Monoxide',
-                    style: textTheme.bodySmall?.copyWith(
-                      fontWeight: FontWeight.w500,
-                      fontSize: isTabletLandscape(context) ? 6.sp : 5.sp,
-                    ),
-                  ),
-                ],
+              AirQualitySummaryParameter(
+                aqIconPath: AssetPath.coIcon,
+                aqParameterName: 'Carbon 1',
+                aqParameterUnit: 'µmm/g',
+                aqParameterValue: 5.0.toString(),
               ),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  //Todo: Check if an icon can replace this.
-                  //Todo: the values will be passed dynamically.
-                  Image.asset(
-                    AssetPath.pm25Icon,
-                    width: isTabletLandscape(context) ? 40.0.w : 40.0.w,
-                    height: isTabletLandscape(context) ? 40.0.h : 40.0.h,
-                  ),
-                  RichText(
-                    text: TextSpan(
-                      text: '3.3',
-                      style:
-                          isTabletLandscape(context)
-                              ? textTheme.titleMedium?.copyWith(fontSize: 8.sp)
-                              : textTheme.titleSmall?.copyWith(
-                                fontSize: 8.sp,
-                                fontWeight: FontWeight.bold,
-                              ),
-                      children: <InlineSpan>[
-                        TextSpan(
-                          text: 'unit',
-                          style:
-                              isTabletLandscape(context)
-                                  ? textTheme.titleMedium?.copyWith(
-                                    fontSize: 8.sp,
-                                  )
-                                  : textTheme.titleSmall?.copyWith(
-                                    fontSize: 8.sp,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  Text(
-                    'PM 2.5',
-                    style: textTheme.bodySmall?.copyWith(
-                      fontWeight: FontWeight.w500,
-                      fontSize: isTabletLandscape(context) ? 6.sp : 5.sp,
-                    ),
-                  ),
-                ],
+              isTabletLandscape(context) ? sizedW32 : sizedW24,
+              AirQualitySummaryParameter(
+                aqIconPath: AssetPath.pm25Icon,
+                aqParameterName: 'PM 2.5',
+                aqParameterValue: '100',
+                aqParameterUnit: 'µmm/g',
               ),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  //Todo: Check if an icon can replace this.
-                  //Todo: the values will be passed dynamically.
-                  Image.asset(
-                    AssetPath.o3Icon,
-                    width: isTabletLandscape(context) ? 40.0.w : 40.0.w,
-                    height: isTabletLandscape(context) ? 40.0.h : 40.0.h,
-                  ),
-                  RichText(
-                    text: TextSpan(
-                      text: '3.34',
-                      style:
-                          isTabletLandscape(context)
-                              ? textTheme.titleMedium?.copyWith(fontSize: 8.sp)
-                              : textTheme.titleSmall?.copyWith(
-                                fontSize: 8.sp,
-                                fontWeight: FontWeight.bold,
-                              ),
-                      children: <InlineSpan>[
-                        TextSpan(
-                          text: 'unit',
-                          style:
-                              isTabletLandscape(context)
-                                  ? textTheme.titleMedium?.copyWith(
-                                    fontSize: 8.sp,
-                                  )
-                                  : textTheme.titleSmall?.copyWith(
-                                    fontSize: 8.sp,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  Text(
-                    'Ozone',
-                    style: textTheme.bodySmall?.copyWith(
-                      fontWeight: FontWeight.w500,
-                      fontSize: isTabletLandscape(context) ? 6.sp : 5.sp,
-                    ),
-                  ),
-                ],
+              isTabletLandscape(context) ? sizedW32 : sizedW24,
+              AirQualitySummaryParameter(
+                aqIconPath: AssetPath.o3Icon,
+                aqParameterName: 'Ozone',
+                aqParameterValue: '2.5',
+                aqParameterUnit: 'µmm/g',
               ),
             ],
           ),
@@ -284,7 +193,7 @@ class HomeScreenMobileLandscape extends StatelessWidget {
     );
   }
 
-  Column _forecastSection(TextTheme textTheme, BuildContext context) {
+  Widget _forecastSection(TextTheme textTheme, BuildContext context) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
@@ -292,151 +201,47 @@ class HomeScreenMobileLandscape extends StatelessWidget {
           padding: EdgeInsets.symmetric(horizontal: 8.0.w),
           child: Lottie.asset(
             AssetPath.animatedSunnyRain,
-            width: isTabletLandscape(context) ? 70.w : 50.w,
-            height: isTabletLandscape(context) ? 70.h : 50.h,
+            width:
+                isPhoneLandscape(context)
+                    ? 120.w
+                    : isTabletLandscape(context)
+                    ? 300.w
+                    : 100.w,
+            height:
+                isPhoneLandscape(context)
+                    ? 120.h
+                    : isTabletLandscape(context)
+                    ? 300.h
+                    : 100.h,
             fit: BoxFit.cover,
           ),
         ),
-        sizedH42,
+        //sizedH4,
         Padding(
           padding: EdgeInsets.symmetric(horizontal: 2.0.w, vertical: 4.0.h),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            mainAxisSize: MainAxisSize.min,
             children: <Widget>[
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  //Todo: Check if an icon can replace this.
-                  //Todo: the values will be passed dynamically.
-                  FaIcon(
-                    FontAwesomeIcons.temperatureHalf,
-                    size: isTabletLandscape(context) ? 10.dg : 18.dg,
-                  ),
-                  RichText(
-                    text: TextSpan(
-                      text: '10',
-                      style:
-                          isTabletLandscape(context)
-                              ? textTheme.titleMedium?.copyWith(fontSize: 8.sp)
-                              : textTheme.titleSmall?.copyWith(
-                                fontSize: 8.sp,
-                                fontWeight: FontWeight.bold,
-                              ),
-                      children: <InlineSpan>[
-                        TextSpan(
-                          text: ' °C',
-                          style:
-                              isTabletLandscape(context)
-                                  ? textTheme.titleMedium?.copyWith(
-                                    fontSize: 8.sp,
-                                  )
-                                  : textTheme.titleSmall?.copyWith(
-                                    fontSize: 8.sp,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  Text(
-                    'Temp.',
-                    style: textTheme.bodySmall?.copyWith(
-                      fontWeight: FontWeight.w500,
-                      fontSize: isTabletLandscape(context) ? 6.sp : 5.sp,
-                    ),
-                  ),
-                ],
+              WeatherSummaryParameter(
+                weatherParameterIcon: FontAwesomeIcons.temperatureHalf,
+                weatherParameterName: 'Temperature',
+                weatherParameterValue: 33.toString(),
+                weatherParameterUnit: '°C',
               ),
-              sizedW16,
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  //Todo: Check if an icon can replace this.
-                  //Todo: the values will be passed dynamically.
-                  FaIcon(
-                    FontAwesomeIcons.wind,
-                    size: isTabletLandscape(context) ? 10.dg : 18.dg,
-                  ),
-                  RichText(
-                    text: TextSpan(
-                      text: '10',
-                      style:
-                          isTabletLandscape(context)
-                              ? textTheme.titleMedium?.copyWith(fontSize: 8.sp)
-                              : textTheme.titleSmall?.copyWith(
-                                fontSize: 8.sp,
-                                fontWeight: FontWeight.bold,
-                              ),
-                      children: <InlineSpan>[
-                        TextSpan(
-                          text: 'm/s',
-                          style:
-                              isTabletLandscape(context)
-                                  ? textTheme.titleMedium?.copyWith(
-                                    fontSize: 8.sp,
-                                  )
-                                  : textTheme.titleSmall?.copyWith(
-                                    fontSize: 8.sp,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                        ),
-                      ],
-                    ),
-                  ),
-
-                  Text(
-                    'Wind',
-                    style: textTheme.bodySmall?.copyWith(
-                      fontWeight: FontWeight.w500,
-                      fontSize: isTabletLandscape(context) ? 6.sp : 5.sp,
-                    ),
-                  ),
-                ],
+              isTabletLandscape(context) ? sizedW64 : sizedW24,
+              WeatherSummaryParameter(
+                weatherParameterIcon: FontAwesomeIcons.wind,
+                weatherParameterName: 'Wind',
+                weatherParameterUnit: 'm/s',
+                weatherParameterValue: '4',
               ),
-              sizedW16,
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  //Todo: Check if an icon can replace this.
-                  //Todo: the values will be passed dynamically.
-                  FaIcon(
-                    FontAwesomeIcons.water,
-                    size: isTabletLandscape(context) ? 10.dg : 18.dg,
-                  ),
-                  RichText(
-                    text: TextSpan(
-                      text: '33',
-                      style:
-                          isTabletLandscape(context)
-                              ? textTheme.titleMedium?.copyWith(fontSize: 8.sp)
-                              : textTheme.titleSmall?.copyWith(
-                                fontSize: 8.sp,
-                                fontWeight: FontWeight.bold,
-                              ),
-                      children: <InlineSpan>[
-                        TextSpan(
-                          text: '%',
-                          style:
-                              isTabletLandscape(context)
-                                  ? textTheme.titleMedium?.copyWith(
-                                    fontSize: 8.sp,
-                                  )
-                                  : textTheme.titleSmall?.copyWith(
-                                    fontSize: 8.sp,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  Text(
-                    'Humidity',
-                    style: textTheme.titleSmall?.copyWith(
-                      fontWeight: FontWeight.w100,
-                      fontSize: isTabletLandscape(context) ? 6.sp : 5.sp,
-                    ),
-                  ),
-                ],
+              isTabletLandscape(context) ? sizedW64 : sizedW24,
+              WeatherSummaryParameter(
+                weatherParameterIcon: FontAwesomeIcons.droplet,
+                weatherParameterName: 'Humidity',
+                weatherParameterUnit: '%',
+                weatherParameterValue: '8',
               ),
             ],
           ),

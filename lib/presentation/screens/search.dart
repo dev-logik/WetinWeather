@@ -1,6 +1,8 @@
 import 'package:bloc_app/presentation/components/components.dart';
+import 'package:bloc_app/utilities/helper_funtions.dart';
 import 'package:bloc_app/utilities/sizedbox_constants.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../screen sections/screen_sections.dart';
 
@@ -31,9 +33,9 @@ class _SearchScreenState extends State<SearchScreen> {
               left: 0,
               right: 0,
               child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
-                  sizedH16,
+                  isPhoneLandscape(context) ? sizedH4 : sizedH16,
                   SearchHeader(),
                   sizedH8,
                   //Search input text form field.

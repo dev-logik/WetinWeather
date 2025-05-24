@@ -1,3 +1,4 @@
+import 'package:bloc_app/presentation/screen%20sections/screen_sections.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -13,133 +14,47 @@ class ForcastReportLandscapeScreen extends StatelessWidget {
     return Scaffold(
       body: Stack(
         children: <Widget>[
-          Positioned(
-            right: -80.0,
-            top: -80.0,
-            child: GradientSpot(),
-          ),
+          Positioned(right: -80.0, top: -80.0, child: GradientSpot()),
           Positioned(
             left: 0,
             right: 0,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: <Widget>[
-                sizedH16,
-                //Page Header name
-                Text(
-                  'Forcast Report',
-                  style: isTabletLandscape(context)
-                      ? textTheme.headlineLarge?.copyWith(fontSize: 15.sp)
-                      : textTheme.headlineLarge,
-                ),
-
-                ConstrainedBox(
-                  constraints: BoxConstraints(
-                    maxWidth: double.infinity,
-                    maxHeight: isPhoneLandscape(context) ? 0.65.sh : 0.80.sh,
+            child: SizedBox(
+              height: isTabletLandscape(context) ? 0.92.sh : 0.84.sh,
+              width: 1.sw,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: <Widget>[
+                  sizedH24,
+                  //Page Header name
+                  Text(
+                    'Forecast Report',
+                    style: textTheme.headlineLarge?.copyWith(
+                      fontSize:
+                          (isTabletPortrait(context) ||
+                                  isTabletLandscape(context))
+                              ? 70.sp
+                              : null,
+                    ),
                   ),
-                  child: ListView(
-                    children: [
-                      Padding(
-                        padding: EdgeInsets.symmetric(
-                          horizontal: 8.0.w,
+                  Expanded(
+                    child: ListView(
+                      children: [
+                        Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 8.0.w),
+                          child: HourlyHeaderWithDate(),
                         ),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          crossAxisAlignment: CrossAxisAlignment.end,
-                          children: <Widget>[
-                            Text(
-                              'Today',
-                              style: isTabletLandscape(context)
-                                  ? textTheme.headlineMedium
-                                  : textTheme.headlineSmall,
-                            ),
-                            Text(
-                              'May 27, 2025',
-                              style: isTabletLandscape(context)
-                                  ? textTheme.bodyLarge?.copyWith(
-                                      color: Colors.white, fontSize: 6.sp)
-                                  : textTheme.headlineSmall
-                                      ?.copyWith(fontSize: 7.sp),
-                            ),
-                          ],
+                        HourlySection(),
+                        Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 16.0.w),
+                          child: NextForecastHeader(),
                         ),
-                      ),
-                      ConstrainedBox(
-                        constraints: BoxConstraints(
-                          maxHeight:
-                              isTabletLandscape(context) ? 0.21.sh : 0.25.sh,
-                          maxWidth: double.infinity,
-                        ),
-                        child: ListView(
-                          scrollDirection: Axis.horizontal,
-                          children: [
-                            HourlyReportCard(),
-                            HourlyReportCard(),
-                            HourlyReportCard(),
-                            HourlyReportCard(),
-                            HourlyReportCard(),
-                            HourlyReportCard(),
-                            HourlyReportCard(),
-                            HourlyReportCard(),
-                            HourlyReportCard(),
-                          ],
-                        ),
-                      ),
-                      //isTablet(context) ? sizedH8 : Container(),
-                      Padding(
-                        padding: EdgeInsets.symmetric(
-                          horizontal: 16.0.w,
-                        ),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          crossAxisAlignment: CrossAxisAlignment.end,
-                          children: <Widget>[
-                            Text(
-                              'Next Forcast',
-                              style: isTabletLandscape(context)
-                                  ? textTheme.headlineMedium
-                                  : textTheme.headlineSmall,
-                            ),
-                            IconButton(
-                              onPressed: () {},
-                              icon: Icon(
-                                Icons.calendar_month,
-                                size: isPhoneLandscape(context) ? 18.dg : 8.dg,
-                              ),
-                              padding: EdgeInsets.symmetric(
-                                vertical: 8.0.h,
-                                horizontal: 8.0.w,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      NextForecastCard(),
-                      sizedH8,
-                      NextForecastCard(),
-                      sizedH8,
-                      NextForecastCard(),
-                      sizedH8,
-                      NextForecastCard(),
-                      sizedH8,
-                      NextForecastCard(),
-                      sizedH8,
-                      NextForecastCard(),
-                      sizedH8,
-                      NextForecastCard(),
-                      sizedH8,
-                      NextForecastCard(),
-                      sizedH8,
-                      NextForecastCard(),
-                      sizedH8,
-                      NextForecastCard(),
-                      sizedH8,
-                      NextForecastCard()
-                    ],
+                        NextForecasts(),
+                      ],
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
         ],

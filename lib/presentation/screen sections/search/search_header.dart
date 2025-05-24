@@ -18,7 +18,12 @@ class SearchHeader extends StatelessWidget {
         Text(
           'Pick Location',
           style: textTheme.headlineLarge?.copyWith(
-            fontSize: isTabletPortrait(context) ? 70.sp : null,
+            fontSize:
+                isTabletPortrait(context)
+                    ? 70.sp
+                    : isTabletLandscape(context)
+                    ? 70.sp
+                    : null,
           ),
         ),
         sizedH8,
@@ -27,7 +32,12 @@ class SearchHeader extends StatelessWidget {
           'Find the area or city that you want to know the detailed weather info at this time.',
           style: textTheme.bodyMedium?.copyWith(
             fontWeight: FontWeight.w100,
-            fontSize: isTabletPortrait(context) ? 25.sp : null,
+            fontSize:
+                isTabletPortrait(context)
+                    ? 25.sp
+                    : isTabletLandscape(context)
+                    ? 24.sp
+                    : null,
             color: Colors.white,
           ),
           textAlign: TextAlign.center,
