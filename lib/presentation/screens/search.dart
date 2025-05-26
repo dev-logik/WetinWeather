@@ -1,8 +1,7 @@
 import 'package:bloc_app/presentation/components/components.dart';
-import 'package:bloc_app/utilities/helper_funtions.dart';
+import 'package:bloc_app/utilities/orientation_helper_funtions.dart';
 import 'package:bloc_app/utilities/sizedbox_constants.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../screen sections/screen_sections.dart';
 
