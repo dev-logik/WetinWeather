@@ -1,6 +1,6 @@
-# WetinWeatherProp
+# WetinWeather
 
-**WetinWeatherProp** is a modern, responsive weather and air quality app built with [Flutter](https://flutter.dev/).  
+**WetinWeather** is a modern, responsive weather and air quality app built with [Flutter](https://flutter.dev/).  
 It provides detailed weather forecasts, air quality indices, and environmental parameters with a beautiful, adaptive UI for both mobile and tablet devices in portrait and landscape modes.
 
 ---
