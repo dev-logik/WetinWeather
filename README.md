@@ -16,6 +16,12 @@ It provides detailed weather forecasts, air quality indices, and environmental p
 - **Air Quality Index:**  
   Visual AQI indicators and detailed pollutant breakdowns.
 
+- **Detailed Air Quality Parameters:**  
+  See breakdowns for PM2.5, PM10, NO₂, SO₂, O₃, and CO with visual cards.
+
+- **Weather Details Screen:**  
+  Access in-depth weather stats, forecast icons, and web links for more info.
+
 - **Responsive UI:**  
   Optimized layouts for mobile and tablet, portrait and landscape.
 
@@ -47,17 +53,20 @@ It provides detailed weather forecasts, air quality indices, and environmental p
 ### Installation
 
 1. **Clone the repository:**
+
    ```sh
    git clone https://github.com/yourusername/wetinweatherprop.git
    cd wetinweatherprop
    ```
 
 2. **Install dependencies:**
+
    ```sh
    flutter pub get
    ```
 
 3. **Run the app:**
+
    ```sh
    flutter run
    ```
