@@ -1,4 +1,6 @@
+import 'package:bloc_app/bloc/cubits.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
@@ -6,8 +8,25 @@ import 'package:go_router/go_router.dart';
 import '../../utilities/utilities.dart';
 import '../components/components.dart';
 
-class WeatherDetails extends StatelessWidget {
+class WeatherDetails extends StatefulWidget {
   const WeatherDetails({super.key});
+
+  @override
+  State<WeatherDetails> createState() => _WeatherDetailsState();
+}
+
+class _WeatherDetailsState extends State<WeatherDetails> {
+  @override
+  void initState() {
+    super.initState();
+    context.read<DateTimeCubit>().startTime();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    context.read<DateTimeCubit>().dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -316,18 +335,22 @@ class WeatherDetails extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         Flexible(
-          child: Text(
-            '21:30',
-            style: textTheme.titleMedium?.copyWith(
-              fontSize:
-                  isTabletPortrait(context)
-                      ? 30.sp
-                      : isTabletLandscape(context)
-                      ? 35.sp
-                      : isPhoneLandscape(context)
-                      ? 25.sp
-                      : 18.sp,
-            ),
+          child: BlocBuilder<DateTimeCubit, DateTimeState>(
+            builder: (context, state) {
+              return Text(
+                '${formatTime(state.accessDateTime)}',
+                style: textTheme.titleMedium?.copyWith(
+                  fontSize:
+                      isTabletPortrait(context)
+                          ? 30.sp
+                          : isTabletLandscape(context)
+                          ? 35.sp
+                          : isPhoneLandscape(context)
+                          ? 25.sp
+                          : 18.sp,
+                ),
+              );
+            },
           ),
         ),
         IconButton(

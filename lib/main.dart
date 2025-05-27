@@ -1,3 +1,4 @@
+import 'package:bloc_app/bloc/dateTimeCubit.dart';
 import 'package:bloc_app/bloc/themeCubit.dart';
 import 'package:bloc_app/route/router_config.dart';
 import 'package:bloc_app/theme/theme.dart';
@@ -13,6 +14,10 @@ void main() {
           create:
               (context) =>
                   ThemeModeCubit(ThemeModeState(ThemeMode.light, false)),
+        ),
+
+        BlocProvider(
+          create: (context) => DateTimeCubit(DateTimeState(DateTime.now())),
         ),
       ],
       child: MyApp(),

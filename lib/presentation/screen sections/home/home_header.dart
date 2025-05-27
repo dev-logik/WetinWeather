@@ -1,7 +1,11 @@
+import 'package:bloc_app/utilities/dateTime_helper_functions.dart';
 import 'package:bloc_app/utilities/orientation_helper_funtions.dart';
 import 'package:bloc_app/utilities/sizedbox_constants.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+
+import '../../../bloc/cubits.dart';
 
 class HomeHeader extends StatefulWidget {
   const HomeHeader({super.key});
@@ -14,6 +18,13 @@ class _HomeHeaderState extends State<HomeHeader> {
   @override
   void initState() {
     super.initState();
+    context.read<DateTimeCubit>().startTime();
+  }
+
+  @override
+  void dispose() {
+    context.read<DateTimeCubit>().dispose();
+    super.dispose();
   }
 
   @override
@@ -29,12 +40,16 @@ class _HomeHeaderState extends State<HomeHeader> {
         ),
         sizedH8,
         //Todo: Pass dynamic date string.
-        Text(
-          '5 May, 2025',
-          style: textTheme.titleSmall?.copyWith(
-            fontWeight: FontWeight.w100,
-            fontSize: isTabletPortrait(context) ? 25.sp : null,
-          ),
+        BlocBuilder<DateTimeCubit, DateTimeState>(
+          builder: (_, state) {
+            return Text(
+              '${formatDate(state.accessDateTime)}',
+              style: textTheme.titleSmall?.copyWith(
+                fontWeight: FontWeight.w100,
+                fontSize: isTabletPortrait(context) ? 25.sp : null,
+              ),
+            );
+          },
         ),
       ],
     );
