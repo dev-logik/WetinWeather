@@ -1,6 +1,6 @@
 import 'package:bloc_app/presentation/components/air_quality_summary.dart';
 import 'package:bloc_app/presentation/components/forcast_summary.dart';
-import 'package:bloc_app/utilities/orientation_helper_funtions.dart';
+import 'package:bloc_app/utilities/orientation_helpers.dart';
 import 'package:bloc_app/utilities/sizedbox_constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';

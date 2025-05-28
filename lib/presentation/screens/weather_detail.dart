@@ -43,21 +43,25 @@ class _WeatherDetailsState extends State<WeatherDetails> {
             children: [
               sizedH8,
               headerSection(textTheme, brightness, context),
-              Text(
-                'San Francisco',
-                style: textTheme.bodyLarge?.copyWith(
-                  fontWeight: FontWeight.w100,
-                  color: Colors.white,
-                  textBaseline: TextBaseline.alphabetic,
-                  fontSize:
-                      isTabletPortrait(context)
-                          ? 60.sp
-                          : isTabletLandscape(context)
-                          ? 50.sp
-                          : isPhoneLandscape(context)
-                          ? 45.sp
-                          : 30.sp,
-                ),
+              BlocBuilder<LocationCubit, LocationState>(
+                builder: (context, state) {
+                  return Text(
+                    '${state.locationName}',
+                    style: textTheme.bodyLarge?.copyWith(
+                      fontWeight: FontWeight.w100,
+                      color: Colors.white,
+                      textBaseline: TextBaseline.alphabetic,
+                      fontSize:
+                          isTabletPortrait(context)
+                              ? 60.sp
+                              : isTabletLandscape(context)
+                              ? 50.sp
+                              : isPhoneLandscape(context)
+                              ? 45.sp
+                              : 30.sp,
+                    ),
+                  );
+                },
               ),
               sizedH4,
               Demarcation(length: 0.4.sw),

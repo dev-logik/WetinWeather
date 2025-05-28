@@ -1,11 +1,9 @@
-import 'package:bloc_app/utilities/dateTime_helper_functions.dart';
-import 'package:bloc_app/utilities/orientation_helper_funtions.dart';
-import 'package:bloc_app/utilities/sizedbox_constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../bloc/cubits.dart';
+import '../../../utilities/utilities.dart';
 
 class HomeHeader extends StatefulWidget {
   const HomeHeader({super.key});
@@ -24,6 +22,7 @@ class _HomeHeaderState extends State<HomeHeader> {
   @override
   void dispose() {
     context.read<DateTimeCubit>().dispose();
+    context.read<LocationCubit>().dispose();
     super.dispose();
   }
 
@@ -32,14 +31,17 @@ class _HomeHeaderState extends State<HomeHeader> {
     final textTheme = Theme.of(context).textTheme;
     return Column(
       children: [
-        Text(
-          'San Francisco ',
-          style: textTheme.headlineLarge?.copyWith(
-            fontSize: isTabletPortrait(context) ? 70.sp : null,
-          ),
+        BlocBuilder<LocationCubit, LocationState>(
+          builder: (context, state) {
+            return Text(
+              '${state.locationName}',
+              style: textTheme.headlineLarge?.copyWith(
+                fontSize: isTabletPortrait(context) ? 70.sp : null,
+              ),
+            );
+          },
         ),
         sizedH8,
-        //Todo: Pass dynamic date string.
         BlocBuilder<DateTimeCubit, DateTimeState>(
           builder: (_, state) {
             return Text(
