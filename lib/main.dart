@@ -7,6 +7,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'bloc/cubits.dart';
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
   runApp(
     MultiBlocProvider(
       providers: [
@@ -21,9 +22,7 @@ void main() {
         ),
 
         BlocProvider(
-          create:
-              (context) =>
-                  LocationCubit(LocationState(locationName: 'Unavailable')),
+          create: (context) => LocationCubit(LocationState(locationName: '')),
         ),
       ],
       child: MyApp(),

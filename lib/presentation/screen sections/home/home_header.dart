@@ -17,28 +17,41 @@ class _HomeHeaderState extends State<HomeHeader> {
   void initState() {
     super.initState();
     context.read<DateTimeCubit>().startTime();
+    if (context.read<LocationCubit>().state.locationName == '') {
+      context.read<LocationCubit>().startLocationService();
+    }
   }
 
   @override
   void dispose() {
     context.read<DateTimeCubit>().dispose();
-    context.read<LocationCubit>().dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
+    final isLightThemed = Theme.of(context).brightness == Brightness.light;
     return Column(
       children: [
         BlocBuilder<LocationCubit, LocationState>(
           builder: (context, state) {
-            return Text(
-              '${state.locationName}',
-              style: textTheme.headlineLarge?.copyWith(
-                fontSize: isTabletPortrait(context) ? 70.sp : null,
-              ),
-            );
+            if (state.locationName.isNotEmpty) {
+              return Text(
+                '${(state.locationName)}',
+                style: textTheme.headlineLarge?.copyWith(
+                  fontSize: isTabletPortrait(context) ? 70.sp : null,
+                ),
+              );
+            } else {
+              return CircularProgressIndicator(
+                backgroundColor: Colors.white,
+                color:
+                    (isLightThemed)
+                        ? LightColorConstants.secondaryColor_1
+                        : DarkColorConstants.secondaryColor_1,
+              );
+            }
           },
         ),
         sizedH8,

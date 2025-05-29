@@ -24,12 +24,13 @@ class _HomeScreenMobileLandscapeState extends State<HomeScreenMobileLandscape> {
   @override
   void initState() {
     context.read<DateTimeCubit>().startTime();
+    context.read<LocationCubit>().startLocationService();
+
     super.initState();
   }
 
   @override
   void dispose() {
-    context.read<LocationCubit>().dispose();
     context.read<DateTimeCubit>().dispose();
     super.dispose();
   }
@@ -62,26 +63,7 @@ class _HomeScreenMobileLandscapeState extends State<HomeScreenMobileLandscape> {
             //mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
               isTabletLandscape(context) ? sizedH24 : sizedH16,
-              BlocBuilder<LocationCubit, LocationState>(
-                builder: (context, state) {
-                  return Text(
-                    '${state.locationName}',
-                    style: textTheme.headlineLarge?.copyWith(
-                      fontSize: isTabletLandscape(context) ? 70.sp : 35.sp,
-                    ),
-                  );
-                },
-              ),
-              BlocBuilder<DateTimeCubit, DateTimeState>(
-                builder: (context, state) {
-                  return Text(
-                    '${formatDate(state.accessDateTime)}',
-                    style: textTheme.headlineSmall?.copyWith(
-                      fontSize: isTabletLandscape(context) ? 28.sp : 16.sp,
-                    ),
-                  );
-                },
-              ),
+              headerSection(textTheme),
               isTabletLandscape(context) ? sizedH24 : Container(),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -119,6 +101,34 @@ class _HomeScreenMobileLandscapeState extends State<HomeScreenMobileLandscape> {
           ),
         ],
       ),
+    );
+  }
+
+  Row headerSection(TextTheme textTheme) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        BlocBuilder<LocationCubit, LocationState>(
+          builder: (context, state) {
+            return Text(
+              '${state.locationName}',
+              style: textTheme.headlineLarge?.copyWith(
+                fontSize: isTabletLandscape(context) ? 70.sp : 35.sp,
+              ),
+            );
+          },
+        ),
+        BlocBuilder<DateTimeCubit, DateTimeState>(
+          builder: (context, state) {
+            return Text(
+              '${formatDate(state.accessDateTime)}',
+              style: textTheme.headlineSmall?.copyWith(
+                fontSize: isTabletLandscape(context) ? 28.sp : 16.sp,
+              ),
+            );
+          },
+        ),
+      ],
     );
   }
 

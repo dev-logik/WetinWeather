@@ -40,7 +40,7 @@ class LocationService {
 
     position = await Geolocator.getCurrentPosition(
       locationSettings: LocationSettings(
-        accuracy: LocationAccuracy.best,
+        accuracy: LocationAccuracy.medium,
         distanceFilter: 100,
       ),
     );
@@ -60,6 +60,9 @@ class LocationService {
       latitude,
       longitude,
     );
+    if (placemarks.isEmpty) {
+      Future.error('No placemark found for the given coordinates');
+    }
     placemark = placemarks[0];
     switch (style) {
       case LocationDisplayStyleOptions.CITY:
