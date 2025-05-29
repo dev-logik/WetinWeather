@@ -21,17 +21,25 @@ class HomeScreenMobileLandscape extends StatefulWidget {
 }
 
 class _HomeScreenMobileLandscapeState extends State<HomeScreenMobileLandscape> {
+  late final locationStateProvider, dateTimeCubitProvider;
   @override
   void initState() {
-    context.read<DateTimeCubit>().startTime();
-    context.read<LocationCubit>().startLocationService();
+    dateTimeCubitProvider = context.read<DateTimeCubit>();
+    locationStateProvider = context.read<LocationCubit>();
+
+    dateTimeCubitProvider.startTime();
+
+    if (locationStateProvider.state.locationName == '') {
+      locationStateProvider.startLocationService();
+    }
 
     super.initState();
   }
 
   @override
   void dispose() {
-    context.read<DateTimeCubit>().dispose();
+    dateTimeCubitProvider.dispose();
+
     super.dispose();
   }
 
@@ -49,7 +57,7 @@ class _HomeScreenMobileLandscapeState extends State<HomeScreenMobileLandscape> {
               ? DarkColorConstants.secondaryColor_2
               : LightColorConstants.secondaryColor_2,
       onRefresh: () async {
-        context.read<LocationCubit>().startLocationService();
+        await context.read<LocationCubit>().startLocationService();
       },
       child: ListView(
         physics: AlwaysScrollableScrollPhysics(),
@@ -63,7 +71,7 @@ class _HomeScreenMobileLandscapeState extends State<HomeScreenMobileLandscape> {
             //mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
               isTabletLandscape(context) ? sizedH24 : sizedH16,
-              headerSection(textTheme),
+              headerSection(textTheme, isLightThemed),
               isTabletLandscape(context) ? sizedH24 : Container(),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -104,18 +112,28 @@ class _HomeScreenMobileLandscapeState extends State<HomeScreenMobileLandscape> {
     );
   }
 
-  Row headerSection(TextTheme textTheme) {
-    return Row(
+  Widget headerSection(TextTheme textTheme, bool isLightThemed) {
+    return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         BlocBuilder<LocationCubit, LocationState>(
           builder: (context, state) {
-            return Text(
-              '${state.locationName}',
-              style: textTheme.headlineLarge?.copyWith(
-                fontSize: isTabletLandscape(context) ? 70.sp : 35.sp,
-              ),
-            );
+            if (state.locationName.isNotEmpty) {
+              return Text(
+                '${state.locationName}',
+                style: textTheme.headlineLarge?.copyWith(
+                  fontSize: isTabletLandscape(context) ? 70.sp : 35.sp,
+                ),
+              );
+            } else {
+              return CircularProgressIndicator(
+                backgroundColor: Colors.white,
+                color:
+                    (isLightThemed)
+                        ? LightColorConstants.secondaryColor_1
+                        : DarkColorConstants.secondaryColor_1,
+              );
+            }
           },
         ),
         BlocBuilder<DateTimeCubit, DateTimeState>(

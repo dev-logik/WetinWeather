@@ -13,18 +13,21 @@ class HomeHeader extends StatefulWidget {
 }
 
 class _HomeHeaderState extends State<HomeHeader> {
+  late final locationStateProvider, dateTimeCubitProvider;
   @override
   void initState() {
     super.initState();
-    context.read<DateTimeCubit>().startTime();
-    if (context.read<LocationCubit>().state.locationName == '') {
-      context.read<LocationCubit>().startLocationService();
+    dateTimeCubitProvider = context.read<DateTimeCubit>();
+    locationStateProvider = context.read<LocationCubit>();
+    dateTimeCubitProvider.startTime();
+    if (locationStateProvider.state.locationName == '') {
+      locationStateProvider.startLocationService();
     }
   }
 
   @override
   void dispose() {
-    context.read<DateTimeCubit>().dispose();
+    dateTimeCubitProvider.dispose();
     super.dispose();
   }
 
