@@ -2,8 +2,10 @@ import 'package:bloc_app/bloc/cubits.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
+import 'package:skeletonizer/skeletonizer.dart';
 
 import '../../utilities/utilities.dart';
 import '../components/components.dart';
@@ -16,10 +18,13 @@ class WeatherDetails extends StatefulWidget {
 }
 
 class _WeatherDetailsState extends State<WeatherDetails> {
+  late final LocationCubit locationStateProvider;
   @override
   void initState() {
     super.initState();
     context.read<DateTimeCubit>().startTime();
+    locationStateProvider = context.read<LocationCubit>();
+    locationStateProvider.startLocationService();
   }
 
   @override
@@ -43,60 +48,11 @@ class _WeatherDetailsState extends State<WeatherDetails> {
             children: [
               sizedH8,
               headerSection(textTheme, brightness, context),
-              BlocBuilder<LocationCubit, LocationState>(
-                builder: (context, state) {
-                  return Text(
-                    '${state.locationName}',
-                    style: textTheme.bodyLarge?.copyWith(
-                      fontWeight: FontWeight.w100,
-                      color: Colors.white,
-                      textBaseline: TextBaseline.alphabetic,
-                      fontSize:
-                          isTabletPortrait(context)
-                              ? 60.sp
-                              : isTabletLandscape(context)
-                              ? 50.sp
-                              : isPhoneLandscape(context)
-                              ? 45.sp
-                              : 30.sp,
-                    ),
-                  );
-                },
-              ),
+              locationNameSection(textTheme),
               sizedH4,
               Demarcation(length: 0.4.sw),
               sizedH8,
-              RichText(
-                text: TextSpan(
-                  text: 'Clear and Sunny',
-                  style: textTheme.bodyLarge?.copyWith(
-                    fontSize:
-                        isTabletPortrait(context)
-                            ? 40.sp
-                            : isTabletLandscape(context)
-                            ? 35.sp
-                            : isPhoneLandscape(context)
-                            ? 30.sp
-                            : 20.sp,
-                    color: Colors.white,
-                  ),
-                  children: [
-                    TextSpan(
-                      text: '\nDay',
-                      style: textTheme.bodyMedium?.copyWith(
-                        fontSize:
-                            isTabletPortrait(context)
-                                ? 40.sp
-                                : isTabletLandscape(context)
-                                ? 35.sp
-                                : isPhoneLandscape(context)
-                                ? 30.sp
-                                : 20.sp,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
+              _weatherDetailText(textTheme, context),
               sizedH8,
               forecastSection(textTheme, context),
               sizedH8,
@@ -117,25 +73,117 @@ class _WeatherDetailsState extends State<WeatherDetails> {
                 child: Divider(thickness: 1.2.sp, color: Colors.white),
               ),
               sizedH16,
-              Align(
-                alignment: Alignment.center,
-                child: OutlinedButton(
-                  onPressed: () {
-                    context.pushNamed('home');
-                  },
-                  child: Icon(
-                    FontAwesomeIcons.arrowLeft,
-                    size: isTabletPortrait(context) ? 30.sp : 14.sp,
-                    color:
-                        (brightness == Brightness.light)
-                            ? Colors.white
-                            : Colors.grey,
-                  ),
-                ),
-              ),
+              _buttonSection(context, brightness),
             ],
           ),
         ),
+      ),
+    );
+  }
+
+  StreamBuilder<LocationState> locationNameSection(TextTheme textTheme) {
+    return StreamBuilder<LocationState>(
+      stream: locationStateProvider.stream,
+      builder: (context, snapshot) {
+        if (snapshot.hasData) {
+          return Text(
+            '${snapshot.data?.locationName}',
+            style: textTheme.bodyLarge?.copyWith(
+              fontWeight: FontWeight.w100,
+              color: Colors.white,
+              textBaseline: TextBaseline.alphabetic,
+              fontSize:
+                  isTabletPortrait(context)
+                      ? 60.sp
+                      : isTabletLandscape(context)
+                      ? 50.sp
+                      : isPhoneLandscape(context)
+                      ? 45.sp
+                      : 30.sp,
+            ),
+          );
+        }
+
+        if (snapshot.hasError) {
+          Fluttertoast.showToast(
+            msg: snapshot.error.toString(),
+            backgroundColor: Colors.redAccent,
+            textColor: Colors.white,
+            gravity: ToastGravity.SNACKBAR,
+            fontSize: 14.sp,
+          );
+        }
+
+        return Skeletonizer(
+          effect: ShimmerEffect(),
+          enabled: true,
+          child: Text(
+            'Loading...',
+            style: textTheme.bodyLarge?.copyWith(
+              fontWeight: FontWeight.w100,
+              color: Colors.white,
+              textBaseline: TextBaseline.alphabetic,
+              fontSize:
+                  isTabletPortrait(context)
+                      ? 60.sp
+                      : isTabletLandscape(context)
+                      ? 50.sp
+                      : isPhoneLandscape(context)
+                      ? 45.sp
+                      : 30.sp,
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  Align _buttonSection(BuildContext context, Brightness brightness) {
+    return Align(
+      alignment: Alignment.center,
+      child: OutlinedButton(
+        onPressed: () {
+          context.pushNamed('home');
+        },
+        child: Icon(
+          FontAwesomeIcons.arrowLeft,
+          size: isTabletPortrait(context) ? 30.sp : 14.sp,
+          color: (brightness == Brightness.light) ? Colors.white : Colors.grey,
+        ),
+      ),
+    );
+  }
+
+  RichText _weatherDetailText(TextTheme textTheme, BuildContext context) {
+    return RichText(
+      text: TextSpan(
+        text: 'Clear and Sunny',
+        style: textTheme.bodyLarge?.copyWith(
+          fontSize:
+              isTabletPortrait(context)
+                  ? 40.sp
+                  : isTabletLandscape(context)
+                  ? 35.sp
+                  : isPhoneLandscape(context)
+                  ? 30.sp
+                  : 20.sp,
+          color: Colors.white,
+        ),
+        children: [
+          TextSpan(
+            text: '\nDay',
+            style: textTheme.bodyMedium?.copyWith(
+              fontSize:
+                  isTabletPortrait(context)
+                      ? 40.sp
+                      : isTabletLandscape(context)
+                      ? 35.sp
+                      : isPhoneLandscape(context)
+                      ? 30.sp
+                      : 20.sp,
+            ),
+          ),
+        ],
       ),
     );
   }

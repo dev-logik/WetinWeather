@@ -9,9 +9,9 @@ import 'package:fluttertoast/fluttertoast.dart';
 import '../services/services.dart';
 
 class LocationState {
-  final String locationName;
+  final String? locationName;
   Exception exceptionOb = Exception('Default');
-  LocationState({required this.locationName});
+  LocationState({this.locationName});
 }
 
 class LocationCubit extends Cubit<LocationState> {
@@ -19,20 +19,25 @@ class LocationCubit extends Cubit<LocationState> {
   GeographicCoordinateModel? _positionObj;
   String? _locationName;
 
-  Future<void> startLocationService() async {
-    await _updateLocation();
+  Future<void> startLocationService({
+    LocationDisplayStyleOptions locationStyleOption =
+        LocationDisplayStyleOptions.CITY,
+  }) async {
+    await _updateLocation(locationStyleOption: locationStyleOption);
   }
 
-  Future<void> _updateLocation() async {
+  Future<void> _updateLocation({
+    required LocationDisplayStyleOptions locationStyleOption,
+  }) async {
     try {
       _positionObj = await LocationService.determinePositionInCodes();
 
       if (_positionObj != null) {
         _locationName = await LocationService.determineLocationName(
-          _positionObj!,
-          LocationDisplayStyleOptions.CITY,
+          positionModel: _positionObj!,
+          style: locationStyleOption,
         );
-        emit(LocationState(locationName: _locationName ?? ''));
+        emit(LocationState(locationName: _locationName));
       } else {
         throw Exception('Location Service Failed For The Current Location.');
       }

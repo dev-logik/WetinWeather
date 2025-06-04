@@ -3,11 +3,13 @@ import 'package:bloc_app/presentation/screen%20sections/hourly_section.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
 import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
 import 'package:lottie/lottie.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
+import 'package:skeletonizer/skeletonizer.dart';
 
 import '../../utilities/utilities.dart';
 import '../components/components.dart';
@@ -21,17 +23,15 @@ class HomeScreenMobileLandscape extends StatefulWidget {
 }
 
 class _HomeScreenMobileLandscapeState extends State<HomeScreenMobileLandscape> {
-  late final locationStateProvider, dateTimeCubitProvider;
+  late final LocationCubit locationStateProvider;
+  late final DateTimeCubit dateTimeCubitProvider;
   @override
   void initState() {
     dateTimeCubitProvider = context.read<DateTimeCubit>();
     locationStateProvider = context.read<LocationCubit>();
 
     dateTimeCubitProvider.startTime();
-
-    if (locationStateProvider.state.locationName == '') {
-      locationStateProvider.startLocationService();
-    }
+    locationStateProvider.startLocationService();
 
     super.initState();
   }
@@ -116,24 +116,37 @@ class _HomeScreenMobileLandscapeState extends State<HomeScreenMobileLandscape> {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        BlocBuilder<LocationCubit, LocationState>(
-          builder: (context, state) {
-            if (state.locationName.isNotEmpty) {
+        StreamBuilder<LocationState>(
+          stream: locationStateProvider.stream,
+          builder: (context, snapshot) {
+            if (snapshot.hasData) {
               return Text(
-                '${state.locationName}',
+                '${snapshot.data?.locationName}',
                 style: textTheme.headlineLarge?.copyWith(
                   fontSize: isTabletLandscape(context) ? 70.sp : 35.sp,
                 ),
               );
-            } else {
-              return CircularProgressIndicator(
-                backgroundColor: Colors.white,
-                color:
-                    (isLightThemed)
-                        ? LightColorConstants.secondaryColor_1
-                        : DarkColorConstants.secondaryColor_1,
+            }
+
+            if (snapshot.hasError) {
+              Fluttertoast.showToast(
+                msg: snapshot.error.toString(),
+                backgroundColor: Colors.redAccent,
+                textColor: Colors.white,
+                gravity: ToastGravity.SNACKBAR,
+                fontSize: 14.sp,
               );
             }
+            return Skeletonizer(
+              enabled: true,
+              effect: ShimmerEffect(),
+              child: Text(
+                'Loading...',
+                style: textTheme.headlineLarge?.copyWith(
+                  fontSize: isTabletLandscape(context) ? 70.sp : 35.sp,
+                ),
+              ),
+            );
           },
         ),
         BlocBuilder<DateTimeCubit, DateTimeState>(

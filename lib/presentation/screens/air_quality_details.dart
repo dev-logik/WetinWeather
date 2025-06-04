@@ -1,14 +1,43 @@
 import 'package:auto_size_text/auto_size_text.dart';
-import 'package:bloc_app/presentation/components/air_quality_parameter_card.dart';
+import 'package:bloc_app/bloc/cubits.dart';
+import 'package:bloc_app/services/services.dart';
 import 'package:bloc_app/utilities/utilities.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
 import 'package:percent_indicator/flutter_percent_indicator.dart';
+import 'package:skeletonizer/skeletonizer.dart';
 
-class AirQualityDetails extends StatelessWidget {
+import '../components/components.dart';
+
+class AirQualityDetails extends StatefulWidget {
   const AirQualityDetails({super.key});
+
+  @override
+  State<AirQualityDetails> createState() => _AirQualityDetailsState();
+}
+
+class _AirQualityDetailsState extends State<AirQualityDetails> {
+  late final LocationCubit locationCubit;
+  @override
+  void initState() {
+    super.initState();
+    locationCubit = context.read<LocationCubit>();
+    locationCubit.startLocationService(
+      locationStyleOption: LocationDisplayStyleOptions.CITY_COUNTRY,
+    );
+  }
+
+  @override
+  void dispose() {
+    locationCubit.startLocationService(
+      locationStyleOption: LocationDisplayStyleOptions.CITY,
+    );
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -80,20 +109,56 @@ class AirQualityDetails extends StatelessWidget {
                         : 28.sp,
               ),
             ),
-            Text(
-              ' San Francisco, USA.',
-              style: textTheme.labelSmall?.copyWith(
-                fontWeight: FontWeight.w100,
-                fontSize:
-                    isTabletPortrait(context)
-                        ? 28.sp
-                        : isTabletLandscape(context)
-                        ? 30.sp
-                        : isPhoneLandscape(context)
-                        ? 24.sp
-                        : 16.sp,
-                color: (isLightThemed) ? Colors.white : Colors.grey,
-              ),
+            StreamBuilder<LocationState>(
+              stream: locationCubit.stream,
+              builder: (context, snapshot) {
+                if (snapshot.hasData) {
+                  return Text(
+                    '${snapshot.data?.locationName}',
+                    style: textTheme.labelSmall?.copyWith(
+                      fontWeight: FontWeight.w100,
+                      fontSize:
+                          isTabletPortrait(context)
+                              ? 28.sp
+                              : isTabletLandscape(context)
+                              ? 30.sp
+                              : isPhoneLandscape(context)
+                              ? 24.sp
+                              : 16.sp,
+                      color: (isLightThemed) ? Colors.white : Colors.grey,
+                    ),
+                  );
+                }
+                if (snapshot.hasError) {
+                  Fluttertoast.showToast(
+                    msg: snapshot.error.toString(),
+                    backgroundColor: Colors.redAccent,
+                    textColor: Colors.white,
+                    gravity: ToastGravity.SNACKBAR,
+                    fontSize: 14.sp,
+                  );
+                }
+                return Skeletonizer(
+                  enableSwitchAnimation: true,
+                  effect: ShimmerEffect(),
+                  enabled: !snapshot.hasData,
+                  child: Text(
+                    'Loading...',
+                    style: textTheme.labelSmall?.copyWith(
+                      fontWeight: FontWeight.w100,
+                      fontSize:
+                          isTabletPortrait(context)
+                              ? 28.sp
+                              : isTabletLandscape(context)
+                              ? 30.sp
+                              : isPhoneLandscape(context)
+                              ? 24.sp
+                              : 16.sp,
+                      color: (isLightThemed) ? Colors.white : Colors.grey,
+                    ),
+                  ),
+                );
+              },
             ),
           ],
         ),

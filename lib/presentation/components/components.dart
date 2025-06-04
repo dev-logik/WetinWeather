@@ -1,3 +1,4 @@
+export 'air_quality_parameter_card.dart';
 export 'air_quality_summary.dart';
 export 'aq_summary_parameter.dart';
 export 'bottom_navigator.dart';

@@ -21,9 +21,7 @@ void main() {
           create: (context) => DateTimeCubit(DateTimeState(DateTime.now())),
         ),
 
-        BlocProvider(
-          create: (context) => LocationCubit(LocationState(locationName: '')),
-        ),
+        BlocProvider(create: (context) => LocationCubit(LocationState())),
       ],
       child: MyApp(),
     ),

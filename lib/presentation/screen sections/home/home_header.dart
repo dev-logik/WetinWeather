@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:skeletonizer/skeletonizer.dart';
 
 import '../../../bloc/cubits.dart';
+import '../../../services/services.dart';
 import '../../../utilities/utilities.dart';
 
 class HomeHeader extends StatefulWidget {
@@ -13,16 +16,17 @@ class HomeHeader extends StatefulWidget {
 }
 
 class _HomeHeaderState extends State<HomeHeader> {
-  late final locationStateProvider, dateTimeCubitProvider;
+  late final LocationCubit locationStateProvider;
+  late final DateTimeCubit dateTimeCubitProvider;
   @override
   void initState() {
     super.initState();
     dateTimeCubitProvider = context.read<DateTimeCubit>();
     locationStateProvider = context.read<LocationCubit>();
     dateTimeCubitProvider.startTime();
-    if (locationStateProvider.state.locationName == '') {
-      locationStateProvider.startLocationService();
-    }
+    locationStateProvider.startLocationService(
+      locationStyleOption: LocationDisplayStyleOptions.CITY,
+    );
   }
 
   @override
@@ -34,32 +38,47 @@ class _HomeHeaderState extends State<HomeHeader> {
   @override
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
-    final isLightThemed = Theme.of(context).brightness == Brightness.light;
+    //final isLightThemed = Theme.of(context).brightness == Brightness.light;
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        BlocBuilder<LocationCubit, LocationState>(
-          builder: (context, state) {
-            if (state.locationName.isNotEmpty) {
+        StreamBuilder<LocationState>(
+          stream: locationStateProvider.stream,
+          builder: (context, snapshot) {
+            if (snapshot.hasError) {
+              Fluttertoast.showToast(
+                msg: snapshot.error.toString(),
+                backgroundColor: Colors.redAccent,
+                textColor: Colors.white,
+                gravity: ToastGravity.SNACKBAR,
+                fontSize: 14.sp,
+              );
+            }
+
+            if (snapshot.hasData) {
               return Text(
-                '${(state.locationName)}',
+                '${(snapshot.data?.locationName)}',
                 style: textTheme.headlineLarge?.copyWith(
                   fontSize: isTabletPortrait(context) ? 70.sp : null,
                 ),
               );
-            } else {
-              return CircularProgressIndicator(
-                backgroundColor: Colors.white,
-                color:
-                    (isLightThemed)
-                        ? LightColorConstants.secondaryColor_1
-                        : DarkColorConstants.secondaryColor_1,
-              );
             }
+
+            return Skeletonizer(
+              enabled: true,
+              effect: ShimmerEffect(),
+              child: Text(
+                'Loading...',
+                style: textTheme.headlineLarge?.copyWith(
+                  fontSize: isTabletPortrait(context) ? 70.sp : null,
+                ),
+              ),
+            );
           },
         ),
         sizedH8,
         BlocBuilder<DateTimeCubit, DateTimeState>(
-          builder: (_, state) {
+          builder: (context, state) {
             return Text(
               '${formatDate(state.accessDateTime)}',
               style: textTheme.titleSmall?.copyWith(

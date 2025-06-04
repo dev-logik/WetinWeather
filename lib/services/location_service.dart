@@ -2,6 +2,8 @@ import 'package:bloc_app/models/geographic_coordinate.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 
+import '../utilities/utilities.dart';
+
 enum LocationDisplayStyleOptions {
   CITY,
   CITY_COUNTRY,
@@ -48,37 +50,29 @@ class LocationService {
     return GeographicCoordinateModel.fromPosition(position);
   }
 
-  static Future<String> determineLocationName(
-    GeographicCoordinateModel positionModel,
-    LocationDisplayStyleOptions style,
-  ) async {
+  static Future<String> determineLocationName({
+    required GeographicCoordinateModel positionModel,
+    LocationDisplayStyleOptions style = LocationDisplayStyleOptions.CITY,
+  }) async {
     final double longitude = positionModel.longitude;
     final double latitude = positionModel.latitude;
+
     String strResult;
     Placemark placemark;
+
     List<Placemark> placemarks = await placemarkFromCoordinates(
       latitude,
       longitude,
     );
+
     if (placemarks.isEmpty) {
       Future.error('No placemark found for the given coordinates');
     }
+
     placemark = placemarks[0];
-    switch (style) {
-      case LocationDisplayStyleOptions.CITY:
-        strResult = placemark.locality ?? '';
-        break;
-      case LocationDisplayStyleOptions.CITY_COUNTRY:
-        strResult = '${placemark.locality ?? ''}, ${placemark.country ?? ''}';
-        break;
-      case LocationDisplayStyleOptions.STATE_COUNTRY:
-        strResult =
-            "${placemark.administrativeArea ?? ''}, ${placemark.country ?? ''}";
-      case LocationDisplayStyleOptions.CITY_STATE_COUNTRY:
-        strResult =
-            "${placemark.locality ?? ''}, ${placemark.administrativeArea ?? ''}, ${placemark.country ?? ''}";
-        break;
-    }
+
+    strResult = locationDisplayStyle(placemark: placemark, option: style);
+
     return strResult;
   }
 }

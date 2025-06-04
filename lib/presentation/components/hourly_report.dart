@@ -33,7 +33,10 @@ class HourlyReportCard extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                displayAnimation(context),
+                Flexible(
+                  flex: 2,
+                  child: ClipRect(child: displayAnimation(context)),
+                ),
                 Column(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   crossAxisAlignment: CrossAxisAlignment.center,
