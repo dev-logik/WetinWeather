@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
 
+import '../../data/repositories/repositories.dart';
 import '../../utilities/utilities.dart';
 import '../components/components.dart';
 import '../screen sections/screen_sections.dart';
@@ -42,6 +43,9 @@ class _HomeScreenMobilePortraitState extends State<HomeScreenMobilePortrait> {
                           : LightColorConstants.secondaryColor_2,
                   onRefresh: () async {
                     await context.read<LocationCubit>().startLocationService();
+                    final res = await AirQualityRepository().filteredData();
+                    debugPrint(res.toString());
+                    debugPrint('Print');
                   },
                   child: SizedBox(
                     width: 1.sw,

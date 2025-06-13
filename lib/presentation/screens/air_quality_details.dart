@@ -1,5 +1,6 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:bloc_app/bloc/cubits.dart';
+import 'package:bloc_app/data/repositories/air_quality_repository.dart';
 import 'package:bloc_app/services/services.dart';
 import 'package:bloc_app/utilities/utilities.dart';
 import 'package:flutter/material.dart';
@@ -22,6 +23,7 @@ class AirQualityDetails extends StatefulWidget {
 
 class _AirQualityDetailsState extends State<AirQualityDetails> {
   late final LocationCubit locationCubit;
+  late final AirQualityRepository requestBody;
   @override
   void initState() {
     super.initState();
@@ -140,7 +142,23 @@ class _AirQualityDetailsState extends State<AirQualityDetails> {
                 }
                 return Skeletonizer(
                   enableSwitchAnimation: true,
-                  effect: ShimmerEffect(),
+                  switchAnimationConfig: SwitchAnimationConfig(
+                    switchInCurve: Curves.easeIn,
+                    switchOutCurve: Curves.easeOut,
+                  ),
+
+                  effect: ShimmerEffect(
+                    duration: Duration(milliseconds: 700),
+
+                    baseColor:
+                        (isLightThemed)
+                            ? LightColorConstants.primaryColor
+                            : DarkColorConstants.primaryColor,
+                    highlightColor:
+                        (isLightThemed)
+                            ? LightColorConstants.secondaryColor_2
+                            : DarkColorConstants.secondaryColor_2,
+                  ),
                   enabled: !snapshot.hasData,
                   child: Text(
                     'Loading...',

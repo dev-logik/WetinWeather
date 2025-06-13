@@ -38,7 +38,7 @@ class _HomeHeaderState extends State<HomeHeader> {
   @override
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
-    //final isLightThemed = Theme.of(context).brightness == Brightness.light;
+    final isLightThemed = Theme.of(context).brightness == Brightness.light;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
@@ -66,7 +66,22 @@ class _HomeHeaderState extends State<HomeHeader> {
 
             return Skeletonizer(
               enabled: true,
-              effect: ShimmerEffect(),
+              enableSwitchAnimation: true,
+              switchAnimationConfig: SwitchAnimationConfig(
+                switchInCurve: Curves.easeIn,
+                switchOutCurve: Curves.easeOut,
+              ),
+              effect: ShimmerEffect(
+                baseColor:
+                    (isLightThemed)
+                        ? LightColorConstants.primaryColor
+                        : DarkColorConstants.primaryColor,
+                highlightColor:
+                    (isLightThemed)
+                        ? LightColorConstants.secondaryColor_2
+                        : DarkColorConstants.secondaryColor_2,
+                duration: Duration(milliseconds: 700),
+              ),
               child: Text(
                 'Loading...',
                 style: textTheme.headlineLarge?.copyWith(

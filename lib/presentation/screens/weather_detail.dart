@@ -9,6 +9,7 @@ import 'package:skeletonizer/skeletonizer.dart';
 
 import '../../utilities/utilities.dart';
 import '../components/components.dart';
+import 'FutureTesting.dart';
 
 class WeatherDetails extends StatefulWidget {
   const WeatherDetails({super.key});
@@ -36,7 +37,7 @@ class _WeatherDetailsState extends State<WeatherDetails> {
   @override
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
-    final brightness = Theme.of(context).brightness;
+    final isLightThemed = Theme.of(context).brightness == Brightness.light;
 
     return SafeArea(
       child: Scaffold(
@@ -47,8 +48,8 @@ class _WeatherDetailsState extends State<WeatherDetails> {
             physics: BouncingScrollPhysics(parent: CarouselScrollPhysics()),
             children: [
               sizedH8,
-              headerSection(textTheme, brightness, context),
-              locationNameSection(textTheme),
+              headerSection(textTheme, isLightThemed, context),
+              locationNameSection(textTheme, isLightThemed),
               sizedH4,
               Demarcation(length: 0.4.sw),
               sizedH8,
@@ -58,7 +59,7 @@ class _WeatherDetailsState extends State<WeatherDetails> {
               sizedH8,
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: 10.w),
-                child: weblinkSection(textTheme, brightness, context),
+                child: weblinkSection(textTheme, isLightThemed, context),
               ),
               isPhoneLandscape(context) ? sizedH4 : sizedH8,
               Padding(
@@ -73,7 +74,7 @@ class _WeatherDetailsState extends State<WeatherDetails> {
                 child: Divider(thickness: 1.2.sp, color: Colors.white),
               ),
               sizedH16,
-              _buttonSection(context, brightness),
+              _buttonSection(context, isLightThemed),
             ],
           ),
         ),
@@ -81,7 +82,10 @@ class _WeatherDetailsState extends State<WeatherDetails> {
     );
   }
 
-  StreamBuilder<LocationState> locationNameSection(TextTheme textTheme) {
+  StreamBuilder<LocationState> locationNameSection(
+    TextTheme textTheme,
+    bool isLightThemed,
+  ) {
     return StreamBuilder<LocationState>(
       stream: locationStateProvider.stream,
       builder: (context, snapshot) {
@@ -115,7 +119,22 @@ class _WeatherDetailsState extends State<WeatherDetails> {
         }
 
         return Skeletonizer(
-          effect: ShimmerEffect(),
+          switchAnimationConfig: SwitchAnimationConfig(
+            switchInCurve: Curves.easeIn,
+            switchOutCurve: Curves.easeOut,
+          ),
+
+          effect: ShimmerEffect(
+            baseColor:
+                (isLightThemed)
+                    ? LightColorConstants.primaryColor
+                    : DarkColorConstants.primaryColor,
+            highlightColor:
+                (isLightThemed)
+                    ? LightColorConstants.secondaryColor_2
+                    : DarkColorConstants.secondaryColor_2,
+            duration: Duration(milliseconds: 700),
+          ),
           enabled: true,
           child: Text(
             'Loading...',
@@ -138,7 +157,7 @@ class _WeatherDetailsState extends State<WeatherDetails> {
     );
   }
 
-  Align _buttonSection(BuildContext context, Brightness brightness) {
+  Align _buttonSection(BuildContext context, bool isLightThemed) {
     return Align(
       alignment: Alignment.center,
       child: OutlinedButton(
@@ -148,7 +167,7 @@ class _WeatherDetailsState extends State<WeatherDetails> {
         child: Icon(
           FontAwesomeIcons.arrowLeft,
           size: isTabletPortrait(context) ? 30.sp : 14.sp,
-          color: (brightness == Brightness.light) ? Colors.white : Colors.grey,
+          color: (isLightThemed) ? Colors.white : Colors.grey,
         ),
       ),
     );
@@ -256,7 +275,7 @@ class _WeatherDetailsState extends State<WeatherDetails> {
 
   Row weblinkSection(
     TextTheme textTheme,
-    Brightness brightness,
+    bool isLightThemed,
     BuildContext context,
   ) {
     return Row(
@@ -303,7 +322,7 @@ class _WeatherDetailsState extends State<WeatherDetails> {
                 Icon(
                   Icons.link,
                   color:
-                      (brightness == Brightness.light)
+                      (isLightThemed)
                           ? LightColorConstants.primaryColor
                           : DarkColorConstants.tertiaryColor,
                 ),
@@ -380,7 +399,7 @@ class _WeatherDetailsState extends State<WeatherDetails> {
 
   Row headerSection(
     TextTheme textTheme,
-    Brightness brightness,
+    bool isLightThemed,
     BuildContext context,
   ) {
     return Row(
@@ -406,11 +425,18 @@ class _WeatherDetailsState extends State<WeatherDetails> {
           ),
         ),
         IconButton(
-          onPressed: () {},
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) {
+                  return FutureTesting();
+                },
+              ),
+            );
+          },
           icon: Icon(
-            brightness == Brightness.light
-                ? FontAwesomeIcons.solidSun
-                : FontAwesomeIcons.moon,
+            isLightThemed ? FontAwesomeIcons.solidSun : FontAwesomeIcons.moon,
             size:
                 isTabletPortrait(context)
                     ? 30.sp

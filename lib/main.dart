@@ -2,12 +2,23 @@ import 'package:bloc_app/route/router_config.dart';
 import 'package:bloc_app/theme/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:logging/logging.dart';
 
 import 'bloc/cubits.dart';
 
-void main() {
+void _initLogging() {
+  Logger.root.level = Level.ALL;
+  Logger.root.onRecord.listen((record) {
+    debugPrint('${record.level.name}: ${record.time}: ${record.message}');
+  });
+}
+
+void main() async {
+  _initLogging();
   WidgetsFlutterBinding.ensureInitialized();
+  await dotenv.load(fileName: '.env');
   runApp(
     MultiBlocProvider(
       providers: [
