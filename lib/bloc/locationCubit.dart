@@ -30,17 +30,7 @@ class LocationCubit extends Cubit<LocationState> {
     required LocationDisplayStyleOptions locationStyleOption,
   }) async {
     try {
-      _positionObj = await LocationService.determinePositionInCodes();
-
-      if (_positionObj != null) {
-        _locationName = await LocationService.determineLocationName(
-          positionModel: _positionObj!,
-          style: locationStyleOption,
-        );
-        emit(LocationState(locationName: _locationName));
-      } else {
-        throw Exception('Location Service Failed For The Current Location.');
-      }
+      await _fetchLocation(locationStyleOption);
     } catch (exception) {
       debugPrint(exception.toString());
 
@@ -51,6 +41,23 @@ class LocationCubit extends Cubit<LocationState> {
         gravity: ToastGravity.SNACKBAR,
         fontSize: 14.sp,
       );
+    }
+  }
+
+  //Fetches the location.
+  Future<void> _fetchLocation(
+    LocationDisplayStyleOptions locationStyleOption,
+  ) async {
+    _positionObj = await LocationService.determinePositionInCodes();
+
+    if (_positionObj != null) {
+      _locationName = await LocationService.determineLocationName(
+        positionModel: _positionObj!,
+        style: locationStyleOption,
+      );
+      emit(LocationState(locationName: _locationName));
+    } else {
+      throw Exception('Location Service Failed For The Current Location.');
     }
   }
 }

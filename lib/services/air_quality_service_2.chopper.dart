@@ -19,7 +19,7 @@ final class _$AirQualityService_2 extends AirQualityService_2 {
   final Type definitionType = AirQualityService_2;
 
   @override
-  Future<Response<Map<String, dynamic>>> getAirQualityDetails(
+  Future<Response<List<AirQualityPollutantModel>>> getCurrentAirQualityDetails(
     double longitude,
     double latitude,
     int forecastDays,
@@ -38,6 +38,9 @@ final class _$AirQualityService_2 extends AirQualityService_2 {
       client.baseUrl,
       parameters: $params,
     );
-    return client.send<Map<String, dynamic>, dynamic>($request);
+    return client
+        .send<List<AirQualityPollutantModel>, AirQualityPollutantModel>(
+          $request,
+        );
   }
 }

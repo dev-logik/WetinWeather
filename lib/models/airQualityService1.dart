@@ -12,6 +12,7 @@ class AirQualityModelService1 with _$AirQualityModelService1 {
     required double no2,
     required double so2,
     required double co,
+    required double aqi,
   }) = _AirQualityModelService1;
 
   factory AirQualityModelService1.fromJson(Map<String, dynamic> json) =>
@@ -39,4 +40,8 @@ class AirQualityModelService1 with _$AirQualityModelService1 {
   Map<String, dynamic> toJson() {
     throw UnimplementedError();
   }
+
+  @override
+  // TODO: implement aqi
+  double get aqi => aqi;
 }

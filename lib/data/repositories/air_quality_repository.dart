@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:bloc_app/data/repositories/repository.dart';
+import 'package:bloc_app/models/air_quality_pollutant_model.dart';
 import 'package:bloc_app/services/air_quality_service_2_converter.dart';
 import 'package:bloc_app/services/services.dart';
 import 'package:chopper/chopper.dart';
@@ -9,7 +10,7 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 //Simplifies the type definition the definition of the return
 // type of response for the network request.
-typedef ResponseFuture = Future<Response<Map<String, dynamic>>>;
+typedef ResponseFuture = Future<Response<List<AirQualityPollutantModel>>>;
 
 //Retrieve relevant data performing the requests.
 //final _baseUrl1 = dotenv.env['AQ_SERVICE_1_BASE_URL'] as String;
@@ -31,7 +32,7 @@ class AirQualityRepository extends Repository {
     double latitude,
     int forecastDays,
   ) async {
-    final response = await _apiService2.getAirQualityDetails(
+    final response = await _apiService2.getCurrentAirQualityDetails(
       longitude,
       latitude,
       forecastDays,
@@ -39,9 +40,9 @@ class AirQualityRepository extends Repository {
     return response;
   }
 
-  Future<dynamic> filteredData({int forecastDays = 1}) async {
-    //AirQualityModelService1 airQualityData;
-
+  Future<List<AirQualityPollutantModel>> filteredData({
+    int forecastDays = 1,
+  }) async {
     final locationData = await LocationService.determinePositionInCodes();
 
     final lon = locationData.longitude;
@@ -57,7 +58,9 @@ class AirQualityRepository extends Repository {
     debugPrint('Is it a success: ${responseFromService2.isSuccessful}');
     if (responseFromService2.isSuccessful) {
       //airQualityData = AirQualityModel.fromJson(responseBody1);
-      final responseBody2 = responseFromService2.body;
+      List<AirQualityPollutantModel> responseBody2 =
+          responseFromService2.body as List<AirQualityPollutantModel>;
+      debugPrint('Pollutant Sample: ${responseBody2[1].toString()}');
       return Future.value(responseBody2);
     }
 

@@ -15,6 +15,7 @@ _AirQualityModelService1 _$AirQualityModelService1FromJson(
   no2: (json['no2'] as num).toDouble(),
   so2: (json['so2'] as num).toDouble(),
   co: (json['co'] as num).toDouble(),
+  aqi: (json['aqi'] as num).toDouble(),
 );
 
 Map<String, dynamic> _$AirQualityModelService1ToJson(
@@ -26,4 +27,5 @@ Map<String, dynamic> _$AirQualityModelService1ToJson(
   'no2': instance.no2,
   'so2': instance.so2,
   'co': instance.co,
+  'aqi': instance.aqi,
 };

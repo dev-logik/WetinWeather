@@ -16,7 +16,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$AirQualityModelService1 {
 
- double get pm25; double get pm10; double get o3; double get no2; double get so2; double get co;
+ double get pm25; double get pm10; double get o3; double get no2; double get so2; double get co; double get aqi;
 /// Create a copy of AirQualityModelService1
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -29,16 +29,16 @@ $AirQualityModelService1CopyWith<AirQualityModelService1> get copyWith => _$AirQ
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is AirQualityModelService1&&(identical(other.pm25, pm25) || other.pm25 == pm25)&&(identical(other.pm10, pm10) || other.pm10 == pm10)&&(identical(other.o3, o3) || other.o3 == o3)&&(identical(other.no2, no2) || other.no2 == no2)&&(identical(other.so2, so2) || other.so2 == so2)&&(identical(other.co, co) || other.co == co));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is AirQualityModelService1&&(identical(other.pm25, pm25) || other.pm25 == pm25)&&(identical(other.pm10, pm10) || other.pm10 == pm10)&&(identical(other.o3, o3) || other.o3 == o3)&&(identical(other.no2, no2) || other.no2 == no2)&&(identical(other.so2, so2) || other.so2 == so2)&&(identical(other.co, co) || other.co == co)&&(identical(other.aqi, aqi) || other.aqi == aqi));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,pm25,pm10,o3,no2,so2,co);
+int get hashCode => Object.hash(runtimeType,pm25,pm10,o3,no2,so2,co,aqi);
 
 @override
 String toString() {
-  return 'AirQualityModelService1(pm25: $pm25, pm10: $pm10, o3: $o3, no2: $no2, so2: $so2, co: $co)';
+  return 'AirQualityModelService1(pm25: $pm25, pm10: $pm10, o3: $o3, no2: $no2, so2: $so2, co: $co, aqi: $aqi)';
 }
 
 
@@ -49,7 +49,7 @@ abstract mixin class $AirQualityModelService1CopyWith<$Res>  {
   factory $AirQualityModelService1CopyWith(AirQualityModelService1 value, $Res Function(AirQualityModelService1) _then) = _$AirQualityModelService1CopyWithImpl;
 @useResult
 $Res call({
- double pm25, double pm10, double o3, double no2, double so2, double co
+ double pm25, double pm10, double o3, double no2, double so2, double co, double aqi
 });
 
 
@@ -66,7 +66,7 @@ class _$AirQualityModelService1CopyWithImpl<$Res>
 
 /// Create a copy of AirQualityModelService1
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? pm25 = null,Object? pm10 = null,Object? o3 = null,Object? no2 = null,Object? so2 = null,Object? co = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? pm25 = null,Object? pm10 = null,Object? o3 = null,Object? no2 = null,Object? so2 = null,Object? co = null,Object? aqi = null,}) {
   return _then(_self.copyWith(
 pm25: null == pm25 ? _self.pm25 : pm25 // ignore: cast_nullable_to_non_nullable
 as double,pm10: null == pm10 ? _self.pm10 : pm10 // ignore: cast_nullable_to_non_nullable
@@ -74,6 +74,7 @@ as double,o3: null == o3 ? _self.o3 : o3 // ignore: cast_nullable_to_non_nullabl
 as double,no2: null == no2 ? _self.no2 : no2 // ignore: cast_nullable_to_non_nullable
 as double,so2: null == so2 ? _self.so2 : so2 // ignore: cast_nullable_to_non_nullable
 as double,co: null == co ? _self.co : co // ignore: cast_nullable_to_non_nullable
+as double,aqi: null == aqi ? _self.aqi : aqi // ignore: cast_nullable_to_non_nullable
 as double,
   ));
 }
@@ -85,7 +86,7 @@ as double,
 @JsonSerializable()
 
 class _AirQualityModelService1 implements AirQualityModelService1 {
-  const _AirQualityModelService1({required this.pm25, required this.pm10, required this.o3, required this.no2, required this.so2, required this.co});
+  const _AirQualityModelService1({required this.pm25, required this.pm10, required this.o3, required this.no2, required this.so2, required this.co, required this.aqi});
   factory _AirQualityModelService1.fromJson(Map<String, dynamic> json) => _$AirQualityModelService1FromJson(json);
 
 @override final  double pm25;
@@ -94,6 +95,7 @@ class _AirQualityModelService1 implements AirQualityModelService1 {
 @override final  double no2;
 @override final  double so2;
 @override final  double co;
+@override final  double aqi;
 
 /// Create a copy of AirQualityModelService1
 /// with the given fields replaced by the non-null parameter values.
@@ -108,16 +110,16 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _AirQualityModelService1&&(identical(other.pm25, pm25) || other.pm25 == pm25)&&(identical(other.pm10, pm10) || other.pm10 == pm10)&&(identical(other.o3, o3) || other.o3 == o3)&&(identical(other.no2, no2) || other.no2 == no2)&&(identical(other.so2, so2) || other.so2 == so2)&&(identical(other.co, co) || other.co == co));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _AirQualityModelService1&&(identical(other.pm25, pm25) || other.pm25 == pm25)&&(identical(other.pm10, pm10) || other.pm10 == pm10)&&(identical(other.o3, o3) || other.o3 == o3)&&(identical(other.no2, no2) || other.no2 == no2)&&(identical(other.so2, so2) || other.so2 == so2)&&(identical(other.co, co) || other.co == co)&&(identical(other.aqi, aqi) || other.aqi == aqi));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,pm25,pm10,o3,no2,so2,co);
+int get hashCode => Object.hash(runtimeType,pm25,pm10,o3,no2,so2,co,aqi);
 
 @override
 String toString() {
-  return 'AirQualityModelService1(pm25: $pm25, pm10: $pm10, o3: $o3, no2: $no2, so2: $so2, co: $co)';
+  return 'AirQualityModelService1(pm25: $pm25, pm10: $pm10, o3: $o3, no2: $no2, so2: $so2, co: $co, aqi: $aqi)';
 }
 
 
@@ -128,7 +130,7 @@ abstract mixin class _$AirQualityModelService1CopyWith<$Res> implements $AirQual
   factory _$AirQualityModelService1CopyWith(_AirQualityModelService1 value, $Res Function(_AirQualityModelService1) _then) = __$AirQualityModelService1CopyWithImpl;
 @override @useResult
 $Res call({
- double pm25, double pm10, double o3, double no2, double so2, double co
+ double pm25, double pm10, double o3, double no2, double so2, double co, double aqi
 });
 
 
@@ -145,7 +147,7 @@ class __$AirQualityModelService1CopyWithImpl<$Res>
 
 /// Create a copy of AirQualityModelService1
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? pm25 = null,Object? pm10 = null,Object? o3 = null,Object? no2 = null,Object? so2 = null,Object? co = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? pm25 = null,Object? pm10 = null,Object? o3 = null,Object? no2 = null,Object? so2 = null,Object? co = null,Object? aqi = null,}) {
   return _then(_AirQualityModelService1(
 pm25: null == pm25 ? _self.pm25 : pm25 // ignore: cast_nullable_to_non_nullable
 as double,pm10: null == pm10 ? _self.pm10 : pm10 // ignore: cast_nullable_to_non_nullable
@@ -153,6 +155,7 @@ as double,o3: null == o3 ? _self.o3 : o3 // ignore: cast_nullable_to_non_nullabl
 as double,no2: null == no2 ? _self.no2 : no2 // ignore: cast_nullable_to_non_nullable
 as double,so2: null == so2 ? _self.so2 : so2 // ignore: cast_nullable_to_non_nullable
 as double,co: null == co ? _self.co : co // ignore: cast_nullable_to_non_nullable
+as double,aqi: null == aqi ? _self.aqi : aqi // ignore: cast_nullable_to_non_nullable
 as double,
   ));
 }

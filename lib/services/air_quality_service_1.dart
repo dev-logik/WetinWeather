@@ -4,7 +4,7 @@ import 'package:chopper/chopper.dart';
 
 part 'air_quality_service_1.chopper.dart';
 
-@ChopperApi(baseUrl: "https://api.waqi.info")
+@ChopperApi()
 abstract class AirQualityService_1 extends ChopperService {
   static AirQualityService_1 create([ChopperClient? client]) =>
       _$AirQualityService_1(client);

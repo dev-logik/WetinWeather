@@ -120,6 +120,9 @@ String toString() {
   return 'AirQualityModelService2(pm10: $pm10, pm2_5: $pm2_5, carbon_monoxide: $carbon_monoxide, nitrogen_dioxide: $nitrogen_dioxide, sulphur_dioxide: $sulphur_dioxide, ozone: $ozone)';
 }
 
+  @override
+  // TODO: implement aqiList
+  List<double> get aqiList => aqiList;
 
 }
 

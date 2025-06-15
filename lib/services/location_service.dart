@@ -11,9 +11,7 @@ enum LocationDisplayStyleOptions {
   CITY_STATE_COUNTRY,
 }
 
-class LocationService {
-  LocationService._();
-
+abstract class LocationService {
   static Future<GeographicCoordinateModel> determinePositionInCodes() async {
     bool serviceEnabled;
     LocationPermission permission;

@@ -1,10 +1,12 @@
+import 'package:bloc_app/models/models.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'airQualityService2.freezed.dart';
 part 'airQualityService2.g.dart';
 
 @freezed
-class AirQualityModelService2 with _$AirQualityModelService2 {
+class AirQualityModelService2 extends AirQualityModel
+    with _$AirQualityModelService2 {
   const factory AirQualityModelService2({
     required double pm10,
     required double pm2_5,
@@ -16,6 +18,14 @@ class AirQualityModelService2 with _$AirQualityModelService2 {
 
   factory AirQualityModelService2.fromJson(Map<String, dynamic> json) =>
       _$AirQualityModelService2FromJson(json);
+  late final aqiList = [
+    pm10,
+    pm2_5,
+    carbon_monoxide,
+    nitrogen_dioxide,
+    sulphur_dioxide,
+    ozone,
+  ];
 
   @override
   double get carbon_monoxide => carbon_monoxide;
