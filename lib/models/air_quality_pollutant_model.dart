@@ -1,42 +1,91 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 
+enum AirQualityConcUnits { microgramsPerCubicMeter, partsPerBillion }
+
 class AirQualityPollutantModel extends Equatable {
   AirQualityPollutantModel({
-    required this.pollutantName,
-    required this.pollutantConcentration,
-    required this.pollutantSymbol,
-    this.pollutantUnit = 'µg/m³',
-  });
+    required String pollutantName,
+    required double pollutantConcentration,
+    required String pollutantSymbol,
+  }) : _pollutantConcentration = pollutantConcentration,
+       _pollutantSymbol = pollutantSymbol,
+       _pollutantName = pollutantName;
 
-  final String pollutantName;
-  final String pollutantSymbol;
-  final String pollutantUnit;
-  final double pollutantConcentration;
+  final String _pollutantName;
+  final String _pollutantSymbol;
+  final double _pollutantConcentration;
+  static const double _standardMolarVolumeLitersPerMole = 24.45;
 
-  Color? get mapValueToColor => _mapValueToColor(pollutantConcentration);
+  final Map<String, double> _molecularWeights = {
+    "CO": 28.01,
+    "SO₂": 64.06,
+    "NO₂": 46.01,
+    "O₃": 48.00,
+  };
+
+  String get pollutantName => _pollutantName;
+  String get pollutantSymbol => _pollutantSymbol;
+  double get basePollutantConc => _pollutantConcentration;
+  Color? get mapValueToColor => _mapValueToColor(_pollutantConcentration);
+
+  double getPollutantConcIn({
+    AirQualityConcUnits units = AirQualityConcUnits.microgramsPerCubicMeter,
+  }) {
+    switch (units) {
+      case AirQualityConcUnits.microgramsPerCubicMeter:
+        return _pollutantConcentration;
+      case AirQualityConcUnits.partsPerBillion:
+        return _microgramsToPpb();
+    }
+  }
+
+  double _microgramsToPpb() {
+    if (pollutantSymbol == 'PM10' || pollutantSymbol == 'PM25') {
+      return _pollutantConcentration;
+    }
+    return (_pollutantConcentration * _standardMolarVolumeLitersPerMole) /
+        _molecularWeights[_pollutantSymbol]!;
+  }
+
+  String getpollutantUnitStringFor({
+    AirQualityConcUnits units = AirQualityConcUnits.microgramsPerCubicMeter,
+  }) {
+    switch (units) {
+      case AirQualityConcUnits.microgramsPerCubicMeter:
+        return 'µg/m³';
+      case AirQualityConcUnits.partsPerBillion:
+        return 'ppb';
+    }
+  }
 
   Color? _mapValueToColor(double value) {
-    if (value >= 0 && value <= 50) {
-      return Colors.green;
-    } else if (value > 51 && value <= 100) {
-      return Colors.yellow;
-    } else if (value > 101 && value <= 150) {
-      return Colors.orange;
-    } else if (value > 151 && value <= 200) {
+    if (value <= 50) {
+      // Assuming 0 is the minimum
+      return Colors.greenAccent;
+    } else if (value <= 100) {
+      return Colors.yellowAccent;
+    } else if (value <= 150) {
+      return Colors.orangeAccent;
+    } else if (value <= 200) {
       return Colors.redAccent;
-    } else if (value > 201 && value <= 300) {
-      return Colors.purple;
+    } else if (value <= 300) {
+      return Colors.purpleAccent;
     }
+    // value is implicitly > 300
     return Colors.red[900];
   }
 
   @override
   // TODO: implement props
-  List<Object?> get props => ['pollutantName'];
+  List<Object?> get props => [
+    _pollutantName,
+    _pollutantConcentration,
+    _pollutantSymbol,
+  ];
 
   @override
   String toString() {
-    return 'pollutant name: ${pollutantName} -> pollutant concentration: ${pollutantConcentration} -> pollutant symbol: ${pollutantSymbol} -> pollutant unit: ${pollutantUnit}';
+    return 'AirQualityPollutantModel(pollutantName: $_pollutantName, pollutantConcentration: $_pollutantConcentration, pollutantSymbol: $_pollutantSymbol)';
   }
 }

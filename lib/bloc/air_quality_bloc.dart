@@ -34,7 +34,7 @@ class AirQualityLoadFailure extends AirQualityState {
 class AirQualityBloc extends Bloc<AirQualityEvent, AirQualityState> {
   late final AirQualityRepository _airQualityRepository;
   late final Timer? _timer;
-  static const int DATA_REFRESH_INTERVAL = 30;
+  static const int DATA_REFRESH_INTERVAL = 1200;
   AirQualityBloc(this._airQualityRepository) : super(AirQualityInitial()) {
     on<LoadInitialDataEvent>(
       (event, emit) => _onLoadInitialDataEvent(event, emit),

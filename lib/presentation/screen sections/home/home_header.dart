@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
 import '../../../bloc/cubits.dart';
@@ -42,22 +41,11 @@ class _HomeHeaderState extends State<HomeHeader> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        StreamBuilder<LocationState>(
-          stream: locationStateProvider.stream,
-          builder: (context, snapshot) {
-            if (snapshot.hasError) {
-              Fluttertoast.showToast(
-                msg: snapshot.error.toString(),
-                backgroundColor: Colors.redAccent,
-                textColor: Colors.white,
-                gravity: ToastGravity.SNACKBAR,
-                fontSize: 14.sp,
-              );
-            }
-
-            if (snapshot.hasData) {
+        BlocBuilder<LocationCubit, LocationState>(
+          builder: (context, state) {
+            if (state.locationName != null) {
               return Text(
-                '${(snapshot.data?.locationName)}',
+                '${(state.locationName)}',
                 style: textTheme.headlineLarge?.copyWith(
                   fontSize: isTabletPortrait(context) ? 70.sp : null,
                 ),

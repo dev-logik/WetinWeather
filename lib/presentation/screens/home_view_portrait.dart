@@ -4,7 +4,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
 
-import '../../data/repositories/repositories.dart';
 import '../../utilities/utilities.dart';
 import '../components/components.dart';
 import '../screen sections/screen_sections.dart';
@@ -19,6 +18,20 @@ class HomeScreenMobilePortrait extends StatefulWidget {
 
 class _HomeScreenMobilePortraitState extends State<HomeScreenMobilePortrait> {
   var selectedSegment = <int>{0};
+  late final AirQualityBloc airQualityBlocProvider;
+
+  @override
+  void initState() {
+    airQualityBlocProvider = context.read();
+    airQualityBlocProvider.add(LoadInitialDataEvent());
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    airQualityBlocProvider.close();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -43,9 +56,7 @@ class _HomeScreenMobilePortraitState extends State<HomeScreenMobilePortrait> {
                           : LightColorConstants.secondaryColor_2,
                   onRefresh: () async {
                     await context.read<LocationCubit>().startLocationService();
-                    final res = await AirQualityRepository().filteredData();
-                    debugPrint(res.toString());
-                    debugPrint('Print');
+                    airQualityBlocProvider.add(LoadInitialDataEvent());
                   },
                   child: SizedBox(
                     width: 1.sw,

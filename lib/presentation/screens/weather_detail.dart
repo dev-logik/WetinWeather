@@ -2,7 +2,6 @@ import 'package:bloc_app/bloc/cubits.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
 import 'package:skeletonizer/skeletonizer.dart';
@@ -82,16 +81,15 @@ class _WeatherDetailsState extends State<WeatherDetails> {
     );
   }
 
-  StreamBuilder<LocationState> locationNameSection(
+  BlocBuilder<LocationCubit, LocationState> locationNameSection(
     TextTheme textTheme,
     bool isLightThemed,
   ) {
-    return StreamBuilder<LocationState>(
-      stream: locationStateProvider.stream,
-      builder: (context, snapshot) {
-        if (snapshot.hasData) {
+    return BlocBuilder<LocationCubit, LocationState>(
+      builder: (context, state) {
+        if (state.locationName != null) {
           return Text(
-            '${snapshot.data?.locationName}',
+            '${state.locationName}',
             style: textTheme.bodyLarge?.copyWith(
               fontWeight: FontWeight.w100,
               color: Colors.white,
@@ -105,16 +103,6 @@ class _WeatherDetailsState extends State<WeatherDetails> {
                       ? 45.sp
                       : 30.sp,
             ),
-          );
-        }
-
-        if (snapshot.hasError) {
-          Fluttertoast.showToast(
-            msg: snapshot.error.toString(),
-            backgroundColor: Colors.redAccent,
-            textColor: Colors.white,
-            gravity: ToastGravity.SNACKBAR,
-            fontSize: 14.sp,
           );
         }
 

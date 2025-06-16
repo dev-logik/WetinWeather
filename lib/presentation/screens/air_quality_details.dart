@@ -6,7 +6,6 @@ import 'package:bloc_app/utilities/utilities.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
 import 'package:percent_indicator/flutter_percent_indicator.dart';
@@ -111,12 +110,11 @@ class _AirQualityDetailsState extends State<AirQualityDetails> {
                         : 28.sp,
               ),
             ),
-            StreamBuilder<LocationState>(
-              stream: locationCubit.stream,
-              builder: (context, snapshot) {
-                if (snapshot.hasData) {
+            BlocBuilder<LocationCubit, LocationState>(
+              builder: (context, state) {
+                if (state.locationName != null) {
                   return Text(
-                    '${snapshot.data?.locationName}',
+                    '${state.locationName}',
                     style: textTheme.labelSmall?.copyWith(
                       fontWeight: FontWeight.w100,
                       fontSize:
@@ -131,15 +129,7 @@ class _AirQualityDetailsState extends State<AirQualityDetails> {
                     ),
                   );
                 }
-                if (snapshot.hasError) {
-                  Fluttertoast.showToast(
-                    msg: snapshot.error.toString(),
-                    backgroundColor: Colors.redAccent,
-                    textColor: Colors.white,
-                    gravity: ToastGravity.SNACKBAR,
-                    fontSize: 14.sp,
-                  );
-                }
+
                 return Skeletonizer(
                   enableSwitchAnimation: true,
                   switchAnimationConfig: SwitchAnimationConfig(
@@ -159,7 +149,7 @@ class _AirQualityDetailsState extends State<AirQualityDetails> {
                             ? LightColorConstants.secondaryColor_2
                             : DarkColorConstants.secondaryColor_2,
                   ),
-                  enabled: !snapshot.hasData,
+                  enabled: state.locationName == null,
                   child: Text(
                     'Loading...',
                     style: textTheme.labelSmall?.copyWith(

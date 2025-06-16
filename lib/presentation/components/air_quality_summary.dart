@@ -1,8 +1,12 @@
+import 'package:bloc_app/utilities/airQuality_helpers.dart';
 import 'package:bloc_app/utilities/utilities.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:skeletonizer/skeletonizer.dart';
 import 'package:syncfusion_flutter_gauges/gauges.dart';
 
+import '../../bloc/cubits.dart';
 import 'components.dart';
 
 class AirQualitySummary extends StatelessWidget {
@@ -24,7 +28,21 @@ class AirQualitySummary extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: <Widget>[
             sizedH4,
-            displayGuage(context, textTheme),
+            BlocBuilder<AirQualityBloc, AirQualityState>(
+              builder: (context, state) {
+                double? getAQI;
+                if (state is AirQualityLoadFailure) {
+                  return displayGuage(context, textTheme, getAQI);
+                } else if (state is AirQualityLoadSuccess) {
+                  final pollutantsConcentrations = state.data;
+                  getAQI = AirQualityHelpers.getAirQualityIndex(
+                    aQModels: pollutantsConcentrations,
+                  );
+                  return displayGuage(context, textTheme, getAQI);
+                }
+                return displayGuage(context, textTheme, getAQI);
+              },
+            ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: <Widget>[
@@ -55,12 +73,17 @@ class AirQualitySummary extends StatelessWidget {
     );
   }
 
-  AspectRatio displayGuage(BuildContext context, TextTheme textTheme) {
+  AspectRatio displayGuage(
+    BuildContext context,
+    TextTheme textTheme,
+    double? aqiValue,
+  ) {
+    final isLightThemed = Theme.of(context).brightness == Brightness.light;
     return AspectRatio(
       aspectRatio: isTabletPortrait(context) ? 5 / 3 : 4 / 3,
       child: SfRadialGauge(
         animationDuration: 500,
-        //enableLoadingAnimation: true,
+        enableLoadingAnimation: true,
         axes: <RadialAxis>[
           RadialAxis(
             minimum: 0,
@@ -97,18 +120,38 @@ class AirQualitySummary extends StatelessWidget {
                 color: Colors.red,
               ),
             ],
-            pointers: <GaugePointer>[
-              //Todo:Replace the value with a variable of the acutal AQL.
-              NeedlePointer(value: 200),
-            ],
+            pointers: <GaugePointer>[NeedlePointer(value: aqiValue ?? 0.0)],
             annotations: <GaugeAnnotation>[
               GaugeAnnotation(
                 widget: Column(
                   children: [
-                    //Todo:Replace the value with a variable of the acutal AQL.
-                    Text(
-                      '200',
-                      style: textTheme.displayMedium?.copyWith(fontSize: 30.sp),
+                    sizedH32,
+                    Skeletonizer(
+                      switchAnimationConfig: SwitchAnimationConfig(
+                        switchInCurve: Curves.easeIn,
+                        switchOutCurve: Curves.easeOut,
+                      ),
+
+                      effect: ShimmerEffect(
+                        baseColor:
+                            (isLightThemed)
+                                ? LightColorConstants.primaryColor
+                                : DarkColorConstants.primaryColor,
+
+                        highlightColor:
+                            (isLightThemed)
+                                ? LightColorConstants.secondaryColor_2
+                                : DarkColorConstants.secondaryColor_2,
+
+                        duration: Duration(milliseconds: 700),
+                      ),
+                      enabled: (aqiValue == null),
+                      child: Text(
+                        '${aqiValue}',
+                        style: textTheme.displayMedium?.copyWith(
+                          fontSize: 30.sp,
+                        ),
+                      ),
                     ),
                     Text('AQI', style: textTheme.titleMedium),
                   ],
