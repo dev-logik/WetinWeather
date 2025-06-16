@@ -1,6 +1,7 @@
 import 'package:bloc_app/utilities/orientation_helpers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:skeletonizer/skeletonizer.dart';
 
 class AirQualitySummaryParameter extends StatelessWidget {
   const AirQualitySummaryParameter({
@@ -11,10 +12,10 @@ class AirQualitySummaryParameter extends StatelessWidget {
     required this.aqParameterUnit,
   });
 
-  final String aqIconPath;
-  final String aqParameterName;
-  final String aqParameterValue;
-  final String aqParameterUnit;
+  final String? aqIconPath;
+  final String? aqParameterName;
+  final double? aqParameterValue;
+  final String? aqParameterUnit;
 
   @override
   Widget build(BuildContext context) {
@@ -24,15 +25,19 @@ class AirQualitySummaryParameter extends StatelessWidget {
       children: [
         //Todo: Check if an icon can replace this.
         //Todo: the values will be passed dynamically.
-        Image.asset(
-          aqIconPath,
-          width: isTabletPortrait(context) ? 60.w : 30.w,
-          height: isTabletPortrait(context) ? 60.h : 30.h,
-          color: (aqParameterName == 'Carbon 1') ? Colors.white : null,
+        Skeletonizer(
+          enabled: aqIconPath == null,
+          child: Image.asset(
+            aqIconPath!,
+            width: isTabletPortrait(context) ? 60.w : 30.w,
+            height: isTabletPortrait(context) ? 60.h : 30.h,
+            color:
+                (aqParameterName == '(Carbon Monoxide)') ? Colors.white : null,
+          ),
         ),
         RichText(
           text: TextSpan(
-            text: aqParameterValue,
+            text: '${aqParameterValue ?? 0.0}',
             style: textTheme.titleMedium?.copyWith(
               fontSize:
                   isTabletPortrait(context)
@@ -57,15 +62,18 @@ class AirQualitySummaryParameter extends StatelessWidget {
             ],
           ),
         ),
-        Text(
-          aqParameterName,
-          style: textTheme.titleSmall?.copyWith(
-            fontSize:
-                isTabletPortrait(context)
-                    ? 25.sp
-                    : isPhoneLandscape(context)
-                    ? 14.sp
-                    : null,
+        Skeletonizer(
+          enabled: aqParameterName == null,
+          child: Text(
+            aqParameterName!,
+            style: textTheme.titleSmall?.copyWith(
+              fontSize:
+                  isTabletPortrait(context)
+                      ? 25.sp
+                      : isPhoneLandscape(context)
+                      ? 14.sp
+                      : null,
+            ),
           ),
         ),
       ],

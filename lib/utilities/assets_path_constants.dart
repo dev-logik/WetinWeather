@@ -19,4 +19,18 @@ class AssetPath {
   static final o3Icon = 'assets/icons/o3.png';
   static final pm25Icon = 'assets/icons/pm2_5.png';
   static final so2Icon = 'assets/icons/so2.png';
+
+  //Map pollutant name to the its respective icon path.
+  static String mapPollutantToIcon(String pollutantSymbol) {
+    switch (pollutantSymbol) {
+      case 'CO':
+        return AssetPath.coIcon;
+      case 'O₃':
+        return AssetPath.o3Icon;
+      case 'PM25':
+        return AssetPath.pm25Icon;
+      default:
+        return '';
+    }
+  }
 }
