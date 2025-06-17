@@ -59,7 +59,7 @@ class WeatherSummaryParameter extends StatelessWidget {
                           ? isTabletLandscape(context)
                               ? 16.sp
                               : 12.sp
-                          : 16.sp,
+                          : 12.sp,
                   color: Colors.grey,
                 ),
               ),

@@ -1,11 +1,12 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:bloc_app/bloc/cubits.dart';
-import 'package:bloc_app/data/repositories/air_quality_repository.dart';
+import 'package:bloc_app/models/models.dart';
 import 'package:bloc_app/services/services.dart';
 import 'package:bloc_app/utilities/utilities.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
 import 'package:percent_indicator/flutter_percent_indicator.dart';
@@ -21,22 +22,25 @@ class AirQualityDetails extends StatefulWidget {
 }
 
 class _AirQualityDetailsState extends State<AirQualityDetails> {
-  late final LocationCubit locationCubit;
-  late final AirQualityRepository requestBody;
+  late final LocationCubit _locationCubit;
+  late final AirQualityBloc _airQualityCubit;
   @override
   void initState() {
     super.initState();
-    locationCubit = context.read<LocationCubit>();
-    locationCubit.startLocationService(
+    _locationCubit = context.read<LocationCubit>();
+    _airQualityCubit = context.read();
+    _airQualityCubit.add(LoadInitialDataEvent());
+    _locationCubit.startLocationService(
       locationStyleOption: LocationDisplayStyleOptions.CITY_COUNTRY,
     );
   }
 
   @override
   void dispose() {
-    locationCubit.startLocationService(
+    _locationCubit.startLocationService(
       locationStyleOption: LocationDisplayStyleOptions.CITY,
     );
+    _airQualityCubit.close();
     super.dispose();
   }
 
@@ -60,11 +64,7 @@ class _AirQualityDetailsState extends State<AirQualityDetails> {
               sizedH24,
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: 8.w),
-                child: _airQualityIndexSection(
-                  context,
-                  textTheme,
-                  isLightThemed,
-                ),
+                child: _airQualityStateHandler(textTheme, isLightThemed),
               ),
               sizedH24,
               Padding(
@@ -73,7 +73,7 @@ class _AirQualityDetailsState extends State<AirQualityDetails> {
               ),
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: 16.w),
-                child: airQualityParameters(context, textTheme),
+                child: _pollutantsStateHandler(textTheme, isLightThemed),
               ),
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: 16.w),
@@ -83,6 +83,80 @@ class _AirQualityDetailsState extends State<AirQualityDetails> {
           ),
         ),
       ),
+    );
+  }
+
+  BlocBuilder<AirQualityBloc, AirQualityState> _pollutantsStateHandler(
+    TextTheme textTheme,
+    bool isLightThemed,
+  ) {
+    return BlocBuilder<AirQualityBloc, AirQualityState>(
+      builder: (context, state) {
+        final _isError = state is AirQualityLoadFailure;
+        final _isSuccess = state is AirQualityLoadSuccess;
+        final _isLoading = state is AirQualityLoadInProgress;
+        if (_isError) {
+          final _error = state;
+          Fluttertoast.showToast(
+            msg: _error.exception.toString(),
+            backgroundColor: Colors.redAccent,
+            textColor: Colors.white,
+            gravity: ToastGravity.SNACKBAR,
+            fontSize: 14.sp,
+          );
+        }
+        if (_isSuccess) {
+          final _pollutants = state.data;
+          return airQualityPollutants(context, textTheme, _pollutants);
+        }
+
+        return _shimmerOnLoading(_isLoading, isLightThemed);
+      },
+    );
+  }
+
+  BlocBuilder<AirQualityBloc, AirQualityState> _airQualityStateHandler(
+    TextTheme textTheme,
+    bool isLightThemed,
+  ) {
+    return BlocBuilder<AirQualityBloc, AirQualityState>(
+      builder: (context, state) {
+        final _isError = state is AirQualityLoadFailure;
+        final _isSuccess = state is AirQualityLoadSuccess;
+
+        if (_isError) {
+          final _error = state;
+          Fluttertoast.showToast(
+            msg: _error.exception.toString(),
+            backgroundColor: Colors.redAccent,
+            textColor: Colors.white,
+            gravity: ToastGravity.SNACKBAR,
+            fontSize: 14.sp,
+          );
+        }
+
+        if (_isSuccess) {
+          final _pollutants = state.data;
+          final _aqi = AirQualityHelpers.getAirQualityIndex(
+            aQModels: _pollutants,
+          );
+          final _aqiRatio = AirQualityHelpers.getRelativeConcentration(_aqi);
+          return _airQualityIndexSection(
+            context,
+            textTheme,
+            isLightThemed,
+            _aqiRatio,
+            _aqi,
+          );
+        }
+        return _airQualityIndexSection(
+          context,
+          textTheme,
+          isLightThemed,
+          null,
+          null,
+        );
+      },
     );
   }
 
@@ -191,6 +265,8 @@ class _AirQualityDetailsState extends State<AirQualityDetails> {
     BuildContext context,
     TextTheme textTheme,
     bool isLightThemed,
+    double? aqiRatio,
+    double? AQI,
   ) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -206,18 +282,43 @@ class _AirQualityDetailsState extends State<AirQualityDetails> {
                   ? 60.sp
                   : 50.r,
           center: Center(
-            child: Text(
-              '25%',
-              style: textTheme.titleMedium?.copyWith(
-                fontSize:
-                    isTabletPortrait(context)
-                        ? 24.sp
-                        : isTabletLandscape(context)
-                        ? 30.sp
-                        : isPhoneLandscape(context)
-                        ? 22.sp
-                        : 20.sp,
-              ),
+            child: BlocBuilder<AirQualityBloc, AirQualityState>(
+              builder: (context, state) {
+                return Skeletonizer(
+                  switchAnimationConfig: SwitchAnimationConfig(
+                    switchInCurve: Curves.easeIn,
+                    switchOutCurve: Curves.easeOut,
+                  ),
+
+                  effect: ShimmerEffect(
+                    baseColor:
+                        (isLightThemed)
+                            ? LightColorConstants.primaryColor
+                            : DarkColorConstants.primaryColor,
+
+                    highlightColor:
+                        (isLightThemed)
+                            ? LightColorConstants.secondaryColor_1
+                            : DarkColorConstants.secondaryColor_1,
+
+                    duration: Duration(milliseconds: 700),
+                  ),
+                  enabled: (aqiRatio == null),
+                  child: Text(
+                    '${((aqiRatio ?? 0.0) * 100).toStringAsFixed(2)}%',
+                    style: textTheme.titleMedium?.copyWith(
+                      fontSize:
+                          isTabletPortrait(context)
+                              ? 24.sp
+                              : isTabletLandscape(context)
+                              ? 30.sp
+                              : isPhoneLandscape(context)
+                              ? 22.sp
+                              : 20.sp,
+                    ),
+                  ),
+                );
+              },
             ),
           ),
           animateToInitialPercent: true,
@@ -232,7 +333,7 @@ class _AirQualityDetailsState extends State<AirQualityDetails> {
                   : isTabletLandscape(context)
                   ? 10.w
                   : 5.w,
-          footer: Text(
+          header: Text(
             'AQI',
             style: textTheme.titleMedium?.copyWith(
               fontSize:
@@ -245,10 +346,9 @@ class _AirQualityDetailsState extends State<AirQualityDetails> {
                       : 12.sp,
             ),
           ),
-          onPercentValue: (value) {},
           rotateLinearGradient: true,
-          progressColor: Colors.green,
-          percent: .40,
+          progressColor: AirQualityHelpers.mapValueToColor(AQI ?? 0.0),
+          percent: aqiRatio ?? 0.0,
           startAngle: 180,
         ),
         SizedBox(
@@ -257,7 +357,7 @@ class _AirQualityDetailsState extends State<AirQualityDetails> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                'Good',
+                '${AirQualityHelpers.mapValueToRemark(AQI ?? 0.0)}',
                 style: textTheme.titleMedium?.copyWith(
                   fontSize:
                       isTabletPortrait(context)
@@ -297,58 +397,118 @@ class _AirQualityDetailsState extends State<AirQualityDetails> {
     );
   }
 
-  Widget airQualityParameters(BuildContext context, TextTheme textTheme) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            AirQualityParameterCard(
-              parameterName: ' (Particles < 2.5µm)',
-              parameterSymbol: 'PM25',
-              parameterValue: '17.59',
-            ),
-            AirQualityParameterCard(
-              parameterName: ' (Nitrogen Dioxide)',
-              parameterSymbol: 'NO₂',
-              parameterValue: '18.89',
-            ),
-          ],
-        ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
+  Widget airQualityPollutants(
+    BuildContext context,
+    TextTheme textTheme,
+    List<AirQualityPollutantModel> pollutants,
+  ) {
+    return GridView.builder(
+      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+        crossAxisCount: 2,
+        childAspectRatio: 1,
+      ),
+      itemCount: pollutants?.length,
+      shrinkWrap: true,
+      physics: NeverScrollableScrollPhysics(),
+      itemBuilder: (context, index) {
+        AirQualityPollutantModel pollutantModel;
+        pollutantModel = pollutants[index];
+        return AirQualityPollutantIndividualCard(
+          pollutantName: pollutantModel.pollutantName,
+          pollutantSymbol: pollutantModel.pollutantSymbol,
+          pollutantConcentration: pollutantModel.getPollutantConcIn(),
+          indicatorColor: pollutantModel.mapValueToColor,
+          pollutantUnit: pollutantModel.getpollutantUnitStringFor(),
+          remark: pollutantModel.remarks,
+          relativeConcentration: pollutantModel.relativeConc,
+        );
+      },
+    );
+  }
 
-          children: [
-            AirQualityParameterCard(
-              parameterName: ' (Ozone)',
-              parameterSymbol: 'O₃',
-              parameterValue: '79.49',
-            ),
-            AirQualityParameterCard(
-              parameterName: ' (Sulphur Dioxide)',
-              parameterSymbol: 'SO₂',
-              parameterValue: '5.09',
-            ),
-          ],
-        ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
+  Skeletonizer _shimmerOnLoading(bool _isLoading, bool isLightThemed) {
+    return Skeletonizer(
+      switchAnimationConfig: SwitchAnimationConfig(
+        switchInCurve: Curves.easeInToLinear,
+        switchOutCurve: Curves.elasticInOut,
+      ),
 
-          children: [
-            AirQualityParameterCard(
-              parameterName: ' (Carbon Monoxide)',
-              parameterSymbol: 'CO',
-              parameterValue: '1360.59',
-            ),
-            AirQualityParameterCard(
-              parameterName: ' (Particles < 10µm)',
-              parameterSymbol: 'PM10',
-              parameterValue: '34.24',
-            ),
-          ],
+      effect: ShimmerEffect(
+        baseColor:
+            (isLightThemed)
+                ? LightColorConstants.primaryColor
+                : DarkColorConstants.primaryColor,
+
+        highlightColor:
+            (isLightThemed)
+                ? LightColorConstants.secondaryColor_1
+                : DarkColorConstants.secondaryColor_1,
+
+        duration: Duration(milliseconds: 700),
+      ),
+      enabled: _isLoading,
+      child: GridView(
+        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: 2,
         ),
-      ],
+        shrinkWrap: true,
+        children: [
+          AirQualityPollutantIndividualCard(
+            pollutantName: null,
+            pollutantSymbol: null,
+            pollutantConcentration: null,
+            indicatorColor: null,
+            pollutantUnit: null,
+            remark: null,
+            relativeConcentration: null,
+          ),
+          AirQualityPollutantIndividualCard(
+            pollutantName: null,
+            pollutantSymbol: null,
+            pollutantConcentration: null,
+            indicatorColor: null,
+            pollutantUnit: null,
+            remark: null,
+            relativeConcentration: null,
+          ),
+          AirQualityPollutantIndividualCard(
+            pollutantName: null,
+            pollutantSymbol: null,
+            pollutantConcentration: null,
+            indicatorColor: null,
+            pollutantUnit: null,
+            remark: null,
+            relativeConcentration: null,
+          ),
+          AirQualityPollutantIndividualCard(
+            pollutantName: null,
+            pollutantSymbol: null,
+            pollutantConcentration: null,
+            indicatorColor: null,
+            pollutantUnit: null,
+            remark: null,
+            relativeConcentration: null,
+          ),
+          AirQualityPollutantIndividualCard(
+            pollutantName: null,
+            pollutantSymbol: null,
+            pollutantConcentration: null,
+            indicatorColor: null,
+            pollutantUnit: null,
+            remark: null,
+            relativeConcentration: null,
+          ),
+          AirQualityPollutantIndividualCard(
+            pollutantName: null,
+            pollutantSymbol: null,
+            pollutantConcentration: null,
+            indicatorColor: null,
+            pollutantUnit: null,
+            remark: null,
+            relativeConcentration: null,
+          ),
+        ],
+      ),
     );
   }
 }

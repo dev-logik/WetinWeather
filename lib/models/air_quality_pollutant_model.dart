@@ -16,6 +16,7 @@ class AirQualityPollutantModel extends Equatable {
   final String _pollutantSymbol;
   final double _pollutantConcentration;
   static const double _standardMolarVolumeLitersPerMole = 24.45;
+  static const double _highestAQI = 500;
 
   final Map<String, double> _molecularWeights = {
     "CO": 28.01,
@@ -27,7 +28,9 @@ class AirQualityPollutantModel extends Equatable {
   String get pollutantName => _pollutantName;
   String get pollutantSymbol => _pollutantSymbol;
   double get basePollutantConc => _pollutantConcentration;
+  double get relativeConc => _getRelativeConcentration(_pollutantConcentration);
   Color? get mapValueToColor => _mapValueToColor(_pollutantConcentration);
+  String? get remarks => _mapValueToRemark(_pollutantConcentration);
 
   double getPollutantConcIn({
     AirQualityConcUnits units = AirQualityConcUnits.microgramsPerCubicMeter,
@@ -74,6 +77,26 @@ class AirQualityPollutantModel extends Equatable {
     }
     // value is implicitly > 300
     return Colors.red[900];
+  }
+
+  static String? _mapValueToRemark(double value) {
+    if (value <= 50) {
+      return 'Good';
+    } else if (value <= 100) {
+      return 'Moderate';
+    } else if (value <= 150) {
+      return 'Unhealthy (SG)';
+    } else if (value <= 200) {
+      return 'Unhealthy';
+    } else if (value <= 300) {
+      return 'Very Unhealthy';
+    }
+    // value is implicitly > 300
+    return 'Hazardous';
+  }
+
+  static double _getRelativeConcentration(double? currentValue) {
+    return (currentValue ?? 0.0) / _highestAQI;
   }
 
   @override

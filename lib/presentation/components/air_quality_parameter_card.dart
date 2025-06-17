@@ -4,16 +4,24 @@ import 'package:percent_indicator/flutter_percent_indicator.dart';
 
 import '../../utilities/utilities.dart';
 
-class AirQualityParameterCard extends StatelessWidget {
-  const AirQualityParameterCard({
+class AirQualityPollutantIndividualCard extends StatelessWidget {
+  const AirQualityPollutantIndividualCard({
     super.key,
-    required this.parameterName,
-    required this.parameterSymbol,
-    required this.parameterValue,
+    required this.pollutantName,
+    required this.pollutantSymbol,
+    required this.pollutantConcentration,
+    required this.pollutantUnit,
+    required this.relativeConcentration,
+    required this.indicatorColor,
+    required this.remark,
   });
-  final String parameterName;
-  final String parameterSymbol;
-  final String parameterValue;
+  final String? pollutantName;
+  final String? pollutantSymbol;
+  final double? pollutantConcentration;
+  final double? relativeConcentration;
+  final String? pollutantUnit;
+  final Color? indicatorColor;
+  final String? remark;
 
   @override
   Widget build(BuildContext context) {
@@ -40,7 +48,6 @@ class AirQualityParameterCard extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Flexible(
-                        flex: 2,
                         child: aqiInformation(
                           textTheme,
                           context,
@@ -61,9 +68,20 @@ class AirQualityParameterCard extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      aqiPercentageIndicator(context, textTheme, isLightThemed),
-                      aqiInformation(textTheme, context, isDeviceInLandscape),
-                      sizedW8,
+                      Flexible(
+                        child: aqiPercentageIndicator(
+                          context,
+                          textTheme,
+                          isLightThemed,
+                        ),
+                      ),
+                      Flexible(
+                        child: aqiInformation(
+                          textTheme,
+                          context,
+                          isDeviceInLandscape,
+                        ),
+                      ),
                     ],
                   ),
         ),
@@ -77,7 +95,7 @@ class AirQualityParameterCard extends StatelessWidget {
     bool isDeviceInLandscape,
   ) {
     return Column(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment:
           (isDeviceInLandscape)
               ? CrossAxisAlignment.start
@@ -85,7 +103,7 @@ class AirQualityParameterCard extends StatelessWidget {
       children: [
         RichText(
           text: TextSpan(
-            text: parameterSymbol,
+            text: pollutantSymbol,
             style: textTheme.titleSmall?.copyWith(
               fontWeight: FontWeight.bold,
               fontSize:
@@ -95,11 +113,11 @@ class AirQualityParameterCard extends StatelessWidget {
                       ? 28.sp
                       : isPhoneLandscape(context)
                       ? 16.sp
-                      : 14.sp,
+                      : 12.sp,
             ),
             children: <TextSpan>[
               TextSpan(
-                text: parameterName,
+                text: '${pollutantName}',
                 style: textTheme.bodySmall?.copyWith(
                   fontWeight: FontWeight.w100,
                   color: Colors.grey,
@@ -110,7 +128,7 @@ class AirQualityParameterCard extends StatelessWidget {
                           ? 28.sp
                           : isPhoneLandscape(context)
                           ? 16.sp
-                          : 14.sp,
+                          : 12.sp,
                 ),
               ),
             ],
@@ -124,7 +142,7 @@ class AirQualityParameterCard extends StatelessWidget {
                   : MainAxisAlignment.center,
           children: [
             Text(
-              'Moderate',
+              remark ?? '',
               style: textTheme.bodySmall?.copyWith(
                 fontWeight: FontWeight.w100,
                 fontSize:
@@ -141,7 +159,7 @@ class AirQualityParameterCard extends StatelessWidget {
             Container(
               decoration: ShapeDecoration(
                 shape: CircleBorder(),
-                color: Colors.greenAccent,
+                color: indicatorColor,
               ),
               height: isTabletLandscape(context) ? 10.h : 5.h,
               width: isTabletLandscape(context) ? 10.w : 5.w,
@@ -150,7 +168,7 @@ class AirQualityParameterCard extends StatelessWidget {
         ),
         RichText(
           text: TextSpan(
-            text: parameterValue,
+            text: '${pollutantConcentration}',
             style: textTheme.bodySmall?.copyWith(
               fontWeight: FontWeight.w100,
               //color: Colors.grey,
@@ -165,7 +183,7 @@ class AirQualityParameterCard extends StatelessWidget {
             ),
             children: <TextSpan>[
               TextSpan(
-                text: ' µg/m³',
+                text: ' ${pollutantUnit}',
                 style: textTheme.bodySmall?.copyWith(
                   fontWeight: FontWeight.w100,
                   color: Colors.grey,
@@ -199,14 +217,14 @@ class AirQualityParameterCard extends StatelessWidget {
               ? 60.r
               : isPhoneLandscape(context)
               ? 35.r
-              : 30.r,
+              : 34.r,
       curve: Curves.easeOutSine,
-      percent: 0.30,
-      progressColor: Colors.green,
+      percent: relativeConcentration ?? 0.0,
+      progressColor: indicatorColor,
       startAngle: 180.0,
       animation: true,
       center: Text(
-        '20',
+        '${pollutantConcentration}',
         style: textTheme.bodyMedium?.copyWith(
           fontSize:
               isTabletPortrait(context)
@@ -225,7 +243,7 @@ class AirQualityParameterCard extends StatelessWidget {
               ? 5.w
               : isPhoneLandscape(context)
               ? 3.w
-              : 2.w,
+              : 4.w,
     );
   }
 }

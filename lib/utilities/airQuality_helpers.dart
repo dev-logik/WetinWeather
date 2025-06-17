@@ -19,6 +19,22 @@ abstract class AirQualityHelpers {
     return Colors.red[900];
   }
 
+  static String? mapValueToRemark(double value) {
+    if (value <= 50) {
+      return 'Good';
+    } else if (value <= 100) {
+      return 'Moderate';
+    } else if (value <= 150) {
+      return 'Unhealthy (Vulnerable)';
+    } else if (value <= 200) {
+      return 'Unhealthy';
+    } else if (value <= 300) {
+      return 'Very Unhealthy';
+    }
+    // value is implicitly > 300
+    return 'Hazardous';
+  }
+
   static double? getAirQualityIndex({
     required List<AirQualityPollutantModel> aQModels,
   }) {
@@ -29,7 +45,7 @@ abstract class AirQualityHelpers {
     return aqIndex.basePollutantConc;
   }
 
-  static double getRelativeConcentration(double currentValue) {
-    return currentValue / _highestAQI;
+  static double getRelativeConcentration(double? currentValue) {
+    return (currentValue ?? 0.0) / _highestAQI;
   }
 }

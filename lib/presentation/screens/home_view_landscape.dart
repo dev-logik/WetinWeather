@@ -238,21 +238,21 @@ class _HomeScreenMobileLandscapeState extends State<HomeScreenMobileLandscape> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               mainAxisSize: MainAxisSize.min,
               children: <Widget>[
-                AirQualitySummaryParameter(
+                AirQualityPollutantSummaryCard(
                   aqIconPath: AssetPath.coIcon,
                   aqParameterName: 'Carbon 1',
                   aqParameterUnit: 'µmm/g',
                   aqParameterValue: 5.0,
                 ),
                 isTabletLandscape(context) ? sizedW32 : sizedW24,
-                AirQualitySummaryParameter(
+                AirQualityPollutantSummaryCard(
                   aqIconPath: AssetPath.pm25Icon,
                   aqParameterName: 'PM 2.5',
                   aqParameterValue: 100,
                   aqParameterUnit: 'µmm/g',
                 ),
                 isTabletLandscape(context) ? sizedW32 : sizedW24,
-                AirQualitySummaryParameter(
+                AirQualityPollutantSummaryCard(
                   aqIconPath: AssetPath.o3Icon,
                   aqParameterName: 'Ozone',
                   aqParameterValue: 2.5,

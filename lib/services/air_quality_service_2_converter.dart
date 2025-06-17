@@ -72,17 +72,17 @@ class AirQualityServiceTwoConverter extends JsonConverter {
   ) {
     for (var pollutantEntry in pollutantData.entries) {
       if (pollutantEntry.key.trim() == 'pm10') {
-        pollutantName = ' (Particles < 10µm)';
+        pollutantName = ' (Coarse PM)';
         pollutantSymbol = 'PM10';
         pollutantConcentration = pollutantEntry.value as double;
       }
       if (pollutantEntry.key.trim() == 'pm2_5') {
-        pollutantName = ' (Particles < 2.5µm)';
+        pollutantName = ' (Fine PM)';
         pollutantSymbol = 'PM25';
         pollutantConcentration = pollutantEntry.value as double;
       }
       if (pollutantEntry.key.trim() == 'carbon_monoxide') {
-        pollutantName = ' (Carbon Monoxide)';
+        pollutantName = ' (CO Gas)';
         pollutantSymbol = 'CO';
         pollutantConcentration = pollutantEntry.value as double;
       }

@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
-class AirQualitySummaryParameter extends StatelessWidget {
-  const AirQualitySummaryParameter({
+class AirQualityPollutantSummaryCard extends StatelessWidget {
+  const AirQualityPollutantSummaryCard({
     super.key,
     required this.aqIconPath,
     required this.aqParameterName,
@@ -22,61 +22,78 @@ class AirQualitySummaryParameter extends StatelessWidget {
     final textTheme = Theme.of(context).textTheme;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.center,
+      mainAxisSize: MainAxisSize.min,
       children: [
-        //Todo: Check if an icon can replace this.
-        //Todo: the values will be passed dynamically.
-        Skeletonizer(
-          enabled: aqIconPath == null,
-          child: Image.asset(
-            aqIconPath!,
-            width: isTabletPortrait(context) ? 60.w : 30.w,
-            height: isTabletPortrait(context) ? 60.h : 30.h,
-            color:
-                (aqParameterName == '(Carbon Monoxide)') ? Colors.white : null,
+        _showPollutantIcon(context),
+        _showPollutantConcentration(textTheme, context),
+        _showPollutantName(textTheme, context),
+      ],
+    );
+  }
+
+  Skeletonizer _showPollutantName(TextTheme textTheme, BuildContext context) {
+    return Skeletonizer(
+      enabled: aqParameterName == null,
+      child: Text(
+        aqParameterName!.substring(1, aqParameterName!.length - 1),
+        style: textTheme.titleSmall?.copyWith(
+          fontSize:
+              isTabletPortrait(context)
+                  ? 25.sp
+                  : isPhoneLandscape(context)
+                  ? 14.sp
+                  : 14.sp,
+        ),
+      ),
+    );
+  }
+
+  Widget _showPollutantConcentration(
+    TextTheme textTheme,
+    BuildContext context,
+  ) {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        Text(
+          '${aqParameterValue ?? 0.0}',
+          style: textTheme.titleMedium?.copyWith(
+            fontSize:
+                isTabletPortrait(context)
+                    ? 35.sp
+                    : isPhoneLandscape(context)
+                    ? 16.sp
+                    : 24.sp,
           ),
         ),
-        RichText(
-          text: TextSpan(
-            text: '${aqParameterValue ?? 0.0}',
-            style: textTheme.titleMedium?.copyWith(
-              fontSize:
-                  isTabletPortrait(context)
-                      ? 35.sp
-                      : isPhoneLandscape(context)
-                      ? 16.sp
-                      : 24.sp,
-            ),
-            children: <InlineSpan>[
-              TextSpan(
-                text: aqParameterUnit,
-                style: textTheme.titleMedium?.copyWith(
-                  fontSize:
-                      isTabletPortrait(context)
-                          ? 27.sp
-                          : isPhoneLandscape(context)
-                          ? 12.sp
-                          : 16.sp,
-                  color: Colors.grey,
-                ),
-              ),
-            ],
-          ),
-        ),
-        Skeletonizer(
-          enabled: aqParameterName == null,
-          child: Text(
-            aqParameterName!,
-            style: textTheme.titleSmall?.copyWith(
-              fontSize:
-                  isTabletPortrait(context)
-                      ? 25.sp
-                      : isPhoneLandscape(context)
-                      ? 14.sp
-                      : null,
-            ),
+        Text(
+          '${aqParameterUnit}',
+          style: textTheme.titleMedium?.copyWith(
+            fontSize:
+                isTabletPortrait(context)
+                    ? 27.sp
+                    : isPhoneLandscape(context)
+                    ? isTabletLandscape(context)
+                        ? 16.sp
+                        : 12.sp
+                    : 12.sp,
+            color: Colors.grey,
           ),
         ),
       ],
+    );
+  }
+
+  Skeletonizer _showPollutantIcon(BuildContext context) {
+    return Skeletonizer(
+      enabled: aqIconPath == null,
+      child: Image.asset(
+        aqIconPath!,
+        width: isTabletPortrait(context) ? 60.w : 30.w,
+        height: isTabletPortrait(context) ? 60.h : 30.h,
+        color: (aqParameterName == '(CO Gas)') ? Colors.white : null,
+      ),
     );
   }
 }
