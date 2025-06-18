@@ -84,7 +84,7 @@ class _HomeSummaryState extends State<HomeSummary> {
                 GestureDetector(
                   child: ForecastSummary(key: const ValueKey(0)),
                   onTap: () {
-                    context.pushNamed('forcast details');
+                    context.pushNamed('forecast details');
                   },
                 ),
                 GestureDetector(

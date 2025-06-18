@@ -224,14 +224,14 @@ class AirQualityPollutantIndividualCard extends StatelessWidget {
       startAngle: 180.0,
       animation: true,
       center: Text(
-        '${pollutantConcentration}',
+        '${(relativeConcentration! * 100).toStringAsFixed(2)}%',
         style: textTheme.bodyMedium?.copyWith(
           fontSize:
               isTabletPortrait(context)
                   ? 20.sp
                   : isPhoneLandscape(context)
                   ? 18.sp
-                  : 16.sp,
+                  : 12.sp,
           color: (isLightThemed) ? Colors.white : Colors.grey,
           fontWeight: isTabletPortrait(context) ? FontWeight.w500 : null,
         ),

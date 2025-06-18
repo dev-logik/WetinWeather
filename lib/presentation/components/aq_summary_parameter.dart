@@ -35,7 +35,7 @@ class AirQualityPollutantSummaryCard extends StatelessWidget {
     return Skeletonizer(
       enabled: aqParameterName == null,
       child: Text(
-        aqParameterName!.substring(1, aqParameterName!.length - 1),
+        aqParameterName!,
         style: textTheme.titleSmall?.copyWith(
           fontSize:
               isTabletPortrait(context)
@@ -74,9 +74,9 @@ class AirQualityPollutantSummaryCard extends StatelessWidget {
                 isTabletPortrait(context)
                     ? 27.sp
                     : isPhoneLandscape(context)
-                    ? isTabletLandscape(context)
-                        ? 16.sp
-                        : 12.sp
+                    ? 10.sp
+                    : isTabletLandscape(context)
+                    ? 16.sp
                     : 12.sp,
             color: Colors.grey,
           ),
@@ -92,7 +92,7 @@ class AirQualityPollutantSummaryCard extends StatelessWidget {
         aqIconPath!,
         width: isTabletPortrait(context) ? 60.w : 30.w,
         height: isTabletPortrait(context) ? 60.h : 30.h,
-        color: (aqParameterName == '(CO Gas)') ? Colors.white : null,
+        color: (aqParameterName == '(CO Gas') ? Colors.white : null,
       ),
     );
   }

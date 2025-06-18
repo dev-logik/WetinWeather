@@ -3,6 +3,7 @@ import 'package:bloc_app/presentation/screen%20sections/hourly_section.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
 import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
@@ -22,24 +23,35 @@ class HomeScreenMobileLandscape extends StatefulWidget {
 }
 
 class _HomeScreenMobileLandscapeState extends State<HomeScreenMobileLandscape> {
-  late final LocationCubit locationStateProvider;
-  late final DateTimeCubit dateTimeCubitProvider;
+  late final LocationCubit _locationStateProvider;
+  late final DateTimeCubit _dateTimeCubitProvider;
+  late final AirQualityBloc _airQualityBloc;
   @override
   void initState() {
-    dateTimeCubitProvider = context.read<DateTimeCubit>();
-    locationStateProvider = context.read<LocationCubit>();
+    _dateTimeCubitProvider = context.read<DateTimeCubit>();
+    _locationStateProvider = context.read<LocationCubit>();
+    _airQualityBloc = context.read<AirQualityBloc>();
 
-    dateTimeCubitProvider.startTime();
-    locationStateProvider.startLocationService();
+    _dateTimeCubitProvider.startTime();
+    _locationStateProvider.startLocationService();
+    _airQualityBloc.add(LoadInitialDataEvent());
 
     super.initState();
   }
 
   @override
   void dispose() {
-    dateTimeCubitProvider.dispose();
-
+    _dateTimeCubitProvider.dispose();
+    _airQualityBloc.close();
     super.dispose();
+  }
+
+  bool _isRefreshing = false;
+  Future<void> _handlePullToRefresh() async {
+    if (_isRefreshing) return;
+    await context.read<LocationCubit>().startLocationService();
+    _airQualityBloc.add(LoadInitialDataEvent());
+    _isRefreshing = true;
   }
 
   @override
@@ -55,11 +67,10 @@ class _HomeScreenMobileLandscapeState extends State<HomeScreenMobileLandscape> {
           (isLightThemed)
               ? DarkColorConstants.secondaryColor_2
               : LightColorConstants.secondaryColor_2,
-      onRefresh: () async {
-        await context.read<LocationCubit>().startLocationService();
-      },
+      onRefresh: _handlePullToRefresh,
       child: ListView(
         physics: AlwaysScrollableScrollPhysics(),
+        shrinkWrap: true,
         children: [
           Column(
             crossAxisAlignment: CrossAxisAlignment.center,
@@ -72,39 +83,52 @@ class _HomeScreenMobileLandscapeState extends State<HomeScreenMobileLandscape> {
               isTabletLandscape(context) ? sizedH24 : sizedH16,
               headerSection(textTheme, isLightThemed),
               isTabletLandscape(context) ? sizedH24 : Container(),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  ConstrainedBox(
-                    constraints: BoxConstraints(
-                      maxWidth: 0.67.sw,
-                      maxHeight: 0.55.sh,
-                    ),
-                    child: Card(
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        children: <Widget>[
-                          Flexible(child: _forecastSection(textTheme, context)),
-                          _separator(),
-                          Flexible(
-                            child: _airQualitySection(textTheme, context),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                  Expanded(
-                    child: Column(
-                      children: [
-                        _pageBreakHeaderSection(textTheme, context),
-                        HourlySection(),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
+              _dataSection(textTheme, context, isLightThemed),
             ],
+          ),
+        ],
+      ),
+    );
+  }
+
+  Row _dataSection(
+    TextTheme textTheme,
+    BuildContext context,
+    bool isLightThemed,
+  ) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        ConstrainedBox(
+          constraints: BoxConstraints(maxWidth: 0.67.sw, maxHeight: 0.55.sh),
+          child: _weatherNairQuality(textTheme, context, isLightThemed),
+        ),
+        Expanded(
+          child: Column(
+            children: [
+              _pageBreakHeaderSection(textTheme, context),
+              HourlySection(),
+            ],
+          ),
+        ),
+      ],
+    );
+  }
+
+  Card _weatherNairQuality(
+    TextTheme textTheme,
+    BuildContext context,
+    bool isLightThemed,
+  ) {
+    return Card(
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        children: <Widget>[
+          Flexible(child: _forecastSection(textTheme, context)),
+          _separator(),
+          Flexible(
+            child: _airQualitySection(textTheme, context, isLightThemed),
           ),
         ],
       ),
@@ -152,7 +176,7 @@ class _HomeScreenMobileLandscapeState extends State<HomeScreenMobileLandscape> {
     );
   }
 
-  Padding _pageBreakHeaderSection(TextTheme textTheme, BuildContext context) {
+  Widget _pageBreakHeaderSection(TextTheme textTheme, BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Row(
@@ -184,11 +208,15 @@ class _HomeScreenMobileLandscapeState extends State<HomeScreenMobileLandscape> {
     );
   }
 
-  Container _separator() {
+  Widget _separator() {
     return Container(color: Colors.white, width: 1.w, height: .5.sh);
   }
 
-  Widget _airQualitySection(TextTheme textTheme, BuildContext context) {
+  Widget _airQualitySection(
+    TextTheme textTheme,
+    BuildContext context,
+    bool isLightThemed,
+  ) {
     return GestureDetector(
       onTap: () {
         context.pushNamed('air quality details');
@@ -201,64 +229,133 @@ class _HomeScreenMobileLandscapeState extends State<HomeScreenMobileLandscape> {
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Padding(
-                padding: EdgeInsets.all(
-                  isTabletLandscape(context) ? 6.dm : 2.dm,
-                ),
-                child: CircularPercentIndicator(
-                  onPercentValue: (value) {},
-                  progressColor: Colors.greenAccent,
-                  curve: Curves.easeInCubic,
-                  percent: 0.25,
-                  radius: isTabletLandscape(context) ? 125.r : 50.r,
-                  arcType: ArcType.FULL,
-                  arcBackgroundColor: Colors.grey,
-                  animateFromLastPercent: true,
-                  animateToInitialPercent: true,
-                  center: Text(
-                    '25%',
-                    style: textTheme.titleSmall?.copyWith(
-                      fontSize: isPhoneLandscape(context) ? 14.sp : 24.sp,
-                    ),
-                  ),
-                  footer: Text(
-                    'AQI',
-                    style: textTheme.titleSmall?.copyWith(
-                      fontSize: isPhoneLandscape(context) ? 12.sp : 24.sp,
-                    ),
-                  ),
-                  lineWidth: isTabletLandscape(context) ? 8.w : 4.w,
-                ),
+              sizedH8,
+              BlocBuilder<AirQualityBloc, AirQualityState>(
+                builder: (context, state) {
+                  final _isSuccess = state is AirQualityLoadSuccess;
+                  final _isError = state is AirQualityLoadFailure;
+                  final _isLoading = state is AirQualityLoadInProgress;
+
+                  //Show a toast when an error occurs.
+                  if (_isError) {
+                    final _error = state;
+                    Fluttertoast.showToast(
+                      msg: _error.exception.toString(),
+                      backgroundColor: Colors.redAccent,
+                      textColor: Colors.white,
+                      gravity: ToastGravity.SNACKBAR,
+                      fontSize: 14.sp,
+                    );
+                  }
+
+                  if (_isSuccess) {
+                    final _pollutants = state.data;
+                    final aqiValue = AirQualityHelpers.getAirQualityIndex(
+                      aQModels: _pollutants,
+                    );
+                    final aqiRelativeConcentration =
+                        AirQualityHelpers.getRelativeConcentration(aqiValue);
+                    return _displayGaugeWithData(
+                      aqiValue,
+                      aqiRelativeConcentration,
+                      context,
+                      textTheme,
+                    );
+                  }
+                  return _shimmerGuageOnLoading(
+                    context,
+                    isLightThemed,
+                    _isLoading,
+                    textTheme,
+                  );
+                },
               ),
             ],
           ),
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: 4.w, vertical: 4.h),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              mainAxisSize: MainAxisSize.min,
-              children: <Widget>[
-                AirQualityPollutantSummaryCard(
-                  aqIconPath: AssetPath.coIcon,
-                  aqParameterName: 'Carbon 1',
-                  aqParameterUnit: 'µmm/g',
-                  aqParameterValue: 5.0,
-                ),
-                isTabletLandscape(context) ? sizedW32 : sizedW24,
-                AirQualityPollutantSummaryCard(
-                  aqIconPath: AssetPath.pm25Icon,
-                  aqParameterName: 'PM 2.5',
-                  aqParameterValue: 100,
-                  aqParameterUnit: 'µmm/g',
-                ),
-                isTabletLandscape(context) ? sizedW32 : sizedW24,
-                AirQualityPollutantSummaryCard(
-                  aqIconPath: AssetPath.o3Icon,
-                  aqParameterName: 'Ozone',
-                  aqParameterValue: 2.5,
-                  aqParameterUnit: 'µmm/g',
-                ),
-              ],
+
+          Flexible(
+            child: BlocBuilder<AirQualityBloc, AirQualityState>(
+              builder: (context, state) {
+                final _isSuccess = state is AirQualityLoadSuccess;
+                final _isError = state is AirQualityLoadFailure;
+                final _isLoading = state is AirQualityLoadInProgress;
+
+                //Show a toast when an error occurs.
+                if (_isError) {
+                  final _error = state;
+                  Fluttertoast.showToast(
+                    msg: _error.exception.toString(),
+                    backgroundColor: Colors.redAccent,
+                    textColor: Colors.white,
+                    gravity: ToastGravity.SNACKBAR,
+                    fontSize: 14.sp,
+                  );
+                }
+                if (_isSuccess) {
+                  final _pollutants = state.data;
+
+                  final _filteredPollutants =
+                      _pollutants
+                          .where(
+                            (pollutant) =>
+                                pollutant.pollutantSymbol == 'CO' ||
+                                pollutant.pollutantSymbol == 'O₃' ||
+                                pollutant.pollutantSymbol == 'PM25',
+                          )
+                          .toList();
+                  return ListView.separated(
+                    scrollDirection: Axis.horizontal,
+                    itemCount: _filteredPollutants.length,
+                    shrinkWrap: true,
+                    physics: NeverScrollableScrollPhysics(),
+                    itemBuilder: (context, index) {
+                      final requiredPollutant = _filteredPollutants[index];
+                      return AirQualityPollutantSummaryCard(
+                        aqIconPath: AssetPath.mapPollutantToIcon(
+                          requiredPollutant.pollutantSymbol,
+                        ),
+                        aqParameterName: requiredPollutant.pollutantName,
+                        aqParameterValue:
+                            requiredPollutant.getPollutantConcIn(),
+                        aqParameterUnit:
+                            requiredPollutant.getpollutantUnitStringFor(),
+                      );
+                    },
+                    separatorBuilder: (BuildContext context, int index) {
+                      return SizedBox(width: .04.sw);
+                    },
+                  );
+                }
+
+                return Skeletonizer(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    mainAxisSize: MainAxisSize.min,
+                    children: <Widget>[
+                      AirQualityPollutantSummaryCard(
+                        aqIconPath: AssetPath.coIcon,
+                        aqParameterName: 'Carbon 1',
+                        aqParameterUnit: 'µmm/g',
+                        aqParameterValue: 5.0,
+                      ),
+                      isTabletLandscape(context) ? sizedW32 : sizedW24,
+                      AirQualityPollutantSummaryCard(
+                        aqIconPath: AssetPath.pm25Icon,
+                        aqParameterName: 'PM 2.5',
+                        aqParameterValue: 100,
+                        aqParameterUnit: 'µmm/g',
+                      ),
+                      isTabletLandscape(context) ? sizedW32 : sizedW24,
+                      AirQualityPollutantSummaryCard(
+                        aqIconPath: AssetPath.o3Icon,
+                        aqParameterName: 'Ozone',
+                        aqParameterValue: 2.5,
+                        aqParameterUnit: 'µmm/g',
+                      ),
+                    ],
+                  ),
+                );
+              },
             ),
           ),
         ],
@@ -266,10 +363,109 @@ class _HomeScreenMobileLandscapeState extends State<HomeScreenMobileLandscape> {
     );
   }
 
+  CircularPercentIndicator _shimmerGuageOnLoading(
+    BuildContext context,
+    bool isLightThemed,
+    bool _isLoading,
+    TextTheme textTheme,
+  ) {
+    return CircularPercentIndicator(
+      progressColor: Colors.grey,
+      curve: Curves.bounceIn,
+      percent: 0.0,
+      radius: isTabletLandscape(context) ? 20.r : 50.r,
+      arcType: ArcType.FULL,
+      arcBackgroundColor: Colors.grey,
+      animateFromLastPercent: true,
+      animateToInitialPercent: true,
+      center: Skeletonizer(
+        switchAnimationConfig: SwitchAnimationConfig(
+          switchInCurve: Curves.easeIn,
+          switchOutCurve: Curves.easeOut,
+        ),
+
+        effect: ShimmerEffect(
+          baseColor:
+              (isLightThemed)
+                  ? LightColorConstants.primaryColor
+                  : DarkColorConstants.primaryColor,
+
+          highlightColor:
+              (isLightThemed)
+                  ? LightColorConstants.secondaryColor_1
+                  : DarkColorConstants.secondaryColor_1,
+
+          duration: Duration(milliseconds: 700),
+        ),
+        enabled: _isLoading,
+        child: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Text(
+                'loading...',
+                style: textTheme.titleSmall?.copyWith(
+                  fontSize: isPhoneLandscape(context) ? 14.sp : 24.sp,
+                ),
+              ),
+              Text(
+                'loading',
+                style: textTheme.titleSmall?.copyWith(
+                  fontSize: isPhoneLandscape(context) ? 12.sp : 24.sp,
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+      lineWidth: isTabletLandscape(context) ? 8.w : 4.w,
+    );
+  }
+
+  CircularPercentIndicator _displayGaugeWithData(
+    double? aqiValue,
+    double aqiRelativeConcentration,
+    BuildContext context,
+    TextTheme textTheme,
+  ) {
+    return CircularPercentIndicator(
+      progressColor: AirQualityHelpers.mapValueToColor(aqiValue!),
+      curve: Curves.bounceIn,
+      percent: aqiRelativeConcentration,
+      radius: isTabletLandscape(context) ? 20.r : 50.r,
+      arcType: ArcType.FULL,
+      arcBackgroundColor: Colors.grey,
+      animateFromLastPercent: true,
+      animateToInitialPercent: true,
+      center: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Text(
+              '${(aqiRelativeConcentration * 100).toStringAsFixed(2)}%',
+              style: textTheme.titleSmall?.copyWith(
+                fontSize: isPhoneLandscape(context) ? 14.sp : 24.sp,
+              ),
+            ),
+            Text(
+              'AQI',
+              style: textTheme.titleSmall?.copyWith(
+                fontSize: isPhoneLandscape(context) ? 12.sp : 24.sp,
+              ),
+            ),
+          ],
+        ),
+      ),
+      lineWidth: isTabletLandscape(context) ? 8.w : 4.w,
+    );
+  }
+
   Widget _forecastSection(TextTheme textTheme, BuildContext context) {
     return GestureDetector(
       onTap: () {
-        context.pushNamed('forcast details');
+        context.pushNamed('forecast details');
       },
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,

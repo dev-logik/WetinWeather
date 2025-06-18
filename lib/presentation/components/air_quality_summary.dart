@@ -96,7 +96,7 @@ class AirQualitySummary extends StatelessWidget {
       itemCount: listViewLength,
       shrinkWrap: true,
       itemBuilder: (context, index) {
-        final filteredList =
+        final _filteredPollutants =
             _pollutants
                 .where(
                   (pollutant) =>
@@ -106,7 +106,7 @@ class AirQualitySummary extends StatelessWidget {
                 )
                 .toList();
 
-        final data = filteredList[index];
+        final data = _filteredPollutants[index];
 
         return _buildAirQualityPollutantsInfo(data, index);
       },

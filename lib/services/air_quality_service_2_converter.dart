@@ -15,9 +15,9 @@ class AirQualityServiceTwoConverter extends JsonConverter {
     Response response,
   ) async {
     final List<AirQualityPollutantModel> _pollutants = [];
-    String? pollutantName;
-    String? pollutantSymbol;
-    double? pollutantConcentration;
+    String? _pollutantName;
+    String? _pollutantSymbol;
+    double? _pollutantConcentration;
     try {
       //If the response is a success, then needs conversion.
       if (response.isSuccessful) {
@@ -33,9 +33,9 @@ class AirQualityServiceTwoConverter extends JsonConverter {
           _pollutants.clear();
           _buildPollutantList(
             pollutantData,
-            pollutantName,
-            pollutantSymbol,
-            pollutantConcentration,
+            _pollutantName,
+            _pollutantSymbol,
+            _pollutantConcentration,
             _pollutants,
           );
           return (response.copyWith(

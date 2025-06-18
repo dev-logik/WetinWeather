@@ -17,24 +17,32 @@ class HomeScreenMobilePortrait extends StatefulWidget {
 }
 
 class _HomeScreenMobilePortraitState extends State<HomeScreenMobilePortrait> {
-  var selectedSegment = <int>{0};
-  late final AirQualityBloc airQualityBlocProvider;
+  var _selectedSegment = <int>{0};
+  late final AirQualityBloc _airQualityBloc;
 
   @override
   void initState() {
-    airQualityBlocProvider = context.read();
-    airQualityBlocProvider.add(LoadInitialDataEvent());
+    _airQualityBloc = context.read();
+    _airQualityBloc.add(LoadInitialDataEvent());
     super.initState();
   }
 
   @override
   void dispose() {
-    airQualityBlocProvider.close();
+    _airQualityBloc.close();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
+    bool _isRefreshing = false;
+    Future<void> _handlePullToRefresh() async {
+      if (_isRefreshing) return;
+      await context.read<LocationCubit>().startLocationService();
+      _airQualityBloc.add(LoadInitialDataEvent());
+      _isRefreshing = true;
+    }
+
     final isLightThemed = Theme.of(context).brightness == Brightness.light;
     return Scaffold(
       body: SafeArea(
@@ -54,10 +62,7 @@ class _HomeScreenMobilePortraitState extends State<HomeScreenMobilePortrait> {
                       (isLightThemed)
                           ? DarkColorConstants.secondaryColor_2
                           : LightColorConstants.secondaryColor_2,
-                  onRefresh: () async {
-                    await context.read<LocationCubit>().startLocationService();
-                    airQualityBlocProvider.add(LoadInitialDataEvent());
-                  },
+                  onRefresh: _handlePullToRefresh,
                   child: SizedBox(
                     width: 1.sw,
                     height: .9.sh,
