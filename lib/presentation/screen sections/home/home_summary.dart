@@ -14,8 +14,8 @@ class HomeSummary extends StatefulWidget {
 }
 
 class _HomeSummaryState extends State<HomeSummary> {
-  final double segmentedButtonFontSize = 16.sp;
-  final double segmentedButtonFontSizeTab = 24.sp;
+  final double _segmentedButtonFontSize = 16.sp;
+  final double _segmentedButtonFontSizeTab = 24.sp;
   late final List<ButtonSegment<int>> _segmentedButtonSegments = [
     ButtonSegment<int>(
       value: 0,
@@ -26,8 +26,8 @@ class _HomeSummaryState extends State<HomeSummary> {
           style: Theme.of(context).textTheme.titleSmall?.copyWith(
             fontSize:
                 isTabletPortrait(context)
-                    ? segmentedButtonFontSizeTab
-                    : segmentedButtonFontSize,
+                    ? _segmentedButtonFontSizeTab
+                    : _segmentedButtonFontSize,
           ),
         ),
       ),
@@ -41,8 +41,8 @@ class _HomeSummaryState extends State<HomeSummary> {
           style: Theme.of(context).textTheme.titleSmall?.copyWith(
             fontSize:
                 isTabletPortrait(context)
-                    ? segmentedButtonFontSizeTab
-                    : segmentedButtonFontSize,
+                    ? _segmentedButtonFontSizeTab
+                    : _segmentedButtonFontSize,
           ),
         ),
       ),
@@ -55,16 +55,7 @@ class _HomeSummaryState extends State<HomeSummary> {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        SegmentedButton<int>(
-          segments: _segmentedButtonSegments,
-          selected: selectedSegment,
-          showSelectedIcon: false,
-          onSelectionChanged: (segmentValue) {
-            setState(() {
-              selectedSegment = segmentValue;
-            });
-          },
-        ),
+        _handleSegmentButton(),
         sizedH8,
         AnimatedSwitcher(
           duration: const Duration(milliseconds: 500),
@@ -81,23 +72,44 @@ class _HomeSummaryState extends State<HomeSummary> {
             child: IndexedStack(
               index: selectedSegment.first,
               children: [
-                GestureDetector(
-                  child: ForecastSummary(key: const ValueKey(0)),
-                  onTap: () {
-                    context.pushNamed('forecast details');
-                  },
-                ),
-                GestureDetector(
-                  child: AirQualitySummary(key: const ValueKey(1)),
-                  onTap: () {
-                    context.pushNamed('air quality details');
-                  },
-                ),
+                _forecastPageHandler(context),
+                _airQualityPageHandler(context),
               ],
             ),
           ),
         ),
       ],
+    );
+  }
+
+  GestureDetector _airQualityPageHandler(BuildContext context) {
+    return GestureDetector(
+      child: AirQualitySummary(key: const ValueKey(1)),
+      onTap: () {
+        context.pushNamed('air quality details');
+      },
+    );
+  }
+
+  GestureDetector _forecastPageHandler(BuildContext context) {
+    return GestureDetector(
+      child: ForecastSummary(key: const ValueKey(0)),
+      onTap: () {
+        context.pushNamed('forecast details');
+      },
+    );
+  }
+
+  SegmentedButton<int> _handleSegmentButton() {
+    return SegmentedButton<int>(
+      segments: _segmentedButtonSegments,
+      selected: selectedSegment,
+      showSelectedIcon: false,
+      onSelectionChanged: (segmentValue) {
+        setState(() {
+          selectedSegment = segmentValue;
+        });
+      },
     );
   }
 }

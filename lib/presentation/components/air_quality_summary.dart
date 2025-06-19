@@ -50,24 +50,12 @@ class AirQualitySummary extends StatelessWidget {
   }
 
   Widget _showPollutantSummaryStateHandler(bool isLightThemed) {
-    return BlocBuilder<AirQualityBloc, AirQualityState>(
+    return BlocConsumer<AirQualityBloc, AirQualityState>(
       builder: (context, state) {
         final _isError = state is AirQualityLoadFailure;
         final _isSuccess = state is AirQualityLoadSuccess;
 
         const listViewLength = 3;
-
-        //Show a toast when an error occurs.
-        if (_isError) {
-          final _error = state;
-          Fluttertoast.showToast(
-            msg: _error.exception.toString(),
-            backgroundColor: Colors.redAccent,
-            textColor: Colors.white,
-            gravity: ToastGravity.SNACKBAR,
-            fontSize: 14.sp,
-          );
-        }
         //Show pollutant data when the response is successful.
         if (_isSuccess) {
           final _pollutants = state.data;
@@ -76,6 +64,34 @@ class AirQualitySummary extends StatelessWidget {
 
         //Display shimmer effect when the data is loading.
         return _shimmerOnLoadingInProgress(isLightThemed);
+      },
+      listener: (BuildContext context, AirQualityState state) {
+        if (state is AirQualityLoadFailure) {
+          final _error = state.exception;
+          Fluttertoast.showToast(
+            msg: _error.toString(),
+            backgroundColor: Colors.redAccent,
+            textColor: Colors.white,
+            gravity: ToastGravity.SNACKBAR,
+            fontSize: 14.sp,
+          );
+        }
+      },
+      buildWhen: (previous, current) {
+        if (previous.runtimeType != current.runtimeType) {
+          return true;
+        }
+
+        if (current is AirQualityLoadSuccess &&
+            previous is AirQualityLoadSuccess) {
+          return (current.data != previous.data);
+        }
+
+        if (previous != current) {
+          return true;
+        }
+
+        return false;
       },
     );
   }
@@ -117,10 +133,7 @@ class AirQualitySummary extends StatelessWidget {
     return BlocBuilder<AirQualityBloc, AirQualityState>(
       builder: (context, state) {
         double? _getAQI;
-        String _getUnit;
-
         if (state is AirQualityLoadFailure) {
-          return displayGauge(context, textTheme, _getAQI, isLightThemed);
         } else if (state is AirQualityLoadSuccess) {
           final pollutantsConcentrations = state.data;
           _getAQI = AirQualityHelpers.getAirQualityIndex(
@@ -129,6 +142,22 @@ class AirQualitySummary extends StatelessWidget {
           return displayGauge(context, textTheme, _getAQI, isLightThemed);
         }
         return displayGauge(context, textTheme, _getAQI, isLightThemed);
+      },
+      buildWhen: (previous, current) {
+        if (previous.runtimeType != current.runtimeType) {
+          return true;
+        }
+
+        if (current is AirQualityLoadSuccess &&
+            previous is AirQualityLoadSuccess) {
+          return (current.data != previous.data);
+        }
+
+        if (previous != current) {
+          return true;
+        }
+
+        return false;
       },
     );
   }

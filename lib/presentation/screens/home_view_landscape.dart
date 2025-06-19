@@ -1,4 +1,5 @@
 import 'package:bloc_app/bloc/cubits.dart';
+import 'package:bloc_app/models/air_quality_pollutant_model.dart';
 import 'package:bloc_app/presentation/screen%20sections/hourly_section.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -161,6 +162,22 @@ class _HomeScreenMobileLandscapeState extends State<HomeScreenMobileLandscape> {
               ),
             );
           },
+          buildWhen: (previous, current) {
+            if (previous.runtimeType != current.runtimeType) {
+              return true;
+            }
+
+            if (current is AirQualityLoadSuccess &&
+                previous is AirQualityLoadSuccess) {
+              return (current.locationName != previous.locationName);
+            }
+
+            if (previous != current) {
+              return true;
+            }
+
+            return false;
+          },
         ),
         BlocBuilder<DateTimeCubit, DateTimeState>(
           builder: (context, state) {
@@ -262,12 +279,28 @@ class _HomeScreenMobileLandscapeState extends State<HomeScreenMobileLandscape> {
                       textTheme,
                     );
                   }
-                  return _shimmerGuageOnLoading(
+                  return _shimmerGaugeOnLoading(
                     context,
                     isLightThemed,
                     _isLoading,
                     textTheme,
                   );
+                },
+                buildWhen: (previous, current) {
+                  if (previous.runtimeType != current.runtimeType) {
+                    return true;
+                  }
+
+                  if (current is AirQualityLoadSuccess &&
+                      previous is AirQualityLoadSuccess) {
+                    return (current.data != previous.data);
+                  }
+
+                  if (previous != current) {
+                    return true;
+                  }
+
+                  return false;
                 },
               ),
             ],
@@ -278,7 +311,6 @@ class _HomeScreenMobileLandscapeState extends State<HomeScreenMobileLandscape> {
               builder: (context, state) {
                 final _isSuccess = state is AirQualityLoadSuccess;
                 final _isError = state is AirQualityLoadFailure;
-                final _isLoading = state is AirQualityLoadInProgress;
 
                 //Show a toast when an error occurs.
                 if (_isError) {
@@ -303,58 +335,10 @@ class _HomeScreenMobileLandscapeState extends State<HomeScreenMobileLandscape> {
                                 pollutant.pollutantSymbol == 'PM25',
                           )
                           .toList();
-                  return ListView.separated(
-                    scrollDirection: Axis.horizontal,
-                    itemCount: _filteredPollutants.length,
-                    shrinkWrap: true,
-                    physics: NeverScrollableScrollPhysics(),
-                    itemBuilder: (context, index) {
-                      final requiredPollutant = _filteredPollutants[index];
-                      return AirQualityPollutantSummaryCard(
-                        aqIconPath: AssetPath.mapPollutantToIcon(
-                          requiredPollutant.pollutantSymbol,
-                        ),
-                        aqParameterName: requiredPollutant.pollutantName,
-                        aqParameterValue:
-                            requiredPollutant.getPollutantConcIn(),
-                        aqParameterUnit:
-                            requiredPollutant.getpollutantUnitStringFor(),
-                      );
-                    },
-                    separatorBuilder: (BuildContext context, int index) {
-                      return SizedBox(width: .04.sw);
-                    },
-                  );
+                  return _showPollutantsStateHandler(_filteredPollutants);
                 }
 
-                return Skeletonizer(
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    mainAxisSize: MainAxisSize.min,
-                    children: <Widget>[
-                      AirQualityPollutantSummaryCard(
-                        aqIconPath: AssetPath.coIcon,
-                        aqParameterName: 'Carbon 1',
-                        aqParameterUnit: 'µmm/g',
-                        aqParameterValue: 5.0,
-                      ),
-                      isTabletLandscape(context) ? sizedW32 : sizedW24,
-                      AirQualityPollutantSummaryCard(
-                        aqIconPath: AssetPath.pm25Icon,
-                        aqParameterName: 'PM 2.5',
-                        aqParameterValue: 100,
-                        aqParameterUnit: 'µmm/g',
-                      ),
-                      isTabletLandscape(context) ? sizedW32 : sizedW24,
-                      AirQualityPollutantSummaryCard(
-                        aqIconPath: AssetPath.o3Icon,
-                        aqParameterName: 'Ozone',
-                        aqParameterValue: 2.5,
-                        aqParameterUnit: 'µmm/g',
-                      ),
-                    ],
-                  ),
-                );
+                return _shimmerOnLoading(context);
               },
             ),
           ),
@@ -363,7 +347,63 @@ class _HomeScreenMobileLandscapeState extends State<HomeScreenMobileLandscape> {
     );
   }
 
-  CircularPercentIndicator _shimmerGuageOnLoading(
+  Skeletonizer _shimmerOnLoading(BuildContext context) {
+    return Skeletonizer(
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        mainAxisSize: MainAxisSize.min,
+        children: <Widget>[
+          AirQualityPollutantSummaryCard(
+            aqIconPath: AssetPath.coIcon,
+            aqParameterName: 'Carbon 1',
+            aqParameterUnit: 'µmm/g',
+            aqParameterValue: 5.0,
+          ),
+          isTabletLandscape(context) ? sizedW32 : sizedW24,
+          AirQualityPollutantSummaryCard(
+            aqIconPath: AssetPath.pm25Icon,
+            aqParameterName: 'PM 2.5',
+            aqParameterValue: 100,
+            aqParameterUnit: 'µmm/g',
+          ),
+          isTabletLandscape(context) ? sizedW32 : sizedW24,
+          AirQualityPollutantSummaryCard(
+            aqIconPath: AssetPath.o3Icon,
+            aqParameterName: 'Ozone',
+            aqParameterValue: 2.5,
+            aqParameterUnit: 'µmm/g',
+          ),
+        ],
+      ),
+    );
+  }
+
+  ListView _showPollutantsStateHandler(
+    List<AirQualityPollutantModel> _filteredPollutants,
+  ) {
+    return ListView.separated(
+      scrollDirection: Axis.horizontal,
+      itemCount: _filteredPollutants.length,
+      shrinkWrap: true,
+      physics: NeverScrollableScrollPhysics(),
+      itemBuilder: (context, index) {
+        final requiredPollutant = _filteredPollutants[index];
+        return AirQualityPollutantSummaryCard(
+          aqIconPath: AssetPath.mapPollutantToIcon(
+            requiredPollutant.pollutantSymbol,
+          ),
+          aqParameterName: requiredPollutant.pollutantName,
+          aqParameterValue: requiredPollutant.getPollutantConcIn(),
+          aqParameterUnit: requiredPollutant.getpollutantUnitStringFor(),
+        );
+      },
+      separatorBuilder: (BuildContext context, int index) {
+        return SizedBox(width: .04.sw);
+      },
+    );
+  }
+
+  Widget _shimmerGaugeOnLoading(
     BuildContext context,
     bool isLightThemed,
     bool _isLoading,
@@ -423,7 +463,7 @@ class _HomeScreenMobileLandscapeState extends State<HomeScreenMobileLandscape> {
     );
   }
 
-  CircularPercentIndicator _displayGaugeWithData(
+  Widget _displayGaugeWithData(
     double? aqiValue,
     double aqiRelativeConcentration,
     BuildContext context,

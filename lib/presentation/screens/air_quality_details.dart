@@ -12,6 +12,7 @@ import 'package:go_router/go_router.dart';
 import 'package:percent_indicator/flutter_percent_indicator.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
+import '../../utilities/error_helpers.dart';
 import '../components/components.dart';
 
 class AirQualityDetails extends StatefulWidget {
@@ -37,6 +38,7 @@ class _AirQualityDetailsState extends State<AirQualityDetails> {
 
   @override
   void dispose() {
+    _locationCubit.close();
     _locationCubit.startLocationService(
       locationStyleOption: LocationDisplayStyleOptions.CITY,
     );
@@ -96,9 +98,10 @@ class _AirQualityDetailsState extends State<AirQualityDetails> {
         final _isSuccess = state is AirQualityLoadSuccess;
         final _isLoading = state is AirQualityLoadInProgress;
         if (_isError) {
-          final _error = state;
+          final _error = state.exception;
+          final _msg = ErrorHelpers.getFriendlyError(_error);
           Fluttertoast.showToast(
-            msg: _error.exception.toString(),
+            msg: _msg,
             backgroundColor: Colors.redAccent,
             textColor: Colors.white,
             gravity: ToastGravity.SNACKBAR,
@@ -111,6 +114,22 @@ class _AirQualityDetailsState extends State<AirQualityDetails> {
         }
 
         return _shimmerOnLoading(_isLoading, isLightThemed);
+      },
+      buildWhen: (previous, current) {
+        if (previous.runtimeType != current.runtimeType) {
+          return true;
+        }
+
+        if (current is AirQualityLoadSuccess &&
+            previous is AirQualityLoadSuccess) {
+          return (current.data != previous.data);
+        }
+
+        if (previous != current) {
+          return true;
+        }
+
+        return false;
       },
     );
   }
@@ -125,9 +144,10 @@ class _AirQualityDetailsState extends State<AirQualityDetails> {
         final _isSuccess = state is AirQualityLoadSuccess;
 
         if (_isError) {
-          final _error = state;
+          final _error = state.exception;
+          final _msg = ErrorHelpers.getFriendlyError(_error);
           Fluttertoast.showToast(
-            msg: _error.exception.toString(),
+            msg: _msg,
             backgroundColor: Colors.redAccent,
             textColor: Colors.white,
             gravity: ToastGravity.SNACKBAR,
@@ -156,6 +176,22 @@ class _AirQualityDetailsState extends State<AirQualityDetails> {
           null,
           null,
         );
+      },
+      buildWhen: (previous, current) {
+        if (previous.runtimeType != current.runtimeType) {
+          return true;
+        }
+
+        if (current is AirQualityLoadSuccess &&
+            previous is AirQualityLoadSuccess) {
+          return (current.data != previous.data);
+        }
+
+        if (previous != current) {
+          return true;
+        }
+
+        return false;
       },
     );
   }
@@ -319,6 +355,22 @@ class _AirQualityDetailsState extends State<AirQualityDetails> {
                   ),
                 );
               },
+              buildWhen: (previous, current) {
+                if (previous.runtimeType != current.runtimeType) {
+                  return true;
+                }
+
+                if (current is AirQualityLoadSuccess &&
+                    previous is AirQualityLoadSuccess) {
+                  return (current.data != previous.data);
+                }
+
+                if (previous != current) {
+                  return true;
+                }
+
+                return false;
+              },
             ),
           ),
           animateToInitialPercent: true,
@@ -405,7 +457,7 @@ class _AirQualityDetailsState extends State<AirQualityDetails> {
     return GridView.builder(
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 2,
-        childAspectRatio: 1,
+        childAspectRatio: isPhoneLandscape(context) ? 5 / 1.7 : 1,
       ),
       itemCount: pollutants?.length,
       shrinkWrap: true,
@@ -446,7 +498,7 @@ class _AirQualityDetailsState extends State<AirQualityDetails> {
 
         duration: Duration(milliseconds: 700),
       ),
-      enabled: _isLoading,
+      enabled: true,
       child: GridView(
         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: 2,
@@ -454,58 +506,67 @@ class _AirQualityDetailsState extends State<AirQualityDetails> {
         shrinkWrap: true,
         children: [
           AirQualityPollutantIndividualCard(
-            pollutantName: null,
-            pollutantSymbol: null,
-            pollutantConcentration: null,
-            indicatorColor: null,
-            pollutantUnit: null,
-            remark: null,
-            relativeConcentration: null,
+            pollutantName: 'loading',
+            pollutantSymbol: 'loading',
+            pollutantConcentration: 50,
+            indicatorColor: Colors.grey,
+            pollutantUnit: 'loading',
+            remark: 'loading',
+            relativeConcentration: 1.0,
           ),
           AirQualityPollutantIndividualCard(
-            pollutantName: null,
-            pollutantSymbol: null,
-            pollutantConcentration: null,
-            indicatorColor: null,
-            pollutantUnit: null,
-            remark: null,
-            relativeConcentration: null,
+            pollutantName: 'loading',
+            pollutantSymbol: 'loading',
+            pollutantConcentration: 100,
+            indicatorColor: Colors.grey,
+            pollutantUnit: 'loading',
+            remark: 'loading',
+            relativeConcentration: 1.0,
           ),
           AirQualityPollutantIndividualCard(
-            pollutantName: null,
-            pollutantSymbol: null,
-            pollutantConcentration: null,
-            indicatorColor: null,
-            pollutantUnit: null,
-            remark: null,
-            relativeConcentration: null,
+            pollutantName: 'loading',
+            pollutantSymbol: 'loading',
+            pollutantConcentration: 100,
+            indicatorColor: Colors.grey,
+            pollutantUnit: 'loading',
+            remark: 'loading',
+            relativeConcentration: 1.0,
           ),
           AirQualityPollutantIndividualCard(
-            pollutantName: null,
-            pollutantSymbol: null,
-            pollutantConcentration: null,
-            indicatorColor: null,
-            pollutantUnit: null,
-            remark: null,
-            relativeConcentration: null,
+            pollutantName: 'loading',
+            pollutantSymbol: 'loading',
+            pollutantConcentration: 100,
+            indicatorColor: Colors.grey,
+            pollutantUnit: 'loading',
+            remark: 'loading',
+            relativeConcentration: 1.0,
           ),
           AirQualityPollutantIndividualCard(
-            pollutantName: null,
-            pollutantSymbol: null,
-            pollutantConcentration: null,
-            indicatorColor: null,
-            pollutantUnit: null,
-            remark: null,
-            relativeConcentration: null,
+            pollutantName: 'loading',
+            pollutantSymbol: 'loading',
+            pollutantConcentration: 100,
+            indicatorColor: Colors.grey,
+            pollutantUnit: 'loading',
+            remark: 'loading',
+            relativeConcentration: 1.0,
           ),
           AirQualityPollutantIndividualCard(
-            pollutantName: null,
-            pollutantSymbol: null,
-            pollutantConcentration: null,
-            indicatorColor: null,
-            pollutantUnit: null,
-            remark: null,
-            relativeConcentration: null,
+            pollutantName: 'loading',
+            pollutantSymbol: 'loading',
+            pollutantConcentration: 100,
+            indicatorColor: Colors.grey,
+            pollutantUnit: 'loading',
+            remark: 'loading',
+            relativeConcentration: 1.0,
+          ),
+          AirQualityPollutantIndividualCard(
+            pollutantName: 'loading',
+            pollutantSymbol: 'loading',
+            pollutantConcentration: 100,
+            indicatorColor: Colors.grey,
+            pollutantUnit: 'loading',
+            remark: 'loading',
+            relativeConcentration: 1.0,
           ),
         ],
       ),

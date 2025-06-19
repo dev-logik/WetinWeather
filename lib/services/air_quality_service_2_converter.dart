@@ -18,6 +18,8 @@ class AirQualityServiceTwoConverter extends JsonConverter {
     String? _pollutantName;
     String? _pollutantSymbol;
     double? _pollutantConcentration;
+    final String _exMsg;
+
     try {
       //If the response is a success, then needs conversion.
       if (response.isSuccessful) {
@@ -51,11 +53,28 @@ class AirQualityServiceTwoConverter extends JsonConverter {
           'Your request cannot be processed: ${response.statusCode}',
         );
       }
-    } catch (e) {
+    } on SocketException catch (exception) {
+      _exMsg =
+          "Couldn't connect to the server, check your internet connection.";
       return response.copyWith(
         base: response.base,
-        body: e as BodyType,
-        bodyError: e.toString(),
+        body: _exMsg as BodyType,
+        bodyError: exception.toString(),
+      );
+    } on TimeoutException catch (exception) {
+      _exMsg =
+          "Connection Timeout: Check your data balance or internet connectivity";
+      return response.copyWith(
+        base: response.base,
+        body: _exMsg as BodyType,
+        bodyError: exception.toString(),
+      );
+    } catch (exception) {
+      _exMsg = "Unknown Error: ${exception.toString()}";
+      return response.copyWith(
+        base: response.base,
+        body: _exMsg as BodyType,
+        bodyError: exception.toString(),
       );
     }
     //Return not found if the response is incorrect.
