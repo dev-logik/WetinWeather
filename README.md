@@ -8,6 +8,15 @@ WetinWeather is a modern, cross-platform Flutter application that delivers real-
 
 WetinWeather is a feature-rich weather and air quality app built with Flutter. It provides users with up-to-date weather forecasts, detailed air quality indices, and a visually engaging experience powered by smooth animations and responsive layouts. The app stands out with its focus on clarity, accessibility, and offline support, ensuring users always have access to essential weather data.
 
+**Recent Updates:**
+
+- **Improved Bloc Architecture:** The Air Quality Bloc now uses a robust state management approach, with clear loading, success, and failure states for better UI feedback and error handling.
+- **Environment Variable Safety:** The app now checks for missing or null environment variables before attempting to use them, preventing type casting errors at runtime.
+- **API Fallback Logic:** The repository is structured to support fallback to a backup API if the main API fails, increasing reliability.
+- **Interceptor Improvements:** The backup API token is now injected safely and efficiently into requests.
+- **Type Safety:** All API responses and environment variables are now type-checked before casting, reducing runtime errors.
+- **Enhanced Error Handling:** More descriptive error messages and safer exception handling throughout the data layer.
+
 ---
 
 ## ✨ Features
@@ -64,6 +73,14 @@ WetinWeather is a feature-rich weather and air quality app built with Flutter. I
 - [Flutter SDK](https://flutter.dev/docs/get-started/install) (version 3.10.0 or higher recommended)
 - Android Studio or Xcode for platform-specific builds
 - A weather API key (e.g., [OpenWeatherMap](https://openweathermap.org/api))
+- Ensure your `.env` file contains all required variables:
+
+  ```
+  MAIN_BASE_URL=your_main_api_url
+  BACKUP_BASE_URL=your_backup_api_url
+  BACKUP_TOKEN=your_backup_api_token
+  WEATHER_API_KEY=your_weather_api_key
+  ```
 
 ### Installation
 
@@ -82,11 +99,7 @@ WetinWeather is a feature-rich weather and air quality app built with Flutter. I
 
 3. **Configure API keys:**
    - Create a `.env` file in the root directory.
-   - Add your API keys:
-
-     ```
-     WEATHER_API_KEY=your_api_key_here
-     ```
+   - Add your API keys and URLs as shown above.
 
 4. **Run the app:**
 
@@ -100,8 +113,14 @@ WetinWeather is a feature-rich weather and air quality app built with Flutter. I
 
 ```
 lib/
+├── bloc/               # Bloc state management (including air quality bloc)
 ├── components/         # Reusable widgets and UI components
+├── data/
+│   └── repositories/   # Data repositories for API and local data
+├── models/             # Data models
 ├── presentation/       # Screens and presentation logic
+├── services/           # API clients, interceptors, and utilities
+├── theme/              # App theming and styles
 ├── utilities/          # Constants, helpers, and utilities
 ├── main.dart           # App entry point
 assets/
@@ -111,11 +130,16 @@ assets/
 test/                   # Unit and widget tests
 ```
 
-- **components/**: Contains reusable UI widgets.
-- **presentation/**: Houses all screens and presentation logic.
-- **utilities/**: Includes constants, helpers, and utility functions.
-- **assets/**: Stores images, animations, and fonts used in the app.
-- **test/**: Contains all unit and widget tests.
+- **bloc/**: Contains all Bloc logic and state management.
+- **components/**: Reusable UI widgets.
+- **data/repositories/**: Handles data fetching and persistence.
+- **models/**: Data models for weather and air quality.
+- **presentation/**: UI screens and presentation logic.
+- **services/**: API clients, interceptors, and related utilities.
+- **theme/**: App-wide theming and style definitions.
+- **utilities/**: Constants, helpers, and utility functions.
+- **assets/**: Images, animations, and fonts.
+- **test/**: Unit and widget tests.
 
 ---
 
@@ -134,7 +158,6 @@ test/                   # Unit and widget tests
 | `equatable`            | Value equality for Dart objects              |
 | `intl`                 | Date and number formatting                   |
 | `build_runner`         | Code generation for models and APIs          |
-| `mockito`              | Mocking for unit tests                       |
 
 See [`pubspec.yaml`](pubspec.yaml) for the full list of dependencies.
 
