@@ -97,17 +97,17 @@ class _AirQualityDetailsState extends State<AirQualityDetails> {
         final _isError = state is AirQualityLoadFailure;
         final _isSuccess = state is AirQualityLoadSuccess;
         final _isLoading = state is AirQualityLoadInProgress;
-        if (_isError) {
-          final _error = state.exception;
-          final _msg = ErrorHelpers.getFriendlyError(_error);
-          Fluttertoast.showToast(
-            msg: _msg,
-            backgroundColor: Colors.redAccent,
-            textColor: Colors.white,
-            gravity: ToastGravity.SNACKBAR,
-            fontSize: 14.sp,
-          );
-        }
+        // if (_isError) {
+        //   final _error = state.exception;
+        //   final _msg = ErrorHelpers.getFriendlyError(_error);
+        //   Fluttertoast.showToast(
+        //     msg: _msg,
+        //     backgroundColor: Colors.redAccent,
+        //     textColor: Colors.white,
+        //     gravity: ToastGravity.SNACKBAR,
+        //     fontSize: 14.sp,
+        //   );
+        // }
         if (_isSuccess) {
           final _pollutants = state.data;
           return airQualityPollutants(context, textTheme, _pollutants);
@@ -459,7 +459,7 @@ class _AirQualityDetailsState extends State<AirQualityDetails> {
         crossAxisCount: 2,
         childAspectRatio: isPhoneLandscape(context) ? 5 / 1.7 : 1,
       ),
-      itemCount: pollutants?.length,
+      itemCount: pollutants.length,
       shrinkWrap: true,
       physics: NeverScrollableScrollPhysics(),
       itemBuilder: (context, index) {
@@ -470,7 +470,7 @@ class _AirQualityDetailsState extends State<AirQualityDetails> {
           pollutantSymbol: pollutantModel.pollutantSymbol,
           pollutantConcentration: pollutantModel.getPollutantConcIn(),
           indicatorColor: pollutantModel.mapValueToColor,
-          pollutantUnit: pollutantModel.getpollutantUnitStringFor(),
+          pollutantUnit: pollutantModel.getPollutantUnitStringFor(),
           remark: pollutantModel.remarks,
           relativeConcentration: pollutantModel.relativeConc,
         );

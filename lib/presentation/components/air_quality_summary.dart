@@ -9,6 +9,7 @@ import 'package:syncfusion_flutter_gauges/gauges.dart';
 
 import '../../bloc/cubits.dart';
 import '../../models/models.dart';
+import '../../utilities/error_helpers.dart';
 import 'components.dart';
 
 class AirQualitySummary extends StatelessWidget {
@@ -52,14 +53,13 @@ class AirQualitySummary extends StatelessWidget {
   Widget _showPollutantSummaryStateHandler(bool isLightThemed) {
     return BlocConsumer<AirQualityBloc, AirQualityState>(
       builder: (context, state) {
-        final _isError = state is AirQualityLoadFailure;
         final _isSuccess = state is AirQualityLoadSuccess;
 
-        const listViewLength = 3;
         //Show pollutant data when the response is successful.
         if (_isSuccess) {
-          final _pollutants = state.data;
-          return _loadnShowPollutantsData(listViewLength, _pollutants);
+          final pollutants = state.data;
+          final pollutantLength = pollutants.length;
+          return _loadnShowPollutantsData(pollutantLength, pollutants);
         }
 
         //Display shimmer effect when the data is loading.
@@ -68,8 +68,10 @@ class AirQualitySummary extends StatelessWidget {
       listener: (BuildContext context, AirQualityState state) {
         if (state is AirQualityLoadFailure) {
           final _error = state.exception;
+          final _msg = ErrorHelpers.getFriendlyError(_error);
+
           Fluttertoast.showToast(
-            msg: _error.toString(),
+            msg: _msg,
             backgroundColor: Colors.redAccent,
             textColor: Colors.white,
             gravity: ToastGravity.SNACKBAR,
@@ -106,10 +108,9 @@ class AirQualitySummary extends StatelessWidget {
       },
 
       scrollDirection: Axis.horizontal,
-      physics: NeverScrollableScrollPhysics(),
 
       primary: false,
-      itemCount: listViewLength,
+      itemCount: (listViewLength >= 3) ? 3 : listViewLength,
       shrinkWrap: true,
       itemBuilder: (context, index) {
         final _filteredPollutants =
@@ -171,7 +172,7 @@ class AirQualitySummary extends StatelessWidget {
       aqIconPath: AssetPath.mapPollutantToIcon(data.pollutantSymbol),
       aqParameterName: data.pollutantName.trim(),
       aqParameterValue: data.basePollutantConc,
-      aqParameterUnit: data.getpollutantUnitStringFor(),
+      aqParameterUnit: data.getPollutantUnitStringFor(),
     );
   }
 

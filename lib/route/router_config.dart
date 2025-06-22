@@ -11,8 +11,8 @@ mixin class GoRouterConfig {
         builder: (_, __) => HomeScreenView(),
         routes: <RouteBase>[
           GoRoute(
-            path: '/forcast_details',
-            name: 'forcast details',
+            path: '/forecast_details',
+            name: 'forecast details',
             builder: (_, __) => WeatherDetails(),
           ),
           GoRoute(
@@ -65,9 +65,9 @@ mixin class GoRouterConfig {
           _reportScreen,
           _settingScreen,
         ],
-        builder: (_, __, navigationShell) => BottomNavigator(
-          navigationShell: navigationShell,
-        ),
+        builder:
+            (_, __, navigationShell) =>
+                BottomNavigator(navigationShell: navigationShell),
       ),
     ],
     initialLocation: '/',

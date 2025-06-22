@@ -394,7 +394,7 @@ class _HomeScreenMobileLandscapeState extends State<HomeScreenMobileLandscape> {
           ),
           aqParameterName: requiredPollutant.pollutantName,
           aqParameterValue: requiredPollutant.getPollutantConcIn(),
-          aqParameterUnit: requiredPollutant.getpollutantUnitStringFor(),
+          aqParameterUnit: requiredPollutant.getPollutantUnitStringFor(),
         );
       },
       separatorBuilder: (BuildContext context, int index) {

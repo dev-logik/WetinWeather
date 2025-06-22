@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:io';
 
+import 'package:bloc_app/utilities/exceptions.dart';
 import 'package:chopper/chopper.dart';
 
 abstract class ErrorHelpers {
@@ -11,6 +12,8 @@ abstract class ErrorHelpers {
       return "Request timed out. Try again later.";
     } else if (error is FormatException) {
       return "Invalid server response.";
+    } else if (error is ApiFailureException) {
+      return "Server temporarily down. Try again!";
     } else if (error is Response) {
       // Handle Chopper's HTTP errors (4xx/5xx)
       switch (error.statusCode) {
@@ -26,6 +29,6 @@ abstract class ErrorHelpers {
           return "HTTP error (${error.statusCode}).";
       }
     }
-    return "Something went wrong.";
+    return "Something went wrong. ${error.toString()}";
   }
 }

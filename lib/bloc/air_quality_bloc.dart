@@ -55,10 +55,10 @@ class AirQualityBloc extends Bloc<AirQualityEvent, AirQualityState> {
   ) async {
     try {
       emit(AirQualityLoadInProgress());
-      final data = await _airQualityRepository.filteredData();
+      final data = await _airQualityRepository.fetchDataWithBackup();
       emit(AirQualityLoadSuccess(data));
     } catch (exception) {
-      emit(AirQualityLoadFailure(Exception(exception as Exception)));
+      emit(AirQualityLoadFailure(Exception(exception)));
     }
   }
 
@@ -68,10 +68,10 @@ class AirQualityBloc extends Bloc<AirQualityEvent, AirQualityState> {
   ) async {
     try {
       emit(AirQualityLoadInProgress());
-      final data = await _airQualityRepository.filteredData();
+      final data = await _airQualityRepository.fetchDataWithBackup();
       emit(AirQualityLoadSuccess(data));
     } catch (exception) {
-      emit(AirQualityLoadFailure(Exception(exception as Exception)));
+      emit(AirQualityLoadFailure(Exception(exception)));
     }
   }
 
@@ -85,10 +85,10 @@ class AirQualityBloc extends Bloc<AirQualityEvent, AirQualityState> {
     ) async {
       try {
         emit(AirQualityLoadInProgress());
-        final data = await _airQualityRepository.filteredData();
+        final data = await _airQualityRepository.fetchDataWithBackup();
         emit(AirQualityLoadSuccess(data));
       } catch (exception) {
-        emit(AirQualityLoadFailure(Exception(exception as Exception)));
+        emit(AirQualityLoadFailure(Exception(exception)));
       }
     });
   }

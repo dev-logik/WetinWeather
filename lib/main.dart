@@ -1,4 +1,4 @@
-import 'package:bloc_app/bloc/air_quality_bloc.dart';
+import 'package:bloc_app/data/repositories/air_quality_repository.dart';
 import 'package:bloc_app/route/router_config.dart';
 import 'package:bloc_app/theme/theme.dart';
 import 'package:flutter/material.dart';
@@ -8,7 +8,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:logging/logging.dart';
 
 import 'bloc/cubits.dart';
-import 'data/repositories/repositories.dart';
 
 void _initLogging() {
   Logger.root.level = Level.ALL;
@@ -20,7 +19,9 @@ void _initLogging() {
 void main() async {
   _initLogging();
   WidgetsFlutterBinding.ensureInitialized();
+
   await dotenv.load(fileName: '.env');
+
   runApp(
     MultiBlocProvider(
       providers: [

@@ -51,7 +51,7 @@ class AirQualityPollutantModel extends Equatable {
         _molecularWeights[_pollutantSymbol]!;
   }
 
-  String getpollutantUnitStringFor({
+  String getPollutantUnitStringFor({
     AirQualityConcUnits units = AirQualityConcUnits.microgramsPerCubicMeter,
   }) {
     switch (units) {
