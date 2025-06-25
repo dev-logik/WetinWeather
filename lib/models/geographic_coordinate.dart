@@ -21,14 +21,5 @@ class GeographicCoordinateModel with _$GeographicCoordinateModel {
       );
 
   @override
-  double? accuracy;
-
-  @override
-  late double latitude;
-
-  @override
-  late double longitude;
-
-  @override
-  DateTime? timestamp;
+  dynamic noSuchMethod(Invocation invocation) => super.noSuchMethod(invocation);
 }

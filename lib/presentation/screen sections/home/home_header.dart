@@ -53,7 +53,7 @@ class _HomeHeaderState extends State<HomeHeader> {
             }
 
             return Skeletonizer(
-              enabled: true,
+              enabled: state.locationName == null,
               enableSwitchAnimation: true,
               switchAnimationConfig: SwitchAnimationConfig(
                 switchInCurve: Curves.easeIn,

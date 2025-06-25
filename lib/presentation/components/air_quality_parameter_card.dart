@@ -65,7 +65,7 @@ class AirQualityPollutantIndividualCard extends StatelessWidget {
                     ],
                   )
                   : Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       Flexible(
@@ -186,8 +186,8 @@ class AirQualityPollutantIndividualCard extends StatelessWidget {
             shape: CircleBorder(),
             color: indicatorColor,
           ),
-          height: isTabletLandscape(context) ? 10.h : 5.h,
-          width: isTabletLandscape(context) ? 10.w : 5.w,
+          height: isTabletLandscape(context) ? 10.h : 6.h,
+          width: isTabletLandscape(context) ? 10.w : 6.w,
         ),
       ],
     );
@@ -213,7 +213,7 @@ class AirQualityPollutantIndividualCard extends StatelessWidget {
         ),
         children: <TextSpan>[
           TextSpan(
-            text: '${pollutantName}',
+            text: ' (${pollutantName?.trim()})',
             style: textTheme.bodySmall?.copyWith(
               fontWeight: FontWeight.w100,
               color: Colors.grey,

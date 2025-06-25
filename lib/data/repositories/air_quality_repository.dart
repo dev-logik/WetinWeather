@@ -12,14 +12,15 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 typedef ResponseFuture = Future<Response<List<AirQualityPollutantModel>>>;
 typedef PollutantsFuture = Future<List<AirQualityPollutantModel>>;
 
-final _baseUrlMainApi = dotenv.env['MAIN_BASE_URL'] as String;
-final _baseUrlBackupApi = dotenv.env['BACKUP_BASE_URL'] as String;
-final _backupToken = dotenv.env['BACKUP_TOKEN'] as String;
+final _baseUrlMainApi = dotenv.env['AQ_MAIN_URL'] as String;
+final _baseUrlBackupApi = dotenv.env['AQ_BACKUP_URL'] as String;
+final _backupToken = dotenv.env['AQ_BACKUP_TOKEN'] as String;
 
 final _mainApiClient = ChopperClient(
   baseUrl: Uri.parse(_baseUrlMainApi),
   converter: AirQualityConverterForMainApi(),
   interceptors: [HttpLoggingInterceptor()],
+  services: [AirQualityMainService.create()],
 );
 
 final _backupApiClient = ChopperClient(
@@ -29,6 +30,7 @@ final _backupApiClient = ChopperClient(
     HttpLoggingInterceptor(),
     AirQualityBackupInterceptor(token: _backupToken),
   ],
+  services: [AirQualityBackupService.create()],
 );
 
 class AirQualityRepository extends Repository {
