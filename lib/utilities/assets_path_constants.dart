@@ -13,6 +13,25 @@ class AssetPath {
   static final animatedNightCloudy = 'assets/animations/nightcloudy.json';
   static final animatedNightSnowy = 'assets/animations/nightsnowy.json';
   static final animatedSnowy = 'assets/animations/snowy.json';
+  static final animatedPartlyCloudyNight =
+      'assets/animations/animatedCloudyNight.json';
+  static final animatedPartlyCloudyDay =
+      'assets/animations/animatedCloudySunny.json';
+  static final animatedFoggyNight = 'assets/animations/animatedFoggyNight.json';
+  static final animatedFoggySunny = 'assets/animations/animatedFoggySunny.json';
+  static final animatedDrizzleDay = 'assets/animations/animatedDrizzleDay.json';
+  static final animatedDrizzleNight =
+      'assets/animations/animatedDrizzleNight.json';
+  static final animatedThunderstormWithRain =
+      'assets/animations/animatedThunderstormWithRain.json';
+  static final animatedThunderRainDay =
+      'assets/animations/animatedThunderRainDay.json';
+  static final animatedThunderRainNight =
+      'assets/animations/animatedThunderRainNight.json';
+  static final animatedLightRainDay = 'assets/animations/sunnyrainlight.json';
+  static final animatedShowersNight =
+      'assets/animations/animatedShowersNight.json';
+  static final animatedShowersDay = 'assets/animations/animatedShowersDay.json';
 
   //Path constants to the icons
   static final coIcon = 'assets/icons/co.png';

@@ -96,20 +96,20 @@ class _AirQualityDetailsState extends State<AirQualityDetails> {
       builder: (context, state) {
         final _isError = state is AirQualityLoadFailure;
         final _isSuccess = state is AirQualityLoadSuccess;
-        final _isLoading = state is AirQualityLoadInProgress;
-        // if (_isError) {
-        //   final _error = state.exception;
-        //   final _msg = ErrorHelpers.getFriendlyError(_error);
-        //   Fluttertoast.showToast(
-        //     msg: _msg,
-        //     backgroundColor: Colors.redAccent,
-        //     textColor: Colors.white,
-        //     gravity: ToastGravity.SNACKBAR,
-        //     fontSize: 14.sp,
-        //   );
-        // }
+        final _isLoading = state is AirQualityLoadingInProgress;
+        if (_isError) {
+          final _error = state.exception;
+          final _msg = ErrorHelpers.getFriendlyError(_error);
+          Fluttertoast.showToast(
+            msg: _msg,
+            backgroundColor: Colors.redAccent,
+            textColor: Colors.white,
+            gravity: ToastGravity.SNACKBAR,
+            fontSize: 14.sp,
+          );
+        }
         if (_isSuccess) {
-          final _pollutants = state.data;
+          final _pollutants = state.data.value;
           return airQualityPollutants(context, textTheme, _pollutants);
         }
 
@@ -156,7 +156,7 @@ class _AirQualityDetailsState extends State<AirQualityDetails> {
         }
 
         if (_isSuccess) {
-          final _pollutants = state.data;
+          final _pollutants = state.data.value;
           final _aqi = AirQualityHelpers.getAirQualityIndex(
             aQModels: _pollutants,
           );

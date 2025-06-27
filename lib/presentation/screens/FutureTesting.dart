@@ -1,4 +1,5 @@
-import 'package:bloc_app/data/repositories/air_quality_repository.dart';
+import 'package:bloc_app/data/repositories/repositories.dart';
+import 'package:bloc_app/services/response_model.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
@@ -13,22 +14,21 @@ class _FutureTestingState extends State<FutureTesting> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: FutureBuilder(
-        future: AirQualityRepository().fetchDataWithBackup(),
+        future: WeatherRepository().fetchDataWithBackup(),
         builder: (context, snapshot) {
-          debugPrint(snapshot.data.toString());
-
+          debugPrint('DATABODY: ' + snapshot.data.toString());
           if (snapshot.connectionState == ConnectionState.done) {
             if (snapshot.data != null) {
               return Center(
                 child: SingleChildScrollView(
-                  child: Text(snapshot.data.toString()),
+                  child: Text((snapshot.data as Success).value.toString()),
                 ),
               );
             }
           }
 
           if (snapshot.hasError) {
-            debugPrint(snapshot.error.toString());
+            debugPrint('ERROR: ' + (snapshot.error as Error).toString());
             Fluttertoast.showToast(
               msg: snapshot.error.toString(),
               toastLength: Toast.LENGTH_LONG,

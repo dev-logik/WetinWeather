@@ -2,14 +2,26 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:bloc_app/models/weather_forecast_model_new.dart';
+import 'package:bloc_app/services/response_model.dart';
 import 'package:chopper/chopper.dart';
+import 'package:flutter/cupertino.dart';
+
+import '../models/models.dart';
 
 class MainWeatherServiceConverter implements Converter {
   @override
   FutureOr<Request> convertRequest(Request request) {
-    final encodedRequest = jsonEncode(request.body);
-    return request.copyWith(body: encodedRequest);
+    final contentType = request.headers[contentTypeKey];
+    if (contentType != null && contentType.contains(jsonHeaders)) {
+      final encodedRequest = jsonEncode(request.body);
+      request = applyHeader(
+        request.copyWith(body: encodedRequest),
+        contentType,
+        jsonHeaders,
+      );
+      return request;
+    }
+    return Future.value(request.copyWith(body: request.body));
   }
 
   @override
@@ -37,17 +49,12 @@ class MainWeatherServiceConverter implements Converter {
       //Get a sub-map of the decoded response that contains the data and the units of the data.
       final currentData = decodedResponse['current'] as Map<String, dynamic>;
       final currentDataUnits =
-          decodedResponse['current_units'] as Map<String, String>;
+          decodedResponse['current_units'] as Map<String, dynamic>;
 
       //Extract the required data
       for (var dataEntry in currentData.entries) {
-        //Work with a fresh list.
-        if (weatherVariables.isNotEmpty) {
-          weatherVariables.clear();
-        }
-
         //Build the weather object.
-        final _data = _parseJsonData(dataEntry, currentDataUnits);
+        var _data = _parseJsonData(dataEntry, currentDataUnits);
 
         //Add it to the list, if the data is valid.
         if (_data != null) {
@@ -55,30 +62,35 @@ class MainWeatherServiceConverter implements Converter {
         }
       }
 
+      //If no data is converted, throw an exception.
+      if (weatherVariables.isEmpty) {
+        throw FormatException('No valid pollutant data found');
+      }
+      debugPrint("DATA" + weatherVariables.toString());
       //Respond with the actual object.
-      return response.copyWith(
-        base: response.base,
-        body: weatherVariables as BodyType,
-        bodyError: response.error,
+      return Future.value(
+        response.copyWith(
+          body:
+              Success<List<WeatherForecastVariableModel>>(weatherVariables)
+                  as BodyType,
+        ),
       );
     } on SocketException {
-      return response.copyWith(
-        base: response.base,
-        bodyError: response.error as Exception,
-      );
+      return _errorResponse(response, 'No internet connection');
     } on TimeoutException {
-      return response.copyWith(
-        base: response.base,
-        bodyError: response.error as Exception,
-      );
-    } on HttpException {
-      return response.copyWith(
-        base: response.base,
-        bodyError: response.error as Exception,
-      );
-    } catch (ex) {
-      return response.copyWith(base: response.base, bodyError: ex as Exception);
+      return _errorResponse(response, 'Request timed out');
+    } on HttpException catch (e) {
+      return _errorResponse(response, e.message);
+    } catch (e) {
+      return _errorResponse(response, 'Unknown error: ${e.toString()}');
     }
+  }
+
+  Response<BodyType> _errorResponse<BodyType>(
+    Response response,
+    String message,
+  ) {
+    return response.copyWith(bodyError: Error(Exception('$message')));
   }
 
   //Build the required object, based on the json data received.
@@ -87,91 +99,90 @@ class MainWeatherServiceConverter implements Converter {
     Map<String, dynamic> dataUnits,
   ) {
     final entryKey = mapEntry.key;
-    final entryValue = (mapEntry.value as num).toDouble();
     switch (entryKey) {
       case 'temperature_2m':
         return WeatherForecastVariableModel(
           jsonName: entryKey,
           displayName: 'Temp.',
           unit: dataUnits[entryKey],
-          value: entryValue,
+          value: mapEntry.value as double,
         );
       case 'relative_humidity_2m':
         return WeatherForecastVariableModel(
           jsonName: entryKey,
           displayName: 'Humidity',
           unit: dataUnits[entryKey],
-          value: entryValue,
+          value: (mapEntry.value as int).toDouble(),
         );
       case 'apparent_temperature':
         return WeatherForecastVariableModel(
           jsonName: entryKey,
           displayName: 'Reel Feel',
           unit: dataUnits[entryKey],
-          value: entryValue,
+          value: mapEntry.value as double,
         );
       case 'is_day':
         return WeatherForecastVariableModel(
           jsonName: entryKey,
           displayName: 'Is it day?',
           unit: dataUnits[entryKey],
-          value: entryValue,
+          value: (mapEntry.value as int),
         );
       case 'precipitation':
         return WeatherForecastVariableModel(
           jsonName: entryKey,
           displayName: 'Precipitation',
           unit: dataUnits[entryKey],
-          value: entryValue,
+          value: mapEntry.value as double,
         );
       case 'wind_speed_10m':
         return WeatherForecastVariableModel(
           jsonName: entryKey,
           displayName: 'Wind Speed',
           unit: dataUnits[entryKey],
-          value: entryValue,
+          value: mapEntry.value as double,
         );
       case 'wind_direction_10m':
         return WeatherForecastVariableModel(
           jsonName: entryKey,
           displayName: 'Wind Direction',
           unit: dataUnits[entryKey],
-          value: entryValue,
+          value: (mapEntry.value as int),
         );
       case 'weather_code':
         return WeatherForecastVariableModel(
           jsonName: entryKey,
           displayName: 'Weather',
           unit: dataUnits[entryKey],
-          value: entryValue,
+          value: (mapEntry.value as int),
         );
       case 'rain':
         return WeatherForecastVariableModel(
           jsonName: entryKey,
           displayName: 'Rain',
           unit: dataUnits[entryKey],
-          value: entryValue,
+          value: mapEntry.value as double,
         );
       case 'showers':
         return WeatherForecastVariableModel(
           jsonName: entryKey,
           displayName: 'Showers',
           unit: dataUnits[entryKey],
-          value: entryValue,
+          value: mapEntry.value as double,
         );
       case 'snowfall':
         return WeatherForecastVariableModel(
           jsonName: entryKey,
           displayName: 'Snowfall',
           unit: dataUnits[entryKey],
-          value: entryValue,
+          value: mapEntry.value as double,
         );
       case 'cloud_cover':
         return WeatherForecastVariableModel(
           jsonName: entryKey,
           displayName: 'Wind Direction',
           unit: dataUnits[entryKey],
-          value: entryValue,
+          value: (mapEntry.value as int),
         );
       case 'interval':
       case 'time':

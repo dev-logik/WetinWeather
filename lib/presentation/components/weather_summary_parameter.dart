@@ -35,35 +35,31 @@ class WeatherSummaryParameter extends StatelessWidget {
                       : 24.sp
                   : null,
         ),
-        RichText(
-          text: TextSpan(
-            text: weatherParameterValue,
-            style: textTheme.titleMedium?.copyWith(
-              fontSize:
-                  isTabletPortrait(context)
-                      ? 35.sp
-                      : isPhoneLandscape(context)
-                      ? isTabletLandscape(context)
-                          ? 20.sp
-                          : 16.sp
-                      : 24.sp,
-            ),
-            children: <InlineSpan>[
-              TextSpan(
-                text: weatherParameterUnit,
-                style: textTheme.titleMedium?.copyWith(
-                  fontSize:
-                      isTabletPortrait(context)
-                          ? 27.sp
-                          : isPhoneLandscape(context)
-                          ? isTabletLandscape(context)
-                              ? 16.sp
-                              : 12.sp
-                          : 12.sp,
-                  color: Colors.grey,
-                ),
-              ),
-            ],
+        Text(
+          weatherParameterValue,
+          style: textTheme.titleMedium?.copyWith(
+            fontSize:
+                isTabletPortrait(context)
+                    ? 35.sp
+                    : isPhoneLandscape(context)
+                    ? isTabletLandscape(context)
+                        ? 20.sp
+                        : 16.sp
+                    : 24.sp,
+          ),
+        ),
+        Text(
+          weatherParameterUnit,
+          style: textTheme.titleMedium?.copyWith(
+            fontSize:
+                isTabletPortrait(context)
+                    ? 27.sp
+                    : isPhoneLandscape(context)
+                    ? 12.sp
+                    : isTabletLandscape(context)
+                    ? 16.sp
+                    : 12.sp,
+            color: Colors.grey,
           ),
         ),
         Text(

@@ -19,7 +19,7 @@ final class _$AirQualityMainService extends AirQualityMainService {
   final Type definitionType = AirQualityMainService;
 
   @override
-  Future<Response<dynamic>> getCurrentAirQualityDetails(
+  Future<Response<Result>> getCurrentAirQualityDetails(
     double longitude,
     double latitude,
   ) {
@@ -36,6 +36,6 @@ final class _$AirQualityMainService extends AirQualityMainService {
       client.baseUrl,
       parameters: $params,
     );
-    return client.send<dynamic, dynamic>($request);
+    return client.send<Result, dynamic>($request);
   }
 }

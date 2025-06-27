@@ -251,7 +251,7 @@ class _HomeScreenMobileLandscapeState extends State<HomeScreenMobileLandscape> {
                 builder: (context, state) {
                   final _isSuccess = state is AirQualityLoadSuccess;
                   final _isError = state is AirQualityLoadFailure;
-                  final _isLoading = state is AirQualityLoadInProgress;
+                  final _isLoading = state is AirQualityLoadingInProgress;
 
                   //Show a toast when an error occurs.
                   if (_isError) {
@@ -266,7 +266,7 @@ class _HomeScreenMobileLandscapeState extends State<HomeScreenMobileLandscape> {
                   }
 
                   if (_isSuccess) {
-                    final _pollutants = state.data;
+                    final _pollutants = state.data.value;
                     final aqiValue = AirQualityHelpers.getAirQualityIndex(
                       aQModels: _pollutants,
                     );
@@ -324,7 +324,7 @@ class _HomeScreenMobileLandscapeState extends State<HomeScreenMobileLandscape> {
                   );
                 }
                 if (_isSuccess) {
-                  final _pollutants = state.data;
+                  final _pollutants = state.data.value;
 
                   final _filteredPollutants =
                       _pollutants

@@ -57,7 +57,7 @@ class AirQualitySummary extends StatelessWidget {
 
         //Show pollutant data when the response is successful.
         if (_isSuccess) {
-          final pollutants = state.data;
+          final pollutants = state.data.value;
           final pollutantLength = pollutants.length;
           return _loadnShowPollutantsData(pollutantLength, pollutants);
         }
@@ -136,7 +136,7 @@ class AirQualitySummary extends StatelessWidget {
         double? _getAQI;
         if (state is AirQualityLoadFailure) {
         } else if (state is AirQualityLoadSuccess) {
-          final pollutantsConcentrations = state.data;
+          final pollutantsConcentrations = state.data.value;
           _getAQI = AirQualityHelpers.getAirQualityIndex(
             aQModels: pollutantsConcentrations,
           );

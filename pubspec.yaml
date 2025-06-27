@@ -68,6 +68,7 @@ dependencies:
   json_serializable: ^6.9.5
   json_annotation: ^4.9.0
   logging: ^1.3.0
+  loading_animation_widget: ^1.3.0
 
 dev_dependencies:
   flutter_test:

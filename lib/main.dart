@@ -1,4 +1,5 @@
-import 'package:bloc_app/data/repositories/air_quality_repository.dart';
+import 'package:bloc_app/bloc/weather_bloc.dart';
+import 'package:bloc_app/data/repositories/repositories.dart';
 import 'package:bloc_app/route/router_config.dart';
 import 'package:bloc_app/theme/theme.dart';
 import 'package:flutter/material.dart';
@@ -34,11 +35,11 @@ void main() async {
         BlocProvider(
           create: (context) => DateTimeCubit(DateTimeState(DateTime.now())),
         ),
-
         BlocProvider(create: (context) => LocationCubit(LocationState())),
         BlocProvider(
           create: (context) => AirQualityBloc(AirQualityRepository()),
         ),
+        BlocProvider(create: (context) => WeatherDataBloc(WeatherRepository())),
       ],
       child: MyApp(),
     ),

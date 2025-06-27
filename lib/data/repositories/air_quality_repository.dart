@@ -13,7 +13,7 @@ typedef ResponseFuture = Future<Response<List<AirQualityPollutantModel>>>;
 typedef PollutantsFuture = Future<List<AirQualityPollutantModel>>;
 
 final _baseUrlMainApi = dotenv.env['AQ_MAIN_URL'] as String;
-final _baseUrlBackupApi = dotenv.env['AQ_BACKUP_URL'] as String;
+final _baseUrlBackupApi = dotenv.env['AQ_BACKUP_BASE_URL'] as String;
 final _backupToken = dotenv.env['AQ_BACKUP_TOKEN'] as String;
 
 final _mainApiClient = ChopperClient(
@@ -34,10 +34,8 @@ final _backupApiClient = ChopperClient(
 );
 
 class AirQualityRepository extends Repository {
-  AirQualityRepository();
-
   //Fetches the data from the main API
-  Future<dynamic> _fetchFromMainApi({
+  Future<Response<Result>> _fetchFromMainApi({
     required double lon,
     required double lat,
     required ChopperClient clientRef,
@@ -48,7 +46,7 @@ class AirQualityRepository extends Repository {
   }
 
   //Fetches the data from the backup API
-  Future<dynamic> _fetchFromBackupApi({
+  Future<Response<Result>> _fetchFromBackupApi({
     required double lon,
     required double lat,
     required ChopperClient clientRef,
@@ -61,35 +59,36 @@ class AirQualityRepository extends Repository {
     return response;
   }
 
-  Future<dynamic> fetchDataWithBackup() async {
+  //Fetches the data with a backup api
+  Future<Result> fetchDataWithBackup() async {
     //Fetch current location
     final locationData = await LocationService.determinePositionInCodes();
 
-    final lon = locationData.longitude;
-    final lat = locationData.latitude;
+    final _lon = locationData.longitude;
+    final _lat = locationData.latitude;
 
     //Fetch data from the main Api
     final mainResponse = await _fetchFromMainApi(
-      lon: lon,
-      lat: lat,
+      lon: _lon,
+      lat: _lat,
       clientRef: _mainApiClient,
     );
 
     //Fetch data from the backup Api
     final backupResponse = await _fetchFromBackupApi(
-      lon: lon,
-      lat: lat,
+      lon: _lon,
+      lat: _lat,
       clientRef: _backupApiClient,
     );
 
     //If the main api responds positively, send data to bloc
     if (mainResponse.isSuccessful) {
-      if (mainResponse.body != null) return mainResponse.body;
+      if (mainResponse.body != null) return Future.value(mainResponse.body);
     }
 
     //if the main Api fails, send data from the backup Api.
     if (!mainResponse.isSuccessful && backupResponse.isSuccessful) {
-      if (backupResponse.body != null) return backupResponse.body;
+      if (backupResponse.body != null) return Future.value(backupResponse.body);
     }
 
     //If both fails, throw an exception.

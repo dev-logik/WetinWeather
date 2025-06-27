@@ -3,9 +3,9 @@ import 'dart:convert';
 import 'dart:io' show HttpException, SocketException;
 
 import 'package:chopper/chopper.dart';
-import 'package:flutter/cupertino.dart';
 
 import '../models/models.dart';
+import '../services/services.dart';
 
 class AirQualityConverterForBackupApi implements Converter {
   @override
@@ -46,7 +46,6 @@ class AirQualityConverterForBackupApi implements Converter {
 
       //Build the list
       for (var entry in pollutantsData.entries) {
-        debugPrint(entry.toString());
         var pollutant = _mapPollutantEntry(entry);
         if (pollutant != null) {
           pollutants.add(pollutant);
@@ -62,7 +61,7 @@ class AirQualityConverterForBackupApi implements Converter {
       }
       return response.copyWith(
         base: response.base,
-        body: pollutants as BodyType,
+        body: Success<List<AirQualityPollutantModel>>(pollutants) as BodyType,
       );
     } on SocketException {
       return _errorResponse(response, 'No internet connection');
@@ -145,6 +144,9 @@ class AirQualityConverterForBackupApi implements Converter {
     Response response,
     String message,
   ) {
-    return response.copyWith(bodyError: message, body: message as BodyType);
+    return response.copyWith(
+      bodyError: Error(Exception('$message')),
+      body: Error(Exception('$message')) as BodyType,
+    );
   }
 }

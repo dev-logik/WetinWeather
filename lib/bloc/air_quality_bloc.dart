@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:bloc_app/data/repositories/air_quality_repository.dart';
 import 'package:bloc_app/models/air_quality_pollutant_model.dart';
+import 'package:bloc_app/services/response_model.dart';
 
 //Defines the events that can be triggered from the UI.
 sealed class AirQualityEvent {}
@@ -18,10 +19,10 @@ sealed class AirQualityState {}
 
 class AirQualityInitial extends AirQualityState {}
 
-class AirQualityLoadInProgress extends AirQualityState {}
+class AirQualityLoadingInProgress extends AirQualityState {}
 
 class AirQualityLoadSuccess extends AirQualityState {
-  final List<AirQualityPollutantModel> data;
+  final Success<List<AirQualityPollutantModel>> data;
   AirQualityLoadSuccess(this.data);
 }
 
@@ -54,9 +55,11 @@ class AirQualityBloc extends Bloc<AirQualityEvent, AirQualityState> {
     Emitter<AirQualityState> emit,
   ) async {
     try {
-      emit(AirQualityLoadInProgress());
+      emit(AirQualityLoadingInProgress());
       final data = await _airQualityRepository.fetchDataWithBackup();
-      emit(AirQualityLoadSuccess(data));
+      if (data is Success<List<AirQualityPollutantModel>>) {
+        emit(AirQualityLoadSuccess(data));
+      }
     } catch (exception) {
       emit(AirQualityLoadFailure(Exception(exception)));
     }
@@ -67,11 +70,13 @@ class AirQualityBloc extends Bloc<AirQualityEvent, AirQualityState> {
     Emitter<AirQualityState> emit,
   ) async {
     try {
-      emit(AirQualityLoadInProgress());
+      emit(AirQualityLoadingInProgress());
       final data = await _airQualityRepository.fetchDataWithBackup();
-      emit(AirQualityLoadSuccess(data));
-    } catch (exception) {
-      emit(AirQualityLoadFailure(Exception(exception)));
+      if (data is Success<List<AirQualityPollutantModel>>) {
+        emit(AirQualityLoadSuccess(data));
+      }
+    } catch (ex) {
+      emit(AirQualityLoadFailure(Exception(ex)));
     }
   }
 
@@ -84,11 +89,13 @@ class AirQualityBloc extends Bloc<AirQualityEvent, AirQualityState> {
       timer,
     ) async {
       try {
-        emit(AirQualityLoadInProgress());
+        emit(AirQualityLoadingInProgress());
         final data = await _airQualityRepository.fetchDataWithBackup();
-        emit(AirQualityLoadSuccess(data));
-      } catch (exception) {
-        emit(AirQualityLoadFailure(Exception(exception)));
+        if (data is Success<List<AirQualityPollutantModel>>) {
+          emit(AirQualityLoadSuccess(data));
+        }
+      } catch (ex) {
+        emit(AirQualityLoadFailure(Exception(ex)));
       }
     });
   }

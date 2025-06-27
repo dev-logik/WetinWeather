@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:bloc_app/services/response_model.dart';
 import 'package:chopper/chopper.dart';
 
 import '../models/air_quality_pollutant_model.dart';
@@ -17,30 +18,34 @@ class AirQualityConverterForMainApi implements Converter {
     Response response,
   ) async {
     try {
+      //if  response isn't a success, throw an exception.
       if (!response.isSuccessful) {
         throw HttpException(
           'Request failed with status ${response.statusCode}',
         );
       }
 
-      final decoded = await jsonDecode(response.body) as BodyType;
+      //Decode the data.
+      final decoded = await jsonDecode(response.body) as Map<String, dynamic>;
 
-      if (decoded is! Map<String, dynamic>) {
-        throw FormatException('Invalid response format');
-      }
-
+      //if doesn't have the following field, throw an exception.
       if (!decoded.containsKey('current')) {
         throw FormatException('Missing "current" field in response');
       }
 
+      //Get the required data raw.
       final currentData = decoded['current'] as Map<String, dynamic>;
+
+      //Get convert the data into a model
       final pollutants = _parsePollutants(currentData);
 
       if (pollutants.isEmpty) {
         throw FormatException('No valid pollutant data found');
       }
 
-      return response.copyWith(body: pollutants as BodyType);
+      return response.copyWith(
+        body: Success<List<AirQualityPollutantModel>>(pollutants) as BodyType,
+      );
     } on SocketException {
       return _errorResponse(response, 'No internet connection');
     } on TimeoutException {
@@ -121,6 +126,9 @@ class AirQualityConverterForMainApi implements Converter {
     Response response,
     String message,
   ) {
-    return response.copyWith(bodyError: message, body: message as BodyType);
+    return response.copyWith(
+      bodyError: Error(Exception('$message')),
+      body: Error(Exception('$message')) as BodyType,
+    );
   }
 }
