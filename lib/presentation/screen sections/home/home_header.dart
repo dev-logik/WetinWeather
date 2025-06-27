@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
-import '../../../bloc/cubits.dart';
+import '../../../bloc/cubits_blocs.dart';
 import '../../../services/services.dart';
 import '../../../utilities/utilities.dart';
 

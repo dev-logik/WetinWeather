@@ -7,7 +7,7 @@ import 'package:intl/intl.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 import 'package:syncfusion_flutter_gauges/gauges.dart';
 
-import '../../bloc/cubits.dart';
+import '../../bloc/cubits_blocs.dart';
 import '../../models/models.dart';
 import '../../utilities/error_helpers.dart';
 import 'components.dart';

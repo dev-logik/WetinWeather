@@ -21,9 +21,8 @@ class WeatherSummaryParameter extends StatelessWidget {
     final textTheme = Theme.of(context).textTheme;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.center,
+      mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        //Todo: Check if an icon can replace this.
-        //Todo: the values will be passed dynamically.
         FaIcon(
           weatherParameterIcon,
           size:

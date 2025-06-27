@@ -1,4 +1,4 @@
-import 'package:bloc_app/bloc/themeCubit.dart';
+import 'package:bloc_app/bloc/theme_cubit.dart';
 import 'package:bloc_app/presentation/components/gradient_spot.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';

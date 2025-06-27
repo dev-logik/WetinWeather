@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:bloc_app/data/repositories/repository.dart';
-import 'package:bloc_app/services/weather_main_service_converter.dart';
 import 'package:chopper/chopper.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';

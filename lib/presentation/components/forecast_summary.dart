@@ -26,7 +26,7 @@ class _ForecastSummaryState extends State<ForecastSummary> {
   @override
   void initState() {
     weatherDataBloc = context.read<WeatherDataBloc>();
-    weatherDataBloc.add(LoadInitialDataEvent());
+    weatherDataBloc.add(LoadInitialWeatherDataEvent());
     super.initState();
   }
 
@@ -55,7 +55,7 @@ class _ForecastSummaryState extends State<ForecastSummary> {
 
           children: <Widget>[
             sizedH4,
-            Flexible(child: displayAnimation(context), flex: 3),
+            Flexible(child: displayAnimation(context, isLightThemed), flex: 3),
             isTabletPortrait(context) ? Container() : sizedH24,
             Flexible(
               child: _loadWeatherData(isLightThemed),
@@ -102,6 +102,22 @@ class _ForecastSummaryState extends State<ForecastSummary> {
 
         return _shimmerOnLoading(isLightThemed);
       },
+      buildWhen: (previous, current) {
+        if (previous.runtimeType != current.runtimeType) {
+          return true;
+        }
+
+        if (current is WeatherDataLoadSuccess &&
+            previous is WeatherDataLoadSuccess) {
+          return (current.data != previous.data);
+        }
+
+        if (previous != current) {
+          return true;
+        }
+
+        return false;
+      },
     );
   }
 
@@ -116,7 +132,8 @@ class _ForecastSummaryState extends State<ForecastSummary> {
           weatherParameterIcon:
               WeatherHelpers.mapWeatherVariableToIcon(
                 actualData[index].jsonName,
-              )!,
+              ) ??
+              FontAwesomeIcons.stop,
           weatherParameterName: actualData[index].displayName,
           weatherParameterValue: actualData[index].value.toStringAsFixed(1),
           weatherParameterUnit: actualData[index].unit,
@@ -175,10 +192,26 @@ class _ForecastSummaryState extends State<ForecastSummary> {
     );
   }
 
-  AspectRatio displayAnimation(BuildContext context) {
+  AspectRatio displayAnimation(BuildContext context, bool isLightThemed) {
     return AspectRatio(
       aspectRatio: isTabletPortrait(context) ? 5 / 3 : 4 / 3,
       child: BlocBuilder<WeatherDataBloc, WeatherDataStates>(
+        buildWhen: (previous, current) {
+          if (previous.runtimeType != current.runtimeType) {
+            return true;
+          }
+
+          if (current is WeatherDataLoadSuccess &&
+              previous is WeatherDataLoadSuccess) {
+            return (current.data != previous.data);
+          }
+
+          if (previous != current) {
+            return true;
+          }
+
+          return false;
+        },
         builder: (context, state) {
           final isSuccessful = state is WeatherDataLoadSuccess;
           final isError = state is WeatherDataLoadFailure;
@@ -218,7 +251,10 @@ class _ForecastSummaryState extends State<ForecastSummary> {
           }
 
           return LoadingAnimationWidget.inkDrop(
-            color: Colors.brown,
+            color:
+                (isLightThemed)
+                    ? LightColorConstants.primaryColor
+                    : DarkColorConstants.primaryColor,
             size: 100.sp,
           );
         },

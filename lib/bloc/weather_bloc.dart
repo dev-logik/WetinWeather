@@ -9,9 +9,9 @@ import '../services/response_model.dart';
 //Defines UI events that will trigger the api calls and state changes.
 sealed class WeatherEvent {}
 
-class LoadInitialDataEvent extends WeatherEvent {}
+class LoadInitialWeatherDataEvent extends WeatherEvent {}
 
-class PullToRefreshEvent extends WeatherEvent {}
+class PullToRefreshWeatherEvent extends WeatherEvent {}
 
 class StreamDataEvent extends WeatherEvent {}
 
@@ -36,15 +36,16 @@ class WeatherDataBloc extends Bloc<WeatherEvent, WeatherDataStates> {
   late final WeatherRepository _weatherRepository;
   late final Timer _timer;
   WeatherDataBloc(this._weatherRepository) : super(WeatherDataInitial()) {
-    on<LoadInitialDataEvent>(_onInitialDataEvent);
+    on<LoadInitialWeatherDataEvent>(_onInitialDataEvent);
 
-    on<PullToRefreshEvent>(_onInitialDataEvent);
+    on<PullToRefreshWeatherEvent>(_onInitialDataEvent);
 
     on<StreamDataEvent>(onDataStreamEvent);
+
+    add(LoadInitialWeatherDataEvent());
   }
 
   FutureOr<void> onDataStreamEvent(event, emit) async {
-    //TODO: Modify how the data is streamed
     _timer = Timer.periodic(Duration(seconds: 5), (timer) async {
       try {
         emit(WeatherDataLoadingInProgress());

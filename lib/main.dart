@@ -1,4 +1,3 @@
-import 'package:bloc_app/bloc/weather_bloc.dart';
 import 'package:bloc_app/data/repositories/repositories.dart';
 import 'package:bloc_app/route/router_config.dart';
 import 'package:bloc_app/theme/theme.dart';
@@ -8,7 +7,7 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:logging/logging.dart';
 
-import 'bloc/cubits.dart';
+import 'bloc/cubits_blocs.dart';
 
 void _initLogging() {
   Logger.root.level = Level.ALL;

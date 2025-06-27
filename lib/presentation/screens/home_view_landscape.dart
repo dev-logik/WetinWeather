@@ -1,4 +1,4 @@
-import 'package:bloc_app/bloc/cubits.dart';
+import 'package:bloc_app/bloc/cubits_blocs.dart';
 import 'package:bloc_app/models/air_quality_pollutant_model.dart';
 import 'package:bloc_app/presentation/screen%20sections/hourly_section.dart';
 import 'package:flutter/material.dart';

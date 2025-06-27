@@ -145,7 +145,7 @@ class MainWeatherServiceConverter implements Converter {
       case 'wind_direction_10m':
         return WeatherForecastVariableModel(
           jsonName: entryKey,
-          displayName: 'Wind Direction',
+          displayName: 'Wind Vector',
           unit: dataUnits[entryKey],
           value: (mapEntry.value as int),
         );
@@ -180,7 +180,7 @@ class MainWeatherServiceConverter implements Converter {
       case 'cloud_cover':
         return WeatherForecastVariableModel(
           jsonName: entryKey,
-          displayName: 'Wind Direction',
+          displayName: 'Cloud Cover',
           unit: dataUnits[entryKey],
           value: (mapEntry.value as int),
         );

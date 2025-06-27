@@ -1,5 +1,5 @@
 import 'package:auto_size_text/auto_size_text.dart';
-import 'package:bloc_app/bloc/cubits.dart';
+import 'package:bloc_app/bloc/cubits_blocs.dart';
 import 'package:bloc_app/models/models.dart';
 import 'package:bloc_app/services/services.dart';
 import 'package:bloc_app/utilities/utilities.dart';
