@@ -13,7 +13,7 @@ class LoadInitialWeatherDataEvent extends WeatherEvent {}
 
 class PullToRefreshWeatherEvent extends WeatherEvent {}
 
-class StreamDataEvent extends WeatherEvent {}
+class StreamWeatherDataEvent extends WeatherEvent {}
 
 //Defines the different states of the weather data
 sealed class WeatherDataStates {}
@@ -40,7 +40,7 @@ class WeatherDataBloc extends Bloc<WeatherEvent, WeatherDataStates> {
 
     on<PullToRefreshWeatherEvent>(_onInitialDataEvent);
 
-    on<StreamDataEvent>(onDataStreamEvent);
+    on<StreamWeatherDataEvent>(onDataStreamEvent);
 
     add(LoadInitialWeatherDataEvent());
   }

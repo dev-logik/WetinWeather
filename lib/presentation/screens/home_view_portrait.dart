@@ -17,19 +17,22 @@ class HomeScreenMobilePortrait extends StatefulWidget {
 }
 
 class _HomeScreenMobilePortraitState extends State<HomeScreenMobilePortrait> {
-  var _selectedSegment = <int>{0};
   late final AirQualityBloc _airQualityBloc;
+  late final WeatherDataBloc _weatherDataBloc;
 
   @override
   void initState() {
     _airQualityBloc = context.read();
+    _weatherDataBloc = context.read();
     _airQualityBloc.add(LoadInitialDataEvent());
+    _weatherDataBloc.add(LoadInitialWeatherDataEvent());
     super.initState();
   }
 
   @override
   void dispose() {
     _airQualityBloc.close();
+    _weatherDataBloc.close();
     super.dispose();
   }
 
@@ -40,6 +43,7 @@ class _HomeScreenMobilePortraitState extends State<HomeScreenMobilePortrait> {
       if (_isRefreshing) return;
       await context.read<LocationCubit>().startLocationService();
       _airQualityBloc.add(LoadInitialDataEvent());
+      _weatherDataBloc.add(StreamWeatherDataEvent());
       _isRefreshing = true;
     }
 

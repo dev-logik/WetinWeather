@@ -105,6 +105,21 @@ class _WeatherDetailsState extends State<WeatherDetails> {
 
         return _shimmerOnLoading(isLightThemed, textTheme, context);
       },
+      buildWhen: (previous, current) {
+        if (previous.runtimeType != current.runtimeType) {
+          return true;
+        }
+        if (current is WeatherDataLoadSuccess &&
+            previous is WeatherDataLoadSuccess) {
+          return (current.locationName != previous.locationName);
+        }
+
+        if (previous != current) {
+          return true;
+        }
+
+        return false;
+      },
     );
   }
 
@@ -224,6 +239,22 @@ class _WeatherDetailsState extends State<WeatherDetails> {
         }
 
         return _onLoadingForecast(isLightThemed, textTheme, context);
+      },
+      buildWhen: (previous, current) {
+        if (previous.runtimeType != current.runtimeType) {
+          return true;
+        }
+
+        if (current is WeatherDataLoadSuccess &&
+            previous is WeatherDataLoadSuccess) {
+          return (current.data != previous.data);
+        }
+
+        if (previous != current) {
+          return true;
+        }
+
+        return false;
       },
     );
   }
@@ -366,6 +397,22 @@ class _WeatherDetailsState extends State<WeatherDetails> {
             );
           }
           return _shimmerOnLoadingWeatherVariables(isLightThemed);
+        },
+        buildWhen: (previous, current) {
+          if (previous.runtimeType != current.runtimeType) {
+            return true;
+          }
+
+          if (current is WeatherDataLoadSuccess &&
+              previous is WeatherDataLoadSuccess) {
+            return (current.data.value != previous.data.value);
+          }
+
+          if (previous != current) {
+            return true;
+          }
+
+          return false;
         },
       ),
     );
@@ -578,6 +625,22 @@ Widget forecastSection(
         );
       }
       return _onLoading(context, isLightThemed, textTheme);
+    },
+    buildWhen: (previous, current) {
+      if (previous.runtimeType != current.runtimeType) {
+        return true;
+      }
+
+      if (current is WeatherDataLoadSuccess &&
+          previous is WeatherDataLoadSuccess) {
+        return (current.data.value != previous.data.value);
+      }
+
+      if (previous != current) {
+        return true;
+      }
+
+      return false;
     },
   );
 }
