@@ -1,6 +1,7 @@
 import 'package:bloc_app/bloc/cubits_blocs.dart';
 import 'package:bloc_app/models/weather_forecast_model.dart';
 import 'package:bloc_app/utilities/weather_helper.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -9,6 +10,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:skeletonizer/skeletonizer.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../utilities/error_helpers.dart';
 import '../../utilities/utilities.dart';
@@ -558,21 +560,24 @@ Row weblinkSection(
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Text(
-                'www.7timer.com',
-                style: textTheme.labelSmall?.copyWith(
-                  color:
-                      (Theme.of(context).brightness == Brightness.light)
-                          ? LightColorConstants.secondaryColor_1
-                          : DarkColorConstants.secondaryColor_1,
-                  fontSize:
-                      isTabletPortrait(context)
-                          ? 24.sp
-                          : isTabletLandscape(context)
-                          ? 20.sp
-                          : isPhoneLandscape(context)
-                          ? 20.sp
-                          : null,
+              RichText(
+                text: TextSpan(
+                  text: 'www.open-meteo.com/',
+                  recognizer: TapGestureRecognizer()..onTap = _launchUrl,
+                  style: textTheme.labelSmall?.copyWith(
+                    color:
+                        (Theme.of(context).brightness == Brightness.light)
+                            ? LightColorConstants.secondaryColor_1
+                            : DarkColorConstants.secondaryColor_1,
+                    fontSize:
+                        isTabletPortrait(context)
+                            ? 24.sp
+                            : isTabletLandscape(context)
+                            ? 20.sp
+                            : isPhoneLandscape(context)
+                            ? 20.sp
+                            : null,
+                  ),
                 ),
               ),
               sizedW4,
@@ -589,6 +594,19 @@ Row weblinkSection(
       ),
     ],
   );
+}
+
+void _launchUrl() async {
+  final url = Uri.parse('https://open-meteo.com/');
+  if (!await launchUrl(url)) {
+    Fluttertoast.showToast(
+      msg: "Can't launch url $url",
+      backgroundColor: Colors.redAccent,
+      textColor: Colors.white,
+      gravity: ToastGravity.SNACKBAR,
+      fontSize: 14.sp,
+    );
+  }
 }
 
 Widget forecastSection(

@@ -42,8 +42,8 @@ class _HomeScreenMobilePortraitState extends State<HomeScreenMobilePortrait> {
     Future<void> _handlePullToRefresh() async {
       if (_isRefreshing) return;
       await context.read<LocationCubit>().startLocationService();
-      _airQualityBloc.add(LoadInitialDataEvent());
-      _weatherDataBloc.add(StreamWeatherDataEvent());
+      _airQualityBloc.add(PullToRefreshEvent());
+      _weatherDataBloc.add(PullToRefreshWeatherEvent());
       _isRefreshing = true;
     }
 
