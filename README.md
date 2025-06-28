@@ -8,14 +8,33 @@ WetinWeather is a modern, cross-platform Flutter application that delivers real-
 
 WetinWeather is a feature-rich weather and air quality app built with Flutter. It provides users with up-to-date weather forecasts, detailed air quality indices, and a visually engaging experience powered by smooth animations and responsive layouts. The app stands out with its focus on clarity, accessibility, and offline support, ensuring users always have access to essential weather data.
 
-**Recent Updates:**
+---
 
-- **Improved Bloc Architecture:** The Air Quality Bloc now uses a robust state management approach, with clear loading, success, and failure states for better UI feedback and error handling.
-- **Environment Variable Safety:** The app now checks for missing or null environment variables before attempting to use them, preventing type casting errors at runtime.
-- **API Fallback Logic:** The repository is structured to support fallback to a backup API if the main API fails, increasing reliability.
-- **Interceptor Improvements:** The backup API token is now injected safely and efficiently into requests.
-- **Type Safety:** All API responses and environment variables are now type-checked before casting, reducing runtime errors.
-- **Enhanced Error Handling:** More descriptive error messages and safer exception handling throughout the data layer.
+## 🆕 Recent Updates
+
+- **Robust Bloc Architecture:**  
+  Both Weather and Air Quality Blocs now use a clear state management approach, with well-defined loading, success, and failure states for improved UI feedback and error handling.
+
+- **Safe Environment Variable Handling:**  
+  The app checks for missing or null environment variables before using them, preventing type casting errors at runtime.
+
+- **API Fallback Logic:**  
+  Both weather and air quality repositories now attempt to fetch data from a backup API if the main API fails, increasing reliability and user trust.
+
+- **Improved Interceptor Logic:**  
+  The backup API token is injected safely and efficiently into requests using a custom interceptor.
+
+- **Type Safety:**  
+  All API responses and environment variables are type-checked before casting, reducing runtime errors.
+
+- **Enhanced Error Handling:**  
+  More descriptive error messages and safer exception handling throughout the data layer.
+
+- **Refined Data Conversion:**  
+  Custom Chopper converters are used for parsing weather and air quality data, with robust error handling for unexpected API responses.
+
+- **UI Feedback:**  
+  Improved loading indicators, error toasts, and shimmer effects for a smoother user experience.
 
 ---
 
@@ -76,10 +95,10 @@ WetinWeather is a feature-rich weather and air quality app built with Flutter. I
 - Ensure your `.env` file contains all required variables:
 
   ```
-  MAIN_BASE_URL=your_main_api_url
-  BACKUP_BASE_URL=your_backup_api_url
-  BACKUP_TOKEN=your_backup_api_token
-  WEATHER_API_KEY=your_weather_api_key
+  MAIN_WEATHER_URL=your_main_weather_api_url
+  AQ_MAIN_URL=your_main_air_quality_api_url
+  AQ_BACKUP_BASE_URL=your_backup_air_quality_api_url
+  AQ_BACKUP_TOKEN=your_backup_air_quality_api_token
   ```
 
 ### Installation
@@ -113,7 +132,7 @@ WetinWeather is a feature-rich weather and air quality app built with Flutter. I
 
 ```
 lib/
-├── bloc/               # Bloc state management (including air quality bloc)
+├── bloc/               # Bloc state management (including air quality and weather blocs)
 ├── components/         # Reusable widgets and UI components
 ├── data/
 │   └── repositories/   # Data repositories for API and local data
@@ -158,6 +177,7 @@ test/                   # Unit and widget tests
 | `equatable`            | Value equality for Dart objects              |
 | `intl`                 | Date and number formatting                   |
 | `build_runner`         | Code generation for models and APIs          |
+| `mockito`              | Mocking for unit tests                       |
 
 See [`pubspec.yaml`](pubspec.yaml) for the full list of dependencies.
 
