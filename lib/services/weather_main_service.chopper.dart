@@ -19,12 +19,11 @@ final class _$MainWeatherService extends MainWeatherService {
   final Type definitionType = MainWeatherService;
 
   @override
-  Future<Response<Result>> getCurrentWeatherDetails({
+  Future<Response<Result<dynamic>>> getCurrentWeatherDetails({
     required double lat,
     required double lon,
-    String windSpeedUnit = '',
-    String precipitationUnit = '',
-    String tempUnit = '',
+    String windSpeedUnit = 'kmh',
+    String precipitationUnit = 'mm',
   }) {
     final Uri $url = Uri.parse(
       '/v1/forecast?latitude={latitude}&longitude={longitude}&current=temperature_2m,relative_humidity_2m,apparent_temperature,is_day,precipitation,surface_pressure,wind_speed_10m,wind_direction_10m,weather_code,rain,showers,snowfall,cloud_cover&wind_speed_unit={wind_speed_unit}&precipitation_unit={precipitation_unit}',
@@ -41,7 +40,7 @@ final class _$MainWeatherService extends MainWeatherService {
       client.baseUrl,
       parameters: $params,
     );
-    return client.send<Result, dynamic>($request);
+    return client.send<Result<dynamic>, Result<dynamic>>($request);
   }
 
   @override

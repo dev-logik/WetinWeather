@@ -1,7 +1,8 @@
 import 'dart:async';
 
-import 'package:bloc_app/services/services.dart';
 import 'package:chopper/chopper.dart';
+
+import '../models/response_model.dart';
 
 part 'air_quality_backup_service.chopper.dart';
 

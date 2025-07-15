@@ -3,10 +3,13 @@ import 'dart:io';
 
 import 'package:bloc_app/utilities/exceptions.dart';
 import 'package:chopper/chopper.dart';
+import 'package:http/http.dart' hide Response;
+
+import '../services/network_exceptions.dart';
 
 abstract class ErrorHelpers {
   static String getFriendlyError(dynamic error) {
-    if (error is SocketException) {
+    if (error is SocketException || error is ClientException) {
       return "No internet connection. Please check your network.";
     } else if (error is TimeoutException) {
       return "Request timed out. Try again later.";
@@ -14,6 +17,8 @@ abstract class ErrorHelpers {
       return "Invalid server response.";
     } else if (error is ApiFailureException) {
       return "Server temporarily down. Try again!";
+    } else if (error is NoCachedDataException) {
+      return "No cached data available. Turn on internet connection.";
     } else if (error is Response) {
       // Handle Chopper's HTTP errors (4xx/5xx)
       switch (error.statusCode) {

@@ -3,8 +3,7 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:bloc_app/data/repositories/repositories.dart';
 import 'package:bloc_app/models/models.dart';
-
-import '../services/response_model.dart';
+import 'package:flutter/cupertino.dart';
 
 //Defines UI events that will trigger the api calls and state changes.
 sealed class WeatherEvent {}
@@ -23,34 +22,37 @@ class WeatherDataInitial extends WeatherDataStates {}
 class WeatherDataLoadingInProgress extends WeatherDataStates {}
 
 class WeatherDataLoadSuccess extends WeatherDataStates {
-  final Success<List<WeatherForecastVariableModel>> data;
+  final Success<List<CurrentWeatherVariableModel>> data;
+
   WeatherDataLoadSuccess(this.data);
 }
 
 class WeatherDataLoadFailure extends WeatherDataStates {
   final Exception errObj;
+
   WeatherDataLoadFailure(this.errObj);
 }
 
 class WeatherDataBloc extends Bloc<WeatherEvent, WeatherDataStates> {
   late final WeatherRepository _weatherRepository;
   late final Timer _timer;
+
   WeatherDataBloc(this._weatherRepository) : super(WeatherDataInitial()) {
     on<LoadInitialWeatherDataEvent>(_onInitialDataEvent);
 
     on<PullToRefreshWeatherEvent>(_onInitialDataEvent);
 
-    on<StreamWeatherDataEvent>(onDataStreamEvent);
+    on<StreamWeatherDataEvent>(_onDataStreamEvent);
 
     add(LoadInitialWeatherDataEvent());
   }
 
-  FutureOr<void> onDataStreamEvent(event, emit) async {
+  FutureOr<void> _onDataStreamEvent(event, emit) async {
     _timer = Timer.periodic(Duration(seconds: 5), (timer) async {
       try {
         emit(WeatherDataLoadingInProgress());
         final weatherData = await _weatherRepository.fetchDataWithBackup();
-        if (weatherData is Success<List<WeatherForecastVariableModel>>) {
+        if (weatherData is Success<List<CurrentWeatherVariableModel>>) {
           emit(WeatherDataLoadSuccess(weatherData));
         }
       } catch (ex) {
@@ -63,10 +65,13 @@ class WeatherDataBloc extends Bloc<WeatherEvent, WeatherDataStates> {
     try {
       emit(WeatherDataLoadingInProgress());
       final weatherData = await _weatherRepository.fetchDataWithBackup();
-      if (weatherData is Success<List<WeatherForecastVariableModel>>) {
+      if (weatherData is Success<List<CurrentWeatherVariableModel>>) {
         emit(WeatherDataLoadSuccess(weatherData));
       }
+    } on NoSuchMethodError catch (e) {
+      debugPrint(e.toString());
     } catch (ex) {
+      debugPrint('Error: ${ex.toString()}');
       emit(WeatherDataLoadFailure(ex as Exception));
     }
   }

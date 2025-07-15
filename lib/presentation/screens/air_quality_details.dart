@@ -23,13 +23,11 @@ class AirQualityDetails extends StatefulWidget {
 }
 
 class _AirQualityDetailsState extends State<AirQualityDetails> {
-  late final LocationCubit _locationCubit;
-  late final AirQualityBloc _airQualityCubit;
   @override
   void initState() {
     super.initState();
-    _locationCubit = context.read<LocationCubit>();
-    _airQualityCubit = context.read();
+    final _locationCubit = context.read<LocationCubit>();
+    final _airQualityCubit = context.read<AirQualityBloc>();
     _airQualityCubit.add(LoadInitialDataEvent());
     _locationCubit.startLocationService(
       locationStyleOption: LocationDisplayStyleOptions.CITY_COUNTRY,
@@ -38,6 +36,9 @@ class _AirQualityDetailsState extends State<AirQualityDetails> {
 
   @override
   void dispose() {
+    final _locationCubit = context.read<LocationCubit>();
+    final _airQualityCubit = context.read<AirQualityBloc>();
+
     _locationCubit.close();
     _locationCubit.startLocationService(
       locationStyleOption: LocationDisplayStyleOptions.CITY,
@@ -122,7 +123,7 @@ class _AirQualityDetailsState extends State<AirQualityDetails> {
 
         if (current is AirQualityLoadSuccess &&
             previous is AirQualityLoadSuccess) {
-          return (current.data != previous.data);
+          return (current.data.value != previous.data.value);
         }
 
         if (previous != current) {
@@ -184,7 +185,7 @@ class _AirQualityDetailsState extends State<AirQualityDetails> {
 
         if (current is AirQualityLoadSuccess &&
             previous is AirQualityLoadSuccess) {
-          return (current.data != previous.data);
+          return (current.data.value != previous.data.value);
         }
 
         if (previous != current) {
@@ -223,58 +224,19 @@ class _AirQualityDetailsState extends State<AirQualityDetails> {
             BlocBuilder<LocationCubit, LocationState>(
               builder: (context, state) {
                 if (state.locationName != null) {
-                  return Text(
-                    '${state.locationName}',
-                    style: textTheme.labelSmall?.copyWith(
-                      fontWeight: FontWeight.w100,
-                      fontSize:
-                          isTabletPortrait(context)
-                              ? 28.sp
-                              : isTabletLandscape(context)
-                              ? 30.sp
-                              : isPhoneLandscape(context)
-                              ? 24.sp
-                              : 16.sp,
-                      color: (isLightThemed) ? Colors.white : Colors.grey,
-                    ),
+                  return _loadLocationData(
+                    state,
+                    textTheme,
+                    context,
+                    isLightThemed,
                   );
                 }
 
-                return Skeletonizer(
-                  enableSwitchAnimation: true,
-                  switchAnimationConfig: SwitchAnimationConfig(
-                    switchInCurve: Curves.easeIn,
-                    switchOutCurve: Curves.easeOut,
-                  ),
-
-                  effect: ShimmerEffect(
-                    duration: Duration(milliseconds: 700),
-
-                    baseColor:
-                        (isLightThemed)
-                            ? LightColorConstants.primaryColor
-                            : DarkColorConstants.primaryColor,
-                    highlightColor:
-                        (isLightThemed)
-                            ? LightColorConstants.secondaryColor_2
-                            : DarkColorConstants.secondaryColor_2,
-                  ),
-                  enabled: state.locationName == null,
-                  child: Text(
-                    'Loading...',
-                    style: textTheme.labelSmall?.copyWith(
-                      fontWeight: FontWeight.w100,
-                      fontSize:
-                          isTabletPortrait(context)
-                              ? 28.sp
-                              : isTabletLandscape(context)
-                              ? 30.sp
-                              : isPhoneLandscape(context)
-                              ? 24.sp
-                              : 16.sp,
-                      color: (isLightThemed) ? Colors.white : Colors.grey,
-                    ),
-                  ),
+                return _shimmerOnLoadingLocation(
+                  isLightThemed,
+                  state,
+                  textTheme,
+                  context,
                 );
               },
             ),
@@ -294,6 +256,73 @@ class _AirQualityDetailsState extends State<AirQualityDetails> {
           ),
         ),
       ],
+    );
+  }
+
+  Text _loadLocationData(
+    LocationState state,
+    TextTheme textTheme,
+    BuildContext context,
+    bool isLightThemed,
+  ) {
+    return Text(
+      '${state.locationName}',
+      style: textTheme.labelSmall?.copyWith(
+        fontWeight: FontWeight.w100,
+        fontSize:
+            isTabletPortrait(context)
+                ? 28.sp
+                : isTabletLandscape(context)
+                ? 30.sp
+                : isPhoneLandscape(context)
+                ? 24.sp
+                : 16.sp,
+        color: (isLightThemed) ? Colors.white : Colors.grey,
+      ),
+    );
+  }
+
+  Skeletonizer _shimmerOnLoadingLocation(
+    bool isLightThemed,
+    LocationState state,
+    TextTheme textTheme,
+    BuildContext context,
+  ) {
+    return Skeletonizer(
+      enableSwitchAnimation: true,
+      switchAnimationConfig: SwitchAnimationConfig(
+        switchInCurve: Curves.easeIn,
+        switchOutCurve: Curves.easeOut,
+      ),
+
+      effect: ShimmerEffect(
+        duration: Duration(milliseconds: 700),
+
+        baseColor:
+            (isLightThemed)
+                ? LightColorConstants.primaryColor
+                : DarkColorConstants.primaryColor,
+        highlightColor:
+            (isLightThemed)
+                ? LightColorConstants.secondaryColor_2
+                : DarkColorConstants.secondaryColor_2,
+      ),
+      enabled: state.locationName == null,
+      child: Text(
+        'Loading...',
+        style: textTheme.labelSmall?.copyWith(
+          fontWeight: FontWeight.w100,
+          fontSize:
+              isTabletPortrait(context)
+                  ? 28.sp
+                  : isTabletLandscape(context)
+                  ? 30.sp
+                  : isPhoneLandscape(context)
+                  ? 24.sp
+                  : 16.sp,
+          color: (isLightThemed) ? Colors.white : Colors.grey,
+        ),
+      ),
     );
   }
 
@@ -320,39 +349,11 @@ class _AirQualityDetailsState extends State<AirQualityDetails> {
           center: Center(
             child: BlocBuilder<AirQualityBloc, AirQualityState>(
               builder: (context, state) {
-                return Skeletonizer(
-                  switchAnimationConfig: SwitchAnimationConfig(
-                    switchInCurve: Curves.easeIn,
-                    switchOutCurve: Curves.easeOut,
-                  ),
-
-                  effect: ShimmerEffect(
-                    baseColor:
-                        (isLightThemed)
-                            ? LightColorConstants.primaryColor
-                            : DarkColorConstants.primaryColor,
-
-                    highlightColor:
-                        (isLightThemed)
-                            ? LightColorConstants.secondaryColor_1
-                            : DarkColorConstants.secondaryColor_1,
-
-                    duration: Duration(milliseconds: 700),
-                  ),
-                  enabled: (aqiRatio == null),
-                  child: Text(
-                    '${((aqiRatio ?? 0.0) * 100).toStringAsFixed(2)}%',
-                    style: textTheme.titleMedium?.copyWith(
-                      fontSize:
-                          isTabletPortrait(context)
-                              ? 24.sp
-                              : isTabletLandscape(context)
-                              ? 30.sp
-                              : isPhoneLandscape(context)
-                              ? 22.sp
-                              : 20.sp,
-                    ),
-                  ),
+                return _shimmerLoadingAQI(
+                  isLightThemed,
+                  aqiRatio,
+                  textTheme,
+                  context,
                 );
               },
               buildWhen: (previous, current) {
@@ -362,7 +363,7 @@ class _AirQualityDetailsState extends State<AirQualityDetails> {
 
                 if (current is AirQualityLoadSuccess &&
                     previous is AirQualityLoadSuccess) {
-                  return (current.data != previous.data);
+                  return (current.data.value != previous.data.value);
                 }
 
                 if (previous != current) {
@@ -449,10 +450,52 @@ class _AirQualityDetailsState extends State<AirQualityDetails> {
     );
   }
 
+  Skeletonizer _shimmerLoadingAQI(
+    bool isLightThemed,
+    double? aqiRatio,
+    TextTheme textTheme,
+    BuildContext context,
+  ) {
+    return Skeletonizer(
+      switchAnimationConfig: SwitchAnimationConfig(
+        switchInCurve: Curves.easeIn,
+        switchOutCurve: Curves.easeOut,
+      ),
+
+      effect: ShimmerEffect(
+        baseColor:
+            (isLightThemed)
+                ? LightColorConstants.primaryColor
+                : DarkColorConstants.primaryColor,
+
+        highlightColor:
+            (isLightThemed)
+                ? LightColorConstants.secondaryColor_1
+                : DarkColorConstants.secondaryColor_1,
+
+        duration: Duration(milliseconds: 700),
+      ),
+      enabled: (aqiRatio == null),
+      child: Text(
+        '${((aqiRatio ?? 0.0) * 100).toStringAsFixed(2)}%',
+        style: textTheme.titleMedium?.copyWith(
+          fontSize:
+              isTabletPortrait(context)
+                  ? 24.sp
+                  : isTabletLandscape(context)
+                  ? 30.sp
+                  : isPhoneLandscape(context)
+                  ? 22.sp
+                  : 20.sp,
+        ),
+      ),
+    );
+  }
+
   Widget airQualityPollutants(
     BuildContext context,
     TextTheme textTheme,
-    List<AirQualityPollutantModel> pollutants,
+    List<CurrentPollutantModel> pollutants,
   ) {
     return GridView.builder(
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
@@ -463,16 +506,21 @@ class _AirQualityDetailsState extends State<AirQualityDetails> {
       shrinkWrap: true,
       physics: NeverScrollableScrollPhysics(),
       itemBuilder: (context, index) {
-        AirQualityPollutantModel pollutantModel;
-        pollutantModel = pollutants[index];
+        final name = pollutants[index].pollutantName;
+        final symbol = pollutants[index].pollutantSymbol;
+        final remarks = pollutants[index].remarks;
+        final conc = pollutants[index].getPollutantConcIn();
+        final color = pollutants[index].mapValueToColor;
+        final relativeConc = pollutants[index].relativeConc;
+        final unit = pollutants[index].getPollutantUnitStringFor();
         return AirQualityPollutantIndividualCard(
-          pollutantName: pollutantModel.pollutantName,
-          pollutantSymbol: pollutantModel.pollutantSymbol,
-          pollutantConcentration: pollutantModel.getPollutantConcIn(),
-          indicatorColor: pollutantModel.mapValueToColor,
-          pollutantUnit: pollutantModel.getPollutantUnitStringFor(),
-          remark: pollutantModel.remarks,
-          relativeConcentration: pollutantModel.relativeConc,
+          pollutantName: name,
+          pollutantSymbol: symbol,
+          pollutantConcentration: conc,
+          indicatorColor: color,
+          pollutantUnit: unit,
+          remark: remarks,
+          relativeConcentration: relativeConc,
         );
       },
     );
@@ -501,6 +549,7 @@ class _AirQualityDetailsState extends State<AirQualityDetails> {
       enabled: true,
       child: GridView(
         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+          childAspectRatio: isPhoneLandscape(context) ? 5 / 1.7 : 1,
           crossAxisCount: 2,
         ),
         shrinkWrap: true,

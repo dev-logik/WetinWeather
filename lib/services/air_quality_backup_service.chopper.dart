@@ -19,12 +19,12 @@ final class _$AirQualityBackupService extends AirQualityBackupService {
   final Type definitionType = AirQualityBackupService;
 
   @override
-  Future<Response<Result>> getCurrentAirQualityDetails(
+  Future<Response<Result<dynamic>>> getCurrentAirQualityDetails(
     double longitude,
     double latitude,
   ) {
     final Uri $url = Uri.parse('/feed/geo:${latitude};${longitude}/');
     final Request $request = Request('GET', $url, client.baseUrl);
-    return client.send<Result, dynamic>($request);
+    return client.send<Result<dynamic>, Result<dynamic>>($request);
   }
 }

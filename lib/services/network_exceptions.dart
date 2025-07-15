@@ -1,1 +1,1 @@
-
+class NoCachedDataException implements Exception {}

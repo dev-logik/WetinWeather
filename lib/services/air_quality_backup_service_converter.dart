@@ -5,7 +5,6 @@ import 'dart:io' show HttpException, SocketException;
 import 'package:chopper/chopper.dart';
 
 import '../models/models.dart';
-import '../services/services.dart';
 
 class AirQualityConverterForBackupApi implements Converter {
   @override
@@ -42,7 +41,7 @@ class AirQualityConverterForBackupApi implements Converter {
       final pollutantsData = decoded["data"]["iaqi"] as Map<String, dynamic>;
 
       //Define and empty list of pollutants.
-      final pollutants = <AirQualityPollutantModel>[];
+      final pollutants = <CurrentPollutantModel>[];
 
       //Build the list
       for (var entry in pollutantsData.entries) {
@@ -61,7 +60,7 @@ class AirQualityConverterForBackupApi implements Converter {
       }
       return response.copyWith(
         base: response.base,
-        body: Success<List<AirQualityPollutantModel>>(pollutants) as BodyType,
+        body: Success<List<CurrentPollutantModel>>(pollutants) as BodyType,
       );
     } on SocketException {
       return _errorResponse(response, 'No internet connection');
@@ -74,9 +73,7 @@ class AirQualityConverterForBackupApi implements Converter {
     }
   }
 
-  AirQualityPollutantModel? _mapPollutantEntry(
-    MapEntry<String, dynamic> entry,
-  ) {
+  CurrentPollutantModel? _mapPollutantEntry(MapEntry<String, dynamic> entry) {
     final key = entry.key;
     final value = entry.value;
 
@@ -87,14 +84,14 @@ class AirQualityConverterForBackupApi implements Converter {
     final concentration = (value['v'] as num).toDouble();
 
     if (key == 'pm25') {
-      return AirQualityPollutantModel(
+      return CurrentPollutantModel(
         pollutantName: 'Fine PM',
         pollutantSymbol: 'PM25',
         pollutantConcentration: concentration,
       );
     }
     if (key == 'pm10') {
-      return AirQualityPollutantModel(
+      return CurrentPollutantModel(
         pollutantName: 'Coarse PM',
         pollutantSymbol: 'PM10',
         pollutantConcentration: concentration,
@@ -102,28 +99,28 @@ class AirQualityConverterForBackupApi implements Converter {
     }
 
     if (key == 'co') {
-      return AirQualityPollutantModel(
+      return CurrentPollutantModel(
         pollutantName: 'CO Gas',
         pollutantSymbol: 'CO',
         pollutantConcentration: concentration,
       );
     }
     if (key == 'so2') {
-      return AirQualityPollutantModel(
+      return CurrentPollutantModel(
         pollutantName: 'Sulfur Dioxide',
         pollutantSymbol: 'SO₂',
         pollutantConcentration: concentration,
       );
     }
     if (key == 'no2') {
-      return AirQualityPollutantModel(
+      return CurrentPollutantModel(
         pollutantName: 'Nitrogen Dioxide',
         pollutantSymbol: 'NO₂',
         pollutantConcentration: concentration,
       );
     }
     if (key == 'o3') {
-      return AirQualityPollutantModel(
+      return CurrentPollutantModel(
         pollutantName: 'Ozone',
         pollutantSymbol: 'O₃',
         pollutantConcentration: concentration,

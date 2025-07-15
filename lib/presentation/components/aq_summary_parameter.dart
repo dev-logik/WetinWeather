@@ -85,15 +85,12 @@ class AirQualityPollutantSummaryCard extends StatelessWidget {
     );
   }
 
-  Skeletonizer _showPollutantIcon(BuildContext context) {
-    return Skeletonizer(
-      enabled: aqIconPath == null,
-      child: Image.asset(
-        aqIconPath!,
-        width: isTabletPortrait(context) ? 60.w : 30.w,
-        height: isTabletPortrait(context) ? 60.h : 30.h,
-        color: (aqParameterName == 'CO Gas') ? Colors.white : null,
-      ),
+  Widget _showPollutantIcon(BuildContext context) {
+    return Image.asset(
+      aqIconPath!,
+      width: isTabletPortrait(context) ? 60.w : 30.w,
+      height: isTabletPortrait(context) ? 60.h : 30.h,
+      color: (aqParameterName == ' CO Gas') ? Colors.white : null,
     );
   }
 }

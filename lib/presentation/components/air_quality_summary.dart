@@ -86,7 +86,7 @@ class AirQualitySummary extends StatelessWidget {
 
         if (current is AirQualityLoadSuccess &&
             previous is AirQualityLoadSuccess) {
-          return (current.data != previous.data);
+          return (current.data.value != previous.data.value);
         }
 
         if (previous != current) {
@@ -100,7 +100,7 @@ class AirQualitySummary extends StatelessWidget {
 
   Widget _loadnShowPollutantsData(
     int listViewLength,
-    List<AirQualityPollutantModel> _pollutants,
+    List<CurrentPollutantModel> _pollutants,
   ) {
     return ListView.separated(
       separatorBuilder: (context, index) {
@@ -151,7 +151,7 @@ class AirQualitySummary extends StatelessWidget {
 
         if (current is AirQualityLoadSuccess &&
             previous is AirQualityLoadSuccess) {
-          return (current.data != previous.data);
+          return (current.data.value != previous.data.value);
         }
 
         if (previous != current) {
@@ -163,15 +163,12 @@ class AirQualitySummary extends StatelessWidget {
     );
   }
 
-  Widget _buildAirQualityPollutantsInfo(
-    AirQualityPollutantModel data,
-    int index,
-  ) {
+  Widget _buildAirQualityPollutantsInfo(CurrentPollutantModel data, int index) {
     return AirQualityPollutantSummaryCard(
       key: ValueKey('Pollutant: $index'),
       aqIconPath: AssetPath.mapPollutantToIcon(data.pollutantSymbol),
       aqParameterName: data.pollutantName.trim(),
-      aqParameterValue: data.basePollutantConc,
+      aqParameterValue: data.pollutantConcentration,
       aqParameterUnit: data.getPollutantUnitStringFor(),
     );
   }

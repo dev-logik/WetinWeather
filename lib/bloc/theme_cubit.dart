@@ -4,10 +4,16 @@ import 'package:flutter/material.dart';
 class ThemeModeState {
   ThemeMode _themeMode;
   bool _isDarkThemed;
+
   ThemeMode get themeMode => _themeMode;
+
   bool get isDarkThemed => _isDarkThemed;
 
-  ThemeModeState(this._themeMode, this._isDarkThemed);
+  ThemeModeState({
+    ThemeMode themeMode = ThemeMode.light,
+    bool isDarkThemed = false,
+  }) : _themeMode = themeMode,
+       _isDarkThemed = isDarkThemed;
 }
 
 class ThemeModeCubit extends Cubit<ThemeModeState> {
@@ -17,8 +23,10 @@ class ThemeModeCubit extends Cubit<ThemeModeState> {
     bool isLightThemed = state._themeMode == ThemeMode.light;
     emit(
       ThemeModeState(
-        state._themeMode = (isLightThemed) ? ThemeMode.dark : ThemeMode.light,
-        !isDarkThemed,
+        themeMode:
+            state._themeMode =
+                (isLightThemed) ? ThemeMode.dark : ThemeMode.light,
+        isDarkThemed: !isDarkThemed,
       ),
     );
   }

@@ -1,16 +1,18 @@
 import 'dart:async';
 
 import 'package:bloc_app/data/repositories/repository.dart';
-import 'package:bloc_app/models/air_quality_pollutant_model.dart';
+import 'package:bloc_app/models/current_pollutant_model.dart';
 import 'package:bloc_app/services/services.dart';
 import 'package:bloc_app/utilities/exceptions.dart';
 import 'package:chopper/chopper.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
+import '../../models/response_model.dart';
+
 //Simplifies the type definition the definition of the return
 // type of response for the network request.
-typedef ResponseFuture = Future<Response<List<AirQualityPollutantModel>>>;
-typedef PollutantsFuture = Future<List<AirQualityPollutantModel>>;
+typedef ResponseFuture = Future<Response<List<CurrentPollutantModel>>>;
+typedef PollutantsFuture = Future<List<CurrentPollutantModel>>;
 
 final _baseUrlMainApi = dotenv.env['AQ_MAIN_URL'] as String;
 final _baseUrlBackupApi = dotenv.env['AQ_BACKUP_BASE_URL'] as String;
@@ -83,7 +85,8 @@ class AirQualityRepository extends Repository {
 
     //If the main api responds positively, send data to bloc
     if (mainResponse.isSuccessful) {
-      if (mainResponse.body != null) return Future.value(mainResponse.body);
+      if (mainResponse.body != null)
+        return Future.value(mainResponse.body as Success);
     }
 
     //if the main Api fails, send data from the backup Api.

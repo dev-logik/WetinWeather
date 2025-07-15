@@ -1,8 +1,9 @@
-import 'package:bloc_app/models/air_quality_pollutant_model.dart';
+import 'package:bloc_app/models/current_pollutant_model.dart';
 import 'package:flutter/material.dart';
 
 abstract class AirQualityHelpers {
   static const double _highestAQI = 500;
+
   static Color? mapValueToColor(double value) {
     if (value <= 50) {
       return Colors.greenAccent;
@@ -36,13 +37,15 @@ abstract class AirQualityHelpers {
   }
 
   static double? getAirQualityIndex({
-    required List<AirQualityPollutantModel> aQModels,
+    required List<CurrentPollutantModel> aQModels,
   }) {
     final aqIndex = aQModels.reduce(
       (target, ref) =>
-          (target.basePollutantConc > ref.basePollutantConc) ? target : ref,
+          (target.pollutantConcentration > ref.pollutantConcentration)
+              ? target
+              : ref,
     );
-    return aqIndex.basePollutantConc;
+    return aqIndex.pollutantConcentration;
   }
 
   static double getRelativeConcentration(double? currentValue) {

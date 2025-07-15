@@ -1,7 +1,6 @@
 import 'package:bloc_app/bloc/weather_bloc.dart';
-import 'package:bloc_app/models/weather_forecast_model.dart';
+import 'package:bloc_app/utilities/error_helpers.dart';
 import 'package:bloc_app/utilities/utilities.dart';
-import 'package:bloc_app/utilities/weather_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -13,6 +12,8 @@ import 'package:skeletonizer/skeletonizer.dart';
 
 import 'components.dart';
 
+final mapWeatherIcon = WeatherHelpers.mapWeatherVariableToIcon;
+
 class ForecastSummary extends StatefulWidget {
   const ForecastSummary({super.key});
 
@@ -21,19 +22,25 @@ class ForecastSummary extends StatefulWidget {
 }
 
 class _ForecastSummaryState extends State<ForecastSummary> {
-  late final WeatherDataBloc weatherDataBloc;
+  late WeatherDataBloc _weatherDataBloc;
 
   @override
   void initState() {
-    weatherDataBloc = context.read<WeatherDataBloc>();
-    weatherDataBloc.add(LoadInitialWeatherDataEvent());
     super.initState();
+    _weatherDataBloc = context.read<WeatherDataBloc>();
+    _weatherDataBloc.add(LoadInitialWeatherDataEvent());
   }
 
   @override
   void dispose() {
-    weatherDataBloc.close();
+    _weatherDataBloc.close();
     super.dispose();
+  }
+
+  @override
+  void didChangeDependencies() {
+    _weatherDataBloc = context.read<WeatherDataBloc>();
+    super.didChangeDependencies();
   }
 
   @override
@@ -90,9 +97,9 @@ class _ForecastSummaryState extends State<ForecastSummary> {
         }
 
         if (isError) {
-          final err = state.errObj;
+          final err = ErrorHelpers.getFriendlyError(state.errObj);
           Fluttertoast.showToast(
-            msg: err.toString(),
+            msg: err,
             backgroundColor: Colors.redAccent,
             textColor: Colors.white,
             gravity: ToastGravity.SNACKBAR,
@@ -109,7 +116,7 @@ class _ForecastSummaryState extends State<ForecastSummary> {
 
         if (current is WeatherDataLoadSuccess &&
             previous is WeatherDataLoadSuccess) {
-          return (current.data != previous.data);
+          return (current.data.value != previous.data.value);
         }
 
         if (previous != current) {
@@ -121,22 +128,23 @@ class _ForecastSummaryState extends State<ForecastSummary> {
     );
   }
 
-  ListView _weatherVariableData(List<WeatherForecastVariableModel> actualData) {
+  ListView _weatherVariableData(WeatherVariables actualData) {
     return ListView.separated(
       physics: NeverScrollableScrollPhysics(),
       scrollDirection: Axis.horizontal,
       shrinkWrap: true,
       itemCount: 3,
       itemBuilder: (context, index) {
+        final icon =
+            mapWeatherIcon(actualData[index].jsonName) ?? FontAwesomeIcons.stop;
+        final name = actualData[index].displayName;
+        final value = actualData[index].value.toStringAsFixed(1);
+        final unit = actualData[index].unit;
         return WeatherSummaryParameter(
-          weatherParameterIcon:
-              WeatherHelpers.mapWeatherVariableToIcon(
-                actualData[index].jsonName,
-              ) ??
-              FontAwesomeIcons.stop,
-          weatherParameterName: actualData[index].displayName,
-          weatherParameterValue: actualData[index].value.toStringAsFixed(1),
-          weatherParameterUnit: actualData[index].unit,
+          weatherParameterIcon: icon,
+          weatherParameterName: name,
+          weatherParameterValue: value,
+          weatherParameterUnit: unit,
         );
       },
       separatorBuilder: (BuildContext context, int index) {
@@ -203,7 +211,7 @@ class _ForecastSummaryState extends State<ForecastSummary> {
 
           if (current is WeatherDataLoadSuccess &&
               previous is WeatherDataLoadSuccess) {
-            return (current.data != previous.data);
+            return (current.data.value != previous.data.value);
           }
 
           if (previous != current) {
@@ -240,9 +248,9 @@ class _ForecastSummaryState extends State<ForecastSummary> {
           }
 
           if (isError) {
-            final err = state.errObj;
+            final err = ErrorHelpers.getFriendlyError(state.errObj);
             Fluttertoast.showToast(
-              msg: err.toString(),
+              msg: err,
               backgroundColor: Colors.redAccent,
               textColor: Colors.white,
               gravity: ToastGravity.SNACKBAR,

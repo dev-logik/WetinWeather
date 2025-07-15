@@ -1,5 +1,5 @@
 import 'package:bloc_app/bloc/cubits_blocs.dart';
-import 'package:bloc_app/models/air_quality_pollutant_model.dart';
+import 'package:bloc_app/models/current_pollutant_model.dart';
 import 'package:bloc_app/presentation/screen%20sections/hourly_section.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -8,10 +8,12 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
 import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:lottie/lottie.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
+import '../../utilities/error_helpers.dart';
 import '../../utilities/utilities.dart';
 import '../components/components.dart';
 
@@ -24,15 +26,14 @@ class HomeScreenMobileLandscape extends StatefulWidget {
 }
 
 class _HomeScreenMobileLandscapeState extends State<HomeScreenMobileLandscape> {
-  late final LocationCubit _locationStateProvider;
-  late final DateTimeCubit _dateTimeCubitProvider;
-  late final AirQualityBloc _airQualityBloc;
   @override
   void initState() {
-    _dateTimeCubitProvider = context.read<DateTimeCubit>();
-    _locationStateProvider = context.read<LocationCubit>();
-    _airQualityBloc = context.read<AirQualityBloc>();
+    final _dateTimeCubitProvider = context.read<DateTimeCubit>();
+    final _locationStateProvider = context.read<LocationCubit>();
+    final _airQualityBloc = context.read<AirQualityBloc>();
+    final weatherDataBloc = context.read<WeatherDataBloc>();
 
+    weatherDataBloc.add(LoadInitialWeatherDataEvent());
     _dateTimeCubitProvider.startTime();
     _locationStateProvider.startLocationService();
     _airQualityBloc.add(LoadInitialDataEvent());
@@ -42,16 +43,20 @@ class _HomeScreenMobileLandscapeState extends State<HomeScreenMobileLandscape> {
 
   @override
   void dispose() {
-    _dateTimeCubitProvider.dispose();
-    _airQualityBloc.close();
+    context.read<AirQualityBloc>().close();
+    context.read<DateTimeCubit>().dispose();
+    context.read<LocationCubit>().close();
+    context.read<WeatherDataBloc>().close();
+
     super.dispose();
   }
 
   bool _isRefreshing = false;
+
   Future<void> _handlePullToRefresh() async {
     if (_isRefreshing) return;
     await context.read<LocationCubit>().startLocationService();
-    _airQualityBloc.add(LoadInitialDataEvent());
+    context.read<AirQualityBloc>().add(LoadInitialDataEvent());
     _isRefreshing = true;
   }
 
@@ -124,9 +129,9 @@ class _HomeScreenMobileLandscapeState extends State<HomeScreenMobileLandscape> {
   ) {
     return Card(
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: <Widget>[
-          Flexible(child: _forecastSection(textTheme, context)),
+          Flexible(child: _forecastSection(textTheme, context, isLightThemed)),
           _separator(),
           Flexible(
             child: _airQualitySection(textTheme, context, isLightThemed),
@@ -143,24 +148,10 @@ class _HomeScreenMobileLandscapeState extends State<HomeScreenMobileLandscape> {
         BlocBuilder<LocationCubit, LocationState>(
           builder: (context, state) {
             if (state.locationName != null) {
-              return Text(
-                '${state.locationName}',
-                style: textTheme.headlineLarge?.copyWith(
-                  fontSize: isTabletLandscape(context) ? 70.sp : 35.sp,
-                ),
-              );
+              return _loadLocationData(state, textTheme, context);
             }
 
-            return Skeletonizer(
-              enabled: state.locationName == null,
-              effect: ShimmerEffect(),
-              child: Text(
-                'Loading...',
-                style: textTheme.headlineLarge?.copyWith(
-                  fontSize: isTabletLandscape(context) ? 70.sp : 35.sp,
-                ),
-              ),
-            );
+            return _shimmerOnLoadingLocation(isLightThemed, textTheme, context);
           },
           buildWhen: (previous, current) {
             if (previous.runtimeType != current.runtimeType) {
@@ -190,6 +181,51 @@ class _HomeScreenMobileLandscapeState extends State<HomeScreenMobileLandscape> {
           },
         ),
       ],
+    );
+  }
+
+  Text _loadLocationData(
+    LocationState state,
+    TextTheme textTheme,
+    BuildContext context,
+  ) {
+    return Text(
+      '${state.locationName}',
+      style: textTheme.headlineLarge?.copyWith(
+        fontSize: isTabletLandscape(context) ? 70.sp : 35.sp,
+      ),
+    );
+  }
+
+  Skeletonizer _shimmerOnLoadingLocation(
+    bool isLightThemed,
+    TextTheme textTheme,
+    BuildContext context,
+  ) {
+    return Skeletonizer(
+      enabled: true,
+      enableSwitchAnimation: true,
+      switchAnimationConfig: SwitchAnimationConfig(
+        switchInCurve: Curves.easeIn,
+        switchOutCurve: Curves.easeOut,
+      ),
+      effect: ShimmerEffect(
+        baseColor:
+            (isLightThemed)
+                ? LightColorConstants.primaryColor
+                : DarkColorConstants.primaryColor,
+        highlightColor:
+            (isLightThemed)
+                ? LightColorConstants.secondaryColor_2
+                : DarkColorConstants.secondaryColor_2,
+        duration: Duration(milliseconds: 700),
+      ),
+      child: Text(
+        'Loading...',
+        style: textTheme.headlineLarge?.copyWith(
+          fontSize: isTabletLandscape(context) ? 70.sp : 35.sp,
+        ),
+      ),
     );
   }
 
@@ -305,7 +341,7 @@ class _HomeScreenMobileLandscapeState extends State<HomeScreenMobileLandscape> {
               ),
             ],
           ),
-
+          sizedH8,
           Flexible(
             child: BlocBuilder<AirQualityBloc, AirQualityState>(
               builder: (context, state) {
@@ -338,7 +374,23 @@ class _HomeScreenMobileLandscapeState extends State<HomeScreenMobileLandscape> {
                   return _showPollutantsStateHandler(_filteredPollutants);
                 }
 
-                return _shimmerOnLoading(context);
+                return _shimmerOnLoading(context, isLightThemed);
+              },
+              buildWhen: (previous, current) {
+                if (previous.runtimeType != current.runtimeType) {
+                  return true;
+                }
+
+                if (current is AirQualityLoadSuccess &&
+                    previous is AirQualityLoadSuccess) {
+                  return (current.data != previous.data);
+                }
+
+                if (previous != current) {
+                  return true;
+                }
+
+                return false;
               },
             ),
           ),
@@ -347,8 +399,24 @@ class _HomeScreenMobileLandscapeState extends State<HomeScreenMobileLandscape> {
     );
   }
 
-  Skeletonizer _shimmerOnLoading(BuildContext context) {
+  Skeletonizer _shimmerOnLoading(BuildContext context, bool isLightThemed) {
     return Skeletonizer(
+      enableSwitchAnimation: true,
+      switchAnimationConfig: SwitchAnimationConfig(
+        switchInCurve: Curves.easeIn,
+        switchOutCurve: Curves.easeOut,
+      ),
+      effect: ShimmerEffect(
+        baseColor:
+            (isLightThemed)
+                ? LightColorConstants.primaryColor
+                : DarkColorConstants.primaryColor,
+        highlightColor:
+            (isLightThemed)
+                ? LightColorConstants.secondaryColor_2
+                : DarkColorConstants.secondaryColor_2,
+        duration: Duration(milliseconds: 700),
+      ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         mainAxisSize: MainAxisSize.min,
@@ -379,7 +447,7 @@ class _HomeScreenMobileLandscapeState extends State<HomeScreenMobileLandscape> {
   }
 
   ListView _showPollutantsStateHandler(
-    List<AirQualityPollutantModel> _filteredPollutants,
+    List<CurrentPollutantModel> _filteredPollutants,
   ) {
     return ListView.separated(
       scrollDirection: Axis.horizontal,
@@ -387,14 +455,16 @@ class _HomeScreenMobileLandscapeState extends State<HomeScreenMobileLandscape> {
       shrinkWrap: true,
       physics: NeverScrollableScrollPhysics(),
       itemBuilder: (context, index) {
-        final requiredPollutant = _filteredPollutants[index];
+        final actualData = _filteredPollutants[index];
+        final icon = AssetPath.mapPollutantToIcon(actualData.pollutantSymbol);
+        final name = actualData.pollutantName;
+        final value = actualData.getPollutantConcIn();
+        final unit = actualData.getPollutantUnitStringFor();
         return AirQualityPollutantSummaryCard(
-          aqIconPath: AssetPath.mapPollutantToIcon(
-            requiredPollutant.pollutantSymbol,
-          ),
-          aqParameterName: requiredPollutant.pollutantName,
-          aqParameterValue: requiredPollutant.getPollutantConcIn(),
-          aqParameterUnit: requiredPollutant.getPollutantUnitStringFor(),
+          aqIconPath: icon,
+          aqParameterName: name,
+          aqParameterValue: value,
+          aqParameterUnit: unit,
         );
       },
       separatorBuilder: (BuildContext context, int index) {
@@ -437,7 +507,7 @@ class _HomeScreenMobileLandscapeState extends State<HomeScreenMobileLandscape> {
 
           duration: Duration(milliseconds: 700),
         ),
-        enabled: _isLoading,
+        enabled: true,
         child: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -502,65 +572,212 @@ class _HomeScreenMobileLandscapeState extends State<HomeScreenMobileLandscape> {
     );
   }
 
-  Widget _forecastSection(TextTheme textTheme, BuildContext context) {
+  Widget _forecastSection(
+    TextTheme textTheme,
+    BuildContext context,
+    bool isLightThemed,
+  ) {
     return GestureDetector(
       onTap: () {
         context.pushNamed('forecast details');
       },
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: 8.0.w),
-            child: Lottie.asset(
-              AssetPath.animatedSunnyRain,
-              width:
-                  isPhoneLandscape(context)
-                      ? 120.w
-                      : isTabletLandscape(context)
-                      ? 300.w
-                      : 100.w,
-              height:
-                  isPhoneLandscape(context)
-                      ? 120.h
-                      : isTabletLandscape(context)
-                      ? 300.h
-                      : 100.h,
-              fit: BoxFit.cover,
-            ),
+          Flexible(child: _weatherAnimation(isLightThemed)),
+          sizedH24,
+          Flexible(child: _buildWeatherVariables(isLightThemed)),
+        ],
+      ),
+    );
+  }
+
+  BlocBuilder<WeatherDataBloc, WeatherDataStates> _buildWeatherVariables(
+    bool isLightThemed,
+  ) {
+    return BlocBuilder<WeatherDataBloc, WeatherDataStates>(
+      builder: (context, state) {
+        final isSuccessful = state is WeatherDataLoadSuccess;
+        final isError = state is WeatherDataLoadFailure;
+        if (isSuccessful) {
+          final data = state.data.value;
+          final actualData =
+              data
+                  .where(
+                    (weatherVariable) =>
+                        weatherVariable.jsonName.contains('temperature_2m') ||
+                        weatherVariable.jsonName.contains('wind_speed_10m') ||
+                        weatherVariable.jsonName.contains(
+                          'relative_humidity_2m',
+                        ),
+                  )
+                  .toList();
+          return _weatherVariableData(actualData);
+        }
+
+        if (isError) {
+          final err = ErrorHelpers.getFriendlyError(state.errObj);
+          Fluttertoast.showToast(
+            msg: err,
+            backgroundColor: Colors.redAccent,
+            textColor: Colors.white,
+            gravity: ToastGravity.SNACKBAR,
+            fontSize: 14.sp,
+          );
+        }
+
+        return _shimmerOnLoadingData(isLightThemed);
+      },
+    );
+  }
+
+  Skeletonizer _shimmerOnLoadingData(bool isLightThemed) {
+    return Skeletonizer(
+      switchAnimationConfig: SwitchAnimationConfig(
+        switchInCurve: Curves.easeIn,
+        switchOutCurve: Curves.easeOut,
+      ),
+
+      effect: ShimmerEffect(
+        baseColor:
+            (isLightThemed)
+                ? LightColorConstants.primaryColor
+                : DarkColorConstants.primaryColor,
+
+        highlightColor:
+            (isLightThemed)
+                ? LightColorConstants.secondaryColor_1
+                : DarkColorConstants.secondaryColor_1,
+
+        duration: Duration(milliseconds: 700),
+      ),
+      enabled: true,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        children: <Widget>[
+          WeatherSummaryParameter(
+            weatherParameterIcon: FontAwesomeIcons.temperatureHalf,
+            weatherParameterName: 'Temperature',
+            weatherParameterValue: 33.toString(),
+            weatherParameterUnit: '°C',
           ),
-          //sizedH4,
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: 2.0.w, vertical: 4.0.h),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              mainAxisSize: MainAxisSize.min,
-              children: <Widget>[
-                WeatherSummaryParameter(
-                  weatherParameterIcon: FontAwesomeIcons.temperatureHalf,
-                  weatherParameterName: 'Temperature',
-                  weatherParameterValue: 33.toString(),
-                  weatherParameterUnit: '°C',
-                ),
-                isTabletLandscape(context) ? sizedW64 : sizedW24,
-                WeatherSummaryParameter(
-                  weatherParameterIcon: FontAwesomeIcons.wind,
-                  weatherParameterName: 'Wind',
-                  weatherParameterUnit: 'm/s',
-                  weatherParameterValue: '4',
-                ),
-                isTabletLandscape(context) ? sizedW64 : sizedW24,
-                WeatherSummaryParameter(
-                  weatherParameterIcon: FontAwesomeIcons.droplet,
-                  weatherParameterName: 'Humidity',
-                  weatherParameterUnit: '%',
-                  weatherParameterValue: '8',
-                ),
-              ],
-            ),
+          WeatherSummaryParameter(
+            weatherParameterIcon: FontAwesomeIcons.wind,
+            weatherParameterName: 'Wind',
+            weatherParameterUnit: 'm/s',
+            weatherParameterValue: '4',
+          ),
+          WeatherSummaryParameter(
+            weatherParameterIcon: FontAwesomeIcons.droplet,
+            weatherParameterName: 'Humidity',
+            weatherParameterUnit: '%',
+            weatherParameterValue: '8',
           ),
         ],
       ),
+    );
+  }
+
+  ListView _weatherVariableData(WeatherVariables actualData) {
+    return ListView.separated(
+      physics: NeverScrollableScrollPhysics(),
+      scrollDirection: Axis.horizontal,
+      shrinkWrap: true,
+      itemCount: 3,
+      itemBuilder: (context, index) {
+        final icon =
+            mapWeatherIcon(actualData[index].jsonName) ?? FontAwesomeIcons.stop;
+        final name = actualData[index].displayName;
+        final value = actualData[index].value.toStringAsFixed(1);
+        final unit = actualData[index].unit;
+        return WeatherSummaryParameter(
+          weatherParameterIcon: icon,
+          weatherParameterName: name,
+          weatherParameterValue: value,
+          weatherParameterUnit: unit,
+        );
+      },
+      separatorBuilder: (BuildContext context, int index) {
+        return SizedBox(width: .03.sw);
+      },
+    );
+  }
+
+  BlocBuilder<WeatherDataBloc, WeatherDataStates> _weatherAnimation(
+    bool isLightThemed,
+  ) {
+    return BlocBuilder<WeatherDataBloc, WeatherDataStates>(
+      buildWhen: (previous, current) {
+        if (previous.runtimeType != current.runtimeType) {
+          return true;
+        }
+
+        if (current is WeatherDataLoadSuccess &&
+            previous is WeatherDataLoadSuccess) {
+          return (current.data != previous.data);
+        }
+
+        if (previous != current) {
+          return true;
+        }
+
+        return false;
+      },
+      builder: (context, state) {
+        final isSuccessful = state is WeatherDataLoadSuccess;
+        final isError = state is WeatherDataLoadFailure;
+        if (isSuccessful) {
+          final data = state.data.value;
+          debugPrint(data.length.toString());
+          var actualData =
+              data
+                  .where(
+                    (weatherVariable) =>
+                        weatherVariable.displayName.contains('Weather') ||
+                        weatherVariable.displayName.contains('Is it day?'),
+                  )
+                  .toList();
+          return Lottie.asset(
+            WeatherHelpers.WeatherCodeToAnimation(
+              isDay: actualData[0].value.toInt(),
+              weatherCode: actualData[1].value.toInt(),
+            ),
+            width:
+                isPhoneLandscape(context)
+                    ? 120.w
+                    : isTabletLandscape(context)
+                    ? 300.w
+                    : 100.w,
+            height:
+                isPhoneLandscape(context)
+                    ? 120.h
+                    : isTabletLandscape(context)
+                    ? 300.h
+                    : 100.h,
+            fit: BoxFit.cover,
+          );
+        }
+
+        if (isError) {
+          final err = ErrorHelpers.getFriendlyError(state.errObj);
+          Fluttertoast.showToast(
+            msg: err,
+            backgroundColor: Colors.redAccent,
+            textColor: Colors.white,
+            gravity: ToastGravity.SNACKBAR,
+            fontSize: 14.sp,
+          );
+        }
+
+        return LoadingAnimationWidget.inkDrop(
+          color:
+              (isLightThemed)
+                  ? LightColorConstants.primaryColor
+                  : DarkColorConstants.primaryColor,
+          size: isPhoneLandscape(context) ? 40.sp : 100.sp,
+        );
+      },
     );
   }
 }

@@ -1,4 +1,4 @@
-import 'package:bloc_app/services/response_model.dart';
+import 'package:bloc_app/models/response_model.dart';
 import 'package:chopper/chopper.dart';
 
 part 'weather_main_service.chopper.dart';

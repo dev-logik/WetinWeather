@@ -1,6 +1,4 @@
 import 'package:bloc_app/bloc/cubits_blocs.dart';
-import 'package:bloc_app/models/weather_forecast_model.dart';
-import 'package:bloc_app/utilities/weather_helper.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -15,7 +13,6 @@ import 'package:url_launcher/url_launcher.dart';
 import '../../utilities/error_helpers.dart';
 import '../../utilities/utilities.dart';
 import '../components/components.dart';
-import 'FutureTesting.dart';
 
 Function getIconJson = WeatherHelpers.mapWeatherVariableToIcon;
 Function getDirection = WeatherHelpers.getWindDirectionAbbr;
@@ -28,20 +25,19 @@ class WeatherDetails extends StatefulWidget {
 }
 
 class _WeatherDetailsState extends State<WeatherDetails> {
-  late final LocationCubit locationStateProvider;
-  late final WeatherDataBloc weatherDataCubit;
   @override
   void initState() {
     super.initState();
     context.read<DateTimeCubit>().startTime();
-    locationStateProvider = context.read<LocationCubit>();
+    final locationStateProvider = context.read<LocationCubit>();
+    final weatherDataCubit = context.read<WeatherDataBloc>();
     locationStateProvider.startLocationService();
-    weatherDataCubit = context.read<WeatherDataBloc>();
     weatherDataCubit.add(LoadInitialWeatherDataEvent());
   }
 
   @override
   void dispose() {
+    final weatherDataCubit = context.read<WeatherDataBloc>();
     super.dispose();
     context.read<DateTimeCubit>().dispose();
     weatherDataCubit.close();
@@ -321,7 +317,7 @@ class _WeatherDetailsState extends State<WeatherDetails> {
   }
 
   RichText _loadForecast(
-    List<WeatherForecastVariableModel> aD,
+    WeatherVariables aD,
     TextTheme textTheme,
     BuildContext context,
   ) {
@@ -500,7 +496,7 @@ class _WeatherDetailsState extends State<WeatherDetails> {
     );
   }
 
-  GridView _loadWeatherVariables(List<WeatherForecastVariableModel> aD) {
+  GridView _loadWeatherVariables(WeatherVariables aD) {
     return GridView.builder(
       physics: NeverScrollableScrollPhysics(),
       primary: false,
@@ -751,7 +747,7 @@ Row _onLoading(BuildContext context, bool isLightThemed, TextTheme textTheme) {
 }
 
 Row _loadForecastData(
-  List<WeatherForecastVariableModel> aD,
+  WeatherVariables aD,
   BuildContext context,
   TextTheme textTheme,
 ) {
@@ -847,14 +843,14 @@ Row headerSection(
       ),
       IconButton(
         onPressed: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) {
-                return FutureTesting();
-              },
-            ),
-          );
+          // Navigator.push(
+          //   context,
+          //   MaterialPageRoute(
+          //     builder: (context) {
+          //       return FutureTesting();
+          //     },
+          //   ),
+          // );
         },
         icon: Icon(
           isLightThemed ? FontAwesomeIcons.solidSun : FontAwesomeIcons.moon,

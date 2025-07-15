@@ -2,10 +2,10 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:bloc_app/services/response_model.dart';
+import 'package:bloc_app/models/response_model.dart';
 import 'package:chopper/chopper.dart';
 
-import '../models/air_quality_pollutant_model.dart';
+import '../models/current_pollutant_model.dart';
 
 class AirQualityConverterForMainApi implements Converter {
   @override
@@ -44,7 +44,7 @@ class AirQualityConverterForMainApi implements Converter {
       }
 
       return response.copyWith(
-        body: Success<List<AirQualityPollutantModel>>(pollutants) as BodyType,
+        body: Success<List<CurrentPollutantModel>>(pollutants) as BodyType,
       );
     } on SocketException {
       return _errorResponse(response, 'No internet connection');
@@ -57,10 +57,10 @@ class AirQualityConverterForMainApi implements Converter {
     }
   }
 
-  List<AirQualityPollutantModel> _parsePollutants(
+  List<CurrentPollutantModel> _parsePollutants(
     Map<String, dynamic> currentData,
   ) {
-    final pollutants = <AirQualityPollutantModel>[];
+    final pollutants = <CurrentPollutantModel>[];
 
     currentData.forEach((key, value) {
       final pollutant = _mapPollutant(key, value);
@@ -72,44 +72,44 @@ class AirQualityConverterForMainApi implements Converter {
     return pollutants;
   }
 
-  AirQualityPollutantModel? _mapPollutant(String key, dynamic value) {
+  CurrentPollutantModel? _mapPollutant(String key, dynamic value) {
     if (value is! num) return null;
 
     final concentration = value.toDouble();
 
     switch (key) {
       case 'pm10':
-        return AirQualityPollutantModel(
+        return CurrentPollutantModel(
           pollutantName: ' Coarse PM',
           pollutantSymbol: 'PM10',
           pollutantConcentration: concentration,
         );
       case 'pm2_5':
-        return AirQualityPollutantModel(
+        return CurrentPollutantModel(
           pollutantName: ' Fine PM',
           pollutantSymbol: 'PM25',
           pollutantConcentration: concentration,
         );
       case 'carbon_monoxide':
-        return AirQualityPollutantModel(
+        return CurrentPollutantModel(
           pollutantName: ' CO Gas',
           pollutantSymbol: 'CO',
           pollutantConcentration: concentration,
         );
       case 'sulphur_dioxide':
-        return AirQualityPollutantModel(
+        return CurrentPollutantModel(
           pollutantName: ' Sulfur Dioxide',
           pollutantSymbol: 'SO₂',
           pollutantConcentration: concentration,
         );
       case 'nitrogen_dioxide':
-        return AirQualityPollutantModel(
+        return CurrentPollutantModel(
           pollutantName: ' Nitrogen Dioxide',
           pollutantSymbol: 'NO₂',
           pollutantConcentration: concentration,
         );
       case 'ozone':
-        return AirQualityPollutantModel(
+        return CurrentPollutantModel(
           pollutantName: ' Ozone',
           pollutantSymbol: 'O₃',
           pollutantConcentration: concentration,
