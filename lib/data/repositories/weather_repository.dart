@@ -51,7 +51,7 @@ class WeatherRepository implements Repository {
     final lat = locationData.latitude;
 
     Success<WeatherVariables> encapsulated;
-    WeatherVariables? cachedData, _newData;
+    WeatherVariables? cachedData, newData;
 
     //Check if the device is connected to internet, if it isn't, try accessing
     // the cached data.
@@ -78,8 +78,8 @@ class WeatherRepository implements Repository {
       final responseBody = mainResponse.body;
       if (responseBody is Success<WeatherVariables>) {
         encapsulated = responseBody;
-        _newData = encapsulated.value;
-        _currentWeatherStorage.cacheData(data: _newData);
+        newData = encapsulated.value;
+        _currentWeatherStorage.cacheData(data: newData);
         return Future.value(encapsulated);
       }
     }

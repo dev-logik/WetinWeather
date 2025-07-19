@@ -22,11 +22,9 @@ class _HomeScreenMobilePortraitState extends State<HomeScreenMobilePortrait> {
 
   @override
   void initState() {
+    super.initState();
     _airQualityBloc = context.read();
     _weatherDataBloc = context.read();
-    _airQualityBloc.add(LoadInitialDataEvent());
-    _weatherDataBloc.add(LoadInitialWeatherDataEvent());
-    super.initState();
   }
 
   @override

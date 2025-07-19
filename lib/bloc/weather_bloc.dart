@@ -45,10 +45,11 @@ class WeatherDataBloc extends Bloc<WeatherEvent, WeatherDataStates> {
     on<StreamWeatherDataEvent>(_onDataStreamEvent);
 
     add(LoadInitialWeatherDataEvent());
+    //add(StreamWeatherDataEvent());
   }
 
   FutureOr<void> _onDataStreamEvent(event, emit) async {
-    _timer = Timer.periodic(Duration(seconds: 5), (timer) async {
+    _timer = Timer.periodic(Duration(minutes: 30), (timer) async {
       try {
         emit(WeatherDataLoadingInProgress());
         final weatherData = await _weatherRepository.fetchDataWithBackup();

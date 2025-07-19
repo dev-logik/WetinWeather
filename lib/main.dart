@@ -1,9 +1,11 @@
 import 'package:bloc_app/data/database/hive_local_storage.dart';
 import 'package:bloc_app/data/repositories/repositories.dart';
 import 'package:bloc_app/hive/hive_registrar.g.dart';
+import 'package:bloc_app/models/current_pollutant_model.dart';
 import 'package:bloc_app/models/current_weather_model.dart';
 import 'package:bloc_app/route/router_config.dart';
 import 'package:bloc_app/theme/theme.dart';
+import 'package:bloc_app/utilities/utilities.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -17,7 +19,7 @@ import 'bloc/cubits_blocs.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   _initLogging();
-  final currentWeatherStorage = await _initHive();
+  final hiveMap = await _initHive();
   await dotenv.load(fileName: '.env');
   runApp(
     MultiBlocProvider(
@@ -28,12 +30,22 @@ void main() async {
         ),
         BlocProvider(create: (context) => LocationCubit(LocationState())),
         BlocProvider(
-          create: (context) => AirQualityBloc(AirQualityRepository()),
+          create:
+              (context) => AirQualityBloc(
+                AirQualityRepository(
+                  currentPollutantStorage:
+                      hiveMap['current_pollutant_storage']
+                          as CurrentPollutantHive,
+                ),
+              ),
         ),
         BlocProvider(
           create:
               (context) => WeatherDataBloc(
-                WeatherRepository(currentWeatherStorage: currentWeatherStorage),
+                WeatherRepository(
+                  currentWeatherStorage:
+                      hiveMap['current_weather_storage'] as CurrentWeatherHive,
+                ),
               ),
         ),
       ],
@@ -79,17 +91,34 @@ void _initLogging() {
   });
 }
 
-Future<HiveLocalStorage<CurrentWeatherVariableModel>> _initHive() async {
+Future<Map<String, HiveLocalStorage>> _initHive() async {
   final appDirectory = await getApplicationDocumentsDirectory();
+
   await Hive
     ..init(appDirectory.path)
     ..registerAdapters();
+
   final currentWeatherBoxName = 'currentWeatherBox';
   final currentWeatherKey = 'current_weather_data';
+  final currentPollutantBoxName = 'currentPollutantBox';
+  final currentPollutantKey = 'current_pollutant_data';
+
   final currentWeatherStorage =
       await HiveLocalStorage.create<CurrentWeatherVariableModel>(
         boxName: currentWeatherBoxName,
         dataKey: currentWeatherKey,
       );
-  return currentWeatherStorage;
+
+  final currentPollutantStorage =
+      await HiveLocalStorage.create<CurrentPollutantModel>(
+        boxName: currentPollutantBoxName,
+        dataKey: currentPollutantKey,
+      );
+
+  final storage = {
+    'current_weather_storage': currentWeatherStorage,
+    'current_pollutant_storage': currentPollutantStorage,
+  };
+
+  return storage;
 }

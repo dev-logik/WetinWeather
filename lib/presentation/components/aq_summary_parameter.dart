@@ -90,7 +90,7 @@ class AirQualityPollutantSummaryCard extends StatelessWidget {
       aqIconPath!,
       width: isTabletPortrait(context) ? 60.w : 30.w,
       height: isTabletPortrait(context) ? 60.h : 30.h,
-      color: (aqParameterName == ' CO Gas') ? Colors.white : null,
+      color: (aqParameterName == 'CO Gas') ? Colors.white : null,
     );
   }
 }

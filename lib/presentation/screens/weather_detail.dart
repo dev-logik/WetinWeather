@@ -57,8 +57,8 @@ class _WeatherDetailsState extends State<WeatherDetails> {
             physics: BouncingScrollPhysics(parent: CarouselScrollPhysics()),
             children: [
               sizedH8,
-              headerSection(textTheme, isLightThemed, context),
-              locationNameSection(textTheme, isLightThemed),
+              _headerSection(textTheme, isLightThemed, context),
+              _locationNameSection(textTheme, isLightThemed),
               sizedH4,
               Demarcation(length: 0.4.sw),
               sizedH8,
@@ -91,7 +91,7 @@ class _WeatherDetailsState extends State<WeatherDetails> {
     );
   }
 
-  BlocBuilder<LocationCubit, LocationState> locationNameSection(
+  BlocBuilder<LocationCubit, LocationState> _locationNameSection(
     TextTheme textTheme,
     bool isLightThemed,
   ) {
@@ -814,7 +814,7 @@ Row _loadForecastData(
   );
 }
 
-Row headerSection(
+Row _headerSection(
   TextTheme textTheme,
   bool isLightThemed,
   BuildContext context,

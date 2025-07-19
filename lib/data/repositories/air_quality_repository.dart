@@ -1,7 +1,9 @@
 import 'dart:async';
 
+import 'package:bloc_app/data/database/hive_local_storage.dart';
 import 'package:bloc_app/data/repositories/repository.dart';
 import 'package:bloc_app/models/current_pollutant_model.dart';
+import 'package:bloc_app/services/connectivity_services.dart';
 import 'package:bloc_app/services/services.dart';
 import 'package:bloc_app/utilities/exceptions.dart';
 import 'package:chopper/chopper.dart';
@@ -11,8 +13,9 @@ import '../../models/response_model.dart';
 
 //Simplifies the type definition the definition of the return
 // type of response for the network request.
-typedef ResponseFuture = Future<Response<List<CurrentPollutantModel>>>;
+typedef ResponseFuture = Future<Response>;
 typedef PollutantsFuture = Future<List<CurrentPollutantModel>>;
+typedef Pollutants = List<CurrentPollutantModel>;
 
 final _baseUrlMainApi = dotenv.env['AQ_MAIN_URL'] as String;
 final _baseUrlBackupApi = dotenv.env['AQ_BACKUP_BASE_URL'] as String;
@@ -36,8 +39,14 @@ final _backupApiClient = ChopperClient(
 );
 
 class AirQualityRepository extends Repository {
+  final HiveLocalStorage<CurrentPollutantModel> _currentPollutantStorage;
+
+  AirQualityRepository({
+    required HiveLocalStorage<CurrentPollutantModel> currentPollutantStorage,
+  }) : _currentPollutantStorage = currentPollutantStorage;
+
   //Fetches the data from the main API
-  Future<Response<Result>> _fetchFromMainApi({
+  ResponseFuture _fetchFromMainApi({
     required double lon,
     required double lat,
     required ChopperClient clientRef,
@@ -48,7 +57,7 @@ class AirQualityRepository extends Repository {
   }
 
   //Fetches the data from the backup API
-  Future<Response<Result>> _fetchFromBackupApi({
+  ResponseFuture _fetchFromBackupApi({
     required double lon,
     required double lat,
     required ChopperClient clientRef,
@@ -65,33 +74,60 @@ class AirQualityRepository extends Repository {
   Future<Result> fetchDataWithBackup() async {
     //Fetch current location
     final locationData = await LocationService.determinePositionInCodes();
+    final Success<Pollutants> encapsulated;
+    final Pollutants? cachedData, newData;
 
-    final _lon = locationData.longitude;
-    final _lat = locationData.latitude;
+    final lon = locationData.longitude;
+    final lat = locationData.latitude;
+
+    //Check if the device is connected to internet, if it isn't, try accessing
+    // the cached data.
+    final isConnectionActive = await ConnectivityService.checkConnectivity();
+    if (!isConnectionActive) {
+      //If the cache storage is empty, throw an exception.
+      if (_currentPollutantStorage.isStorageEmpty()) {
+        return Future.error(NoCachedDataException());
+      }
+      cachedData = await _currentPollutantStorage.fetchData();
+      encapsulated = Success<Pollutants>(cachedData!);
+      return encapsulated;
+    }
 
     //Fetch data from the main Api
     final mainResponse = await _fetchFromMainApi(
-      lon: _lon,
-      lat: _lat,
+      lon: lon,
+      lat: lat,
       clientRef: _mainApiClient,
     );
 
     //Fetch data from the backup Api
     final backupResponse = await _fetchFromBackupApi(
-      lon: _lon,
-      lat: _lat,
+      lon: lon,
+      lat: lat,
       clientRef: _backupApiClient,
     );
 
-    //If the main api responds positively, send data to bloc
+    //Otherwise, if the device is connected to a network, make a request
+    //and cache the response.
     if (mainResponse.isSuccessful) {
-      if (mainResponse.body != null)
-        return Future.value(mainResponse.body as Success);
+      final responseBody = mainResponse.body;
+      if (responseBody != null) {
+        encapsulated = responseBody;
+        newData = encapsulated.value;
+        _currentPollutantStorage.cacheData(data: newData);
+        return Future.value(responseBody as Success);
+      }
     }
 
     //if the main Api fails, send data from the backup Api.
     if (!mainResponse.isSuccessful && backupResponse.isSuccessful) {
-      if (backupResponse.body != null) return Future.value(backupResponse.body);
+      final responseBody = backupResponse.body;
+      if (backupResponse.body != null) {
+        encapsulated = responseBody;
+        newData = encapsulated.value;
+        _currentPollutantStorage.cacheData(data: newData);
+        return Future.value(responseBody);
+      }
     }
 
     //If both fails, throw an exception.

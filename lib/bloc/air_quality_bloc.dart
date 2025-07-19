@@ -51,6 +51,7 @@ class AirQualityBloc extends Bloc<AirQualityEvent, AirQualityState> {
     );
 
     add(LoadInitialDataEvent());
+    //add(AirQualityFetchDataStreamEvent());
   }
 
   Future<void> _onLoadInitialDataEvent(
