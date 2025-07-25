@@ -1,7 +1,7 @@
 import 'package:bloc_app/presentation/components/air_quality_summary.dart';
 import 'package:bloc_app/presentation/components/forecast_summary.dart';
 import 'package:bloc_app/utilities/orientation_helpers.dart';
-import 'package:bloc_app/utilities/sizedbox_constants.dart';
+import 'package:bloc_app/utilities/sizedBox_constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
@@ -93,7 +93,7 @@ class _HomeSummaryState extends State<HomeSummary> {
 
   GestureDetector _forecastPageHandler(BuildContext context) {
     return GestureDetector(
-      child: ForecastSummary(key: const ValueKey(0)),
+      child: CurrentWeatherVariableSummary(key: const ValueKey(0)),
       onTap: () {
         context.pushNamed('forecast details');
       },

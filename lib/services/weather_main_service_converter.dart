@@ -3,9 +3,9 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:chopper/chopper.dart';
-import 'package:flutter/cupertino.dart';
 
 import '../models/models.dart';
+import '../utilities/utilities.dart';
 
 class MainWeatherServiceConverter implements Converter {
   @override
@@ -37,52 +37,107 @@ class MainWeatherServiceConverter implements Converter {
       }
 
       //Decode the response body
-      final decodedResponse =
+      final decodedRes =
           await jsonDecode(response.body) as Map<String, dynamic>;
 
-      //If the decoded response doesn't have the "current" key, throw an exception.
-      if (!decodedResponse.containsKey('current')) {
-        throw HttpException('Check the base url and endpoint for debugging');
-      }
+      if (decodedRes.containsKey('current')) {
+        //Get a sub-map of the decoded response that contains the data and the units of the data.
+        final currentData = decodedRes['current'] as JsonMap;
+        final currentDataUnits = decodedRes['current_units'] as JsonMap;
 
-      //Get a sub-map of the decoded response that contains the data and the units of the data.
-      final currentData = decodedResponse['current'] as Map<String, dynamic>;
-      final currentDataUnits =
-          decodedResponse['current_units'] as Map<String, dynamic>;
+        //Extract the required data
+        for (var dataEntry in currentData.entries) {
+          //Build the weather object.
+          var _data = _parseCurrentWeatherJsonData(dataEntry, currentDataUnits);
 
-      //Extract the required data
-      for (var dataEntry in currentData.entries) {
-        //Build the weather object.
-        var _data = _parseJsonData(dataEntry, currentDataUnits);
-
-        //Add it to the list, if the data is valid.
-        if (_data != null) {
-          weatherVariables.add(_data);
+          //Add it to the list, if the data is valid.
+          if (_data != null) {
+            weatherVariables.add(_data);
+          }
         }
+
+        //If no data is converted, throw an exception.
+        if (weatherVariables.isEmpty) {
+          throw FormatException('No valid weather data found');
+        }
+        //Respond with the actual object.
+        return Future.value(
+          response.copyWith(
+            body:
+                Success<List<CurrentWeatherVariableModel>>(weatherVariables)
+                    as BodyType,
+          ),
+        );
       }
 
-      //If no data is converted, throw an exception.
-      if (weatherVariables.isEmpty) {
-        throw FormatException('No valid pollutant data found');
+      if (decodedRes.containsKey('hourly')) {
+        final hourlyData = decodedRes['hourly'] as JsonMap;
+        //final hourlyDataUnits = decodedRes['hourly_unit'] as JsonMap;
+        final hourlyForecasts = _buildHourlyForecasts(hourlyData);
+        //If no data is converted, throw an exception.
+        if (hourlyForecasts.isEmpty) {
+          throw FormatException('No valid weather data found');
+        }
+        //Respond with the actual object.
+        return Future.value(
+          response.copyWith(
+            body: Success<HourlyForecasts>(hourlyForecasts) as BodyType,
+          ),
+        );
       }
-      debugPrint("DATA" + weatherVariables.toString());
-      //Respond with the actual object.
-      return Future.value(
-        response.copyWith(
-          body:
-              Success<List<CurrentWeatherVariableModel>>(weatherVariables)
-                  as BodyType,
-        ),
-      );
+
+      //If the decoded response doesn't have the "current" key, throw an exception.
+      throw HttpException('Check the base url and endpoint for debugging');
     } on SocketException {
       return _errorResponse(response, 'No internet connection');
     } on TimeoutException {
       return _errorResponse(response, 'Request timed out');
     } on HttpException catch (e) {
       return _errorResponse(response, e.message);
-    } catch (e) {
-      return _errorResponse(response, 'Unknown error: ${e.toString()}');
     }
+    // } catch (e) {
+    //   return _errorResponse(response, 'Unknown error: ${e.toString()}');
+    // }
+  }
+
+  HourlyForecasts _buildHourlyForecasts(JsonMap hourlyData) {
+    final timeData = hourlyData['time'] as List<dynamic>;
+    final tempData = hourlyData['temperature_2m'] as List<dynamic>;
+    final humidityData = hourlyData['relative_humidity_2m'] as List<dynamic>;
+    final dewPointData = hourlyData['dew_point_2m'] as List<dynamic>;
+    final realFeelData = hourlyData['apparent_temperature'] as List<dynamic>;
+    final precProbData =
+        hourlyData['precipitation_probability'] as List<dynamic>;
+    final precipitationData = hourlyData['precipitation'] as List<dynamic>;
+    final rainData = hourlyData['rain'] as List<dynamic>;
+    final showersData = hourlyData['showers'] as List<dynamic>;
+    final snowFallData = hourlyData['snowfall'] as List<dynamic>;
+    final weatherCodeData = hourlyData['weather_code'] as List<dynamic>;
+    final cloudCoverData = hourlyData['cloud_cover'] as List<dynamic>;
+    final windSpeedData = hourlyData['wind_speed_10m'] as List<dynamic>;
+    final windDirectionData = hourlyData['wind_direction_10m'] as List<dynamic>;
+
+    final weatherLen = timeData.length;
+
+    return List.generate(
+      weatherLen,
+      (index) => HourlyWeatherForecastModel(
+        relativeHumidity: humidityData[index],
+        temperature: tempData[index],
+        cloudCover: cloudCoverData[index],
+        dewPoint: dewPointData[index],
+        precipitation: precipitationData[index],
+        precipitationProb: precProbData[index],
+        rain: rainData[index],
+        realFeel: realFeelData[index],
+        showers: showersData[index],
+        snowFall: snowFallData[index],
+        time: timeData[index],
+        weatherCode: weatherCodeData[index],
+        windDirection: windDirectionData[index],
+        windSpeed: windSpeedData[index],
+      ),
+    );
   }
 
   Response<BodyType> _errorResponse<BodyType>(
@@ -93,7 +148,7 @@ class MainWeatherServiceConverter implements Converter {
   }
 
   //Build the required object, based on the json data received.
-  CurrentWeatherVariableModel? _parseJsonData(
+  CurrentWeatherVariableModel? _parseCurrentWeatherJsonData(
     MapEntry<String, dynamic> mapEntry,
     Map<String, dynamic> dataUnits,
   ) {

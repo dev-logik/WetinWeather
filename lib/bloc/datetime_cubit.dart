@@ -4,12 +4,15 @@ import 'package:bloc/bloc.dart';
 
 class DateTimeState {
   DateTime _dateTimeObj;
+
   DateTime get accessDateTime => _dateTimeObj;
+
   DateTimeState(this._dateTimeObj);
 }
 
 class DateTimeCubit extends Cubit<DateTimeState> {
   Timer? _timer;
+
   DateTimeCubit(DateTimeState initialState) : super(initialState);
 
   void startTime() {
@@ -27,8 +30,9 @@ class DateTimeCubit extends Cubit<DateTimeState> {
     emit(DateTimeState(DateTime.now()));
   }
 
-  void dispose() {
-    //Disposes the timer object.
+  @override
+  Future<void> close() {
     _timer?.cancel();
+    return super.close();
   }
 }

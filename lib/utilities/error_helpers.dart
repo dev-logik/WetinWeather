@@ -19,6 +19,9 @@ abstract class ErrorHelpers {
       return "Server temporarily down. Try again!";
     } else if (error is NoCachedDataException) {
       return "No cached data available. Turn on internet connection.";
+    }
+    if (error is TimeoutException) {
+      return 'Connection timed out. Check Internet Connection!';
     } else if (error is Response) {
       // Handle Chopper's HTTP errors (4xx/5xx)
       switch (error.statusCode) {

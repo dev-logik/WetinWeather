@@ -1,4 +1,5 @@
 import 'package:connectivity_plus/connectivity_plus.dart';
+import 'package:http/http.dart' as http;
 
 class ConnectivityService {
   ConnectivityService._();
@@ -24,5 +25,20 @@ class ConnectivityService {
         (result) => _allowableConnections.contains(result),
       );
     });
+  }
+}
+
+class InternetConnectivityService {
+  InternetConnectivityService._();
+
+  static Future<bool> pingInternet() async {
+    final baseUrl = 'https://www.google.com';
+    final baseUri = Uri.parse(baseUrl);
+    try {
+      final response = await http.get(baseUri);
+      return response.statusCode == 200;
+    } catch (ex) {
+      return Future.value(false);
+    }
   }
 }

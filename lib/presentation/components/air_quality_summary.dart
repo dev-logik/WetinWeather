@@ -9,7 +9,6 @@ import 'package:syncfusion_flutter_gauges/gauges.dart';
 
 import '../../bloc/cubits_blocs.dart';
 import '../../models/models.dart';
-import '../../utilities/error_helpers.dart';
 import 'components.dart';
 
 class AirQualitySummary extends StatelessWidget {
@@ -24,7 +23,7 @@ class AirQualitySummary extends StatelessWidget {
       key: const ValueKey(1),
       constraints: BoxConstraints(
         minHeight: 0.45.sh,
-        minWidth: 0.4.sw,
+        minWidth: 0.95.sw,
         maxWidth: 0.95.sw,
         maxHeight: 0.5.sh,
       ),
@@ -36,7 +35,7 @@ class AirQualitySummary extends StatelessWidget {
           children: <Widget>[
             sizedH4,
             Flexible(
-              flex: 3,
+              flex: isTabletPortrait(context) ? 2 : 3,
               child: _showGaugeStateHandler(textTheme, isLightThemed),
             ),
             Flexible(

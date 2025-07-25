@@ -34,8 +34,8 @@ class WeatherDataLoadFailure extends WeatherDataStates {
 }
 
 class WeatherDataBloc extends Bloc<WeatherEvent, WeatherDataStates> {
-  late final WeatherRepository _weatherRepository;
-  late final Timer _timer;
+  late final CurrentWeatherRepository _weatherRepository;
+  Timer? _timer;
 
   WeatherDataBloc(this._weatherRepository) : super(WeatherDataInitial()) {
     on<LoadInitialWeatherDataEvent>(_onInitialDataEvent);
@@ -79,7 +79,7 @@ class WeatherDataBloc extends Bloc<WeatherEvent, WeatherDataStates> {
 
   @override
   Future<void> close() {
-    _timer.cancel();
+    _timer?.cancel();
     return super.close();
   }
 }

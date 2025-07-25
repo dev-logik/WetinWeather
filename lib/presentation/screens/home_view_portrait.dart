@@ -1,9 +1,9 @@
-import 'package:bloc_app/bloc/cubits_blocs.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
 
+import '../../bloc/cubits_blocs.dart';
 import '../../utilities/utilities.dart';
 import '../components/components.dart';
 import '../screen sections/screen_sections.dart';
@@ -19,19 +19,22 @@ class HomeScreenMobilePortrait extends StatefulWidget {
 class _HomeScreenMobilePortraitState extends State<HomeScreenMobilePortrait> {
   late final AirQualityBloc _airQualityBloc;
   late final WeatherDataBloc _weatherDataBloc;
+  late final HourlyWeatherForecastDataBloc _forecastDataBloc;
 
   @override
   void initState() {
     super.initState();
     _airQualityBloc = context.read();
     _weatherDataBloc = context.read();
+    _forecastDataBloc = context.read();
   }
 
   @override
   void dispose() {
+    super.dispose();
     _airQualityBloc.close();
     _weatherDataBloc.close();
-    super.dispose();
+    _forecastDataBloc.close();
   }
 
   @override

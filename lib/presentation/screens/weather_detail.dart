@@ -13,6 +13,7 @@ import 'package:url_launcher/url_launcher.dart';
 import '../../utilities/error_helpers.dart';
 import '../../utilities/utilities.dart';
 import '../components/components.dart';
+import 'FutureTesting.dart';
 
 Function getIconJson = WeatherHelpers.mapWeatherVariableToIcon;
 Function getDirection = WeatherHelpers.getWindDirectionAbbr;
@@ -25,21 +26,21 @@ class WeatherDetails extends StatefulWidget {
 }
 
 class _WeatherDetailsState extends State<WeatherDetails> {
+  late final WeatherDataBloc weatherDataCubit;
+
   @override
   void initState() {
     super.initState();
     context.read<DateTimeCubit>().startTime();
     final locationStateProvider = context.read<LocationCubit>();
-    final weatherDataCubit = context.read<WeatherDataBloc>();
+    weatherDataCubit = context.read<WeatherDataBloc>();
     locationStateProvider.startLocationService();
-    weatherDataCubit.add(LoadInitialWeatherDataEvent());
   }
 
   @override
   void dispose() {
-    final weatherDataCubit = context.read<WeatherDataBloc>();
     super.dispose();
-    context.read<DateTimeCubit>().dispose();
+    context.read<DateTimeCubit>().close();
     weatherDataCubit.close();
   }
 
@@ -843,14 +844,14 @@ Row _headerSection(
       ),
       IconButton(
         onPressed: () {
-          // Navigator.push(
-          //   context,
-          //   MaterialPageRoute(
-          //     builder: (context) {
-          //       return FutureTesting();
-          //     },
-          //   ),
-          // );
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) {
+                return FutureTesting();
+              },
+            ),
+          );
         },
         icon: Icon(
           isLightThemed ? FontAwesomeIcons.solidSun : FontAwesomeIcons.moon,

@@ -1,5 +1,4 @@
-import 'package:bloc_app/bloc/weather_bloc.dart';
-import 'package:bloc_app/utilities/error_helpers.dart';
+import 'package:bloc_app/bloc/current_weather_bloc.dart';
 import 'package:bloc_app/utilities/utilities.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -14,21 +13,22 @@ import 'components.dart';
 
 final mapWeatherIcon = WeatherHelpers.mapWeatherVariableToIcon;
 
-class ForecastSummary extends StatefulWidget {
-  const ForecastSummary({super.key});
+class CurrentWeatherVariableSummary extends StatefulWidget {
+  const CurrentWeatherVariableSummary({super.key});
 
   @override
-  State<ForecastSummary> createState() => _ForecastSummaryState();
+  State<CurrentWeatherVariableSummary> createState() =>
+      _CurrentWeatherVariableSummaryState();
 }
 
-class _ForecastSummaryState extends State<ForecastSummary> {
+class _CurrentWeatherVariableSummaryState
+    extends State<CurrentWeatherVariableSummary> {
   late WeatherDataBloc _weatherDataBloc;
 
   @override
   void initState() {
     super.initState();
     _weatherDataBloc = context.read<WeatherDataBloc>();
-    _weatherDataBloc.add(LoadInitialWeatherDataEvent());
   }
 
   @override
@@ -61,8 +61,11 @@ class _ForecastSummaryState extends State<ForecastSummary> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
 
           children: <Widget>[
-            sizedH4,
-            Flexible(child: displayAnimation(context, isLightThemed), flex: 3),
+            //sizedH4,
+            Flexible(
+              child: displayAnimation(context, isLightThemed),
+              flex: isTabletPortrait(context) ? 2 : 3,
+            ),
             isTabletPortrait(context) ? Container() : sizedH24,
             Flexible(
               child: _loadWeatherData(isLightThemed),
@@ -179,7 +182,7 @@ class _ForecastSummaryState extends State<ForecastSummary> {
         children: <Widget>[
           WeatherSummaryParameter(
             weatherParameterIcon: FontAwesomeIcons.temperatureHalf,
-            weatherParameterName: 'Temperature',
+            weatherParameterName: 'Humidity',
             weatherParameterValue: 33.toString(),
             weatherParameterUnit: '°C',
           ),

@@ -33,10 +33,10 @@ class AirQualityLoadFailure extends AirQualityState {
   AirQualityLoadFailure(this.exception);
 }
 
-//Defines the business logic for the air quality data.
+//Defines the business logic for fetching the air quality data.
 class AirQualityBloc extends Bloc<AirQualityEvent, AirQualityState> {
   late final AirQualityRepository _airQualityRepository;
-  late final Timer? _timer;
+  Timer? _timer;
   static const int DATA_REFRESH_INTERVAL = 1200;
 
   AirQualityBloc(this._airQualityRepository) : super(AirQualityInitial()) {
@@ -79,8 +79,8 @@ class AirQualityBloc extends Bloc<AirQualityEvent, AirQualityState> {
       if (data is Success<List<CurrentPollutantModel>>) {
         emit(AirQualityLoadSuccess(data));
       }
-    } catch (ex) {
-      emit(AirQualityLoadFailure(Exception(ex)));
+    } catch (exception) {
+      emit(AirQualityLoadFailure(Exception(exception)));
     }
   }
 

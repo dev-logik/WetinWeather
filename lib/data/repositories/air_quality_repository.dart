@@ -83,9 +83,10 @@ class AirQualityRepository extends Repository {
     //Check if the device is connected to internet, if it isn't, try accessing
     // the cached data.
     final isConnectionActive = await ConnectivityService.checkConnectivity();
-    if (!isConnectionActive) {
+    final isDataActive = await InternetConnectivityService.pingInternet();
+    if (!isConnectionActive && !isDataActive) {
       //If the cache storage is empty, throw an exception.
-      if (_currentPollutantStorage.isStorageEmpty()) {
+      if (await _currentPollutantStorage.isStorageEmpty()) {
         return Future.error(NoCachedDataException());
       }
       cachedData = await _currentPollutantStorage.fetchData();

@@ -26,29 +26,30 @@ class HomeScreenMobileLandscape extends StatefulWidget {
 }
 
 class _HomeScreenMobileLandscapeState extends State<HomeScreenMobileLandscape> {
+  late final AirQualityBloc _airQualityBloc;
+  late final WeatherDataBloc _weatherDataBloc;
+  late final DateTimeCubit _dateTimeCubit;
+  late final LocationCubit _locationCubit;
+
   @override
   void initState() {
-    final _dateTimeCubitProvider = context.read<DateTimeCubit>();
-    final _locationStateProvider = context.read<LocationCubit>();
-    final _airQualityBloc = context.read<AirQualityBloc>();
-    final weatherDataBloc = context.read<WeatherDataBloc>();
-
-    weatherDataBloc.add(LoadInitialWeatherDataEvent());
-    _dateTimeCubitProvider.startTime();
-    _locationStateProvider.startLocationService();
-    _airQualityBloc.add(LoadInitialDataEvent());
-
     super.initState();
+    _dateTimeCubit = context.read<DateTimeCubit>();
+    _locationCubit = context.read<LocationCubit>();
+    _airQualityBloc = context.read<AirQualityBloc>();
+    _weatherDataBloc = context.read<WeatherDataBloc>();
+
+    _dateTimeCubit.startTime();
+    _locationCubit.startLocationService();
   }
 
   @override
   void dispose() {
-    context.read<AirQualityBloc>().close();
-    context.read<DateTimeCubit>().dispose();
-    context.read<LocationCubit>().close();
-    context.read<WeatherDataBloc>().close();
-
     super.dispose();
+    _dateTimeCubit.close();
+    _locationCubit.close();
+    _airQualityBloc.close();
+    _weatherDataBloc.close();
   }
 
   bool _isRefreshing = false;

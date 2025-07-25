@@ -1,8 +1,7 @@
+import 'package:bloc_app/bloc/hourly_weather_forecast_bloc.dart';
 import 'package:bloc_app/data/database/hive_local_storage.dart';
 import 'package:bloc_app/data/repositories/repositories.dart';
 import 'package:bloc_app/hive/hive_registrar.g.dart';
-import 'package:bloc_app/models/current_pollutant_model.dart';
-import 'package:bloc_app/models/current_weather_model.dart';
 import 'package:bloc_app/route/router_config.dart';
 import 'package:bloc_app/theme/theme.dart';
 import 'package:bloc_app/utilities/utilities.dart';
@@ -15,6 +14,8 @@ import 'package:logging/logging.dart';
 import 'package:path_provider/path_provider.dart';
 
 import 'bloc/cubits_blocs.dart';
+import 'hive/hive_types.dart';
+import 'models/models.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -42,9 +43,20 @@ void main() async {
         BlocProvider(
           create:
               (context) => WeatherDataBloc(
-                WeatherRepository(
+                CurrentWeatherRepository(
                   currentWeatherStorage:
                       hiveMap['current_weather_storage'] as CurrentWeatherHive,
+                ),
+              ),
+        ),
+
+        BlocProvider(
+          create:
+              (context) => HourlyWeatherForecastDataBloc(
+                HourlyWeatherForecastRepository(
+                  currentWeatherStorage:
+                      hiveMap['hourly_weather_forecast_storage']
+                          as HourlyForecastsHive,
                 ),
               ),
         ),
@@ -93,31 +105,32 @@ void _initLogging() {
 
 Future<Map<String, HiveLocalStorage>> _initHive() async {
   final appDirectory = await getApplicationDocumentsDirectory();
-
   await Hive
     ..init(appDirectory.path)
     ..registerAdapters();
 
-  final currentWeatherBoxName = 'currentWeatherBox';
-  final currentWeatherKey = 'current_weather_data';
-  final currentPollutantBoxName = 'currentPollutantBox';
-  final currentPollutantKey = 'current_pollutant_data';
-
   final currentWeatherStorage =
       await HiveLocalStorage.create<CurrentWeatherVariableModel>(
-        boxName: currentWeatherBoxName,
+        boxName: currentWeatherBox,
         dataKey: currentWeatherKey,
       );
 
   final currentPollutantStorage =
       await HiveLocalStorage.create<CurrentPollutantModel>(
-        boxName: currentPollutantBoxName,
+        boxName: currentPollutantBox,
         dataKey: currentPollutantKey,
+      );
+
+  final hourlyWeatherForecastStorage =
+      await HiveLocalStorage.create<HourlyWeatherForecastModel>(
+        boxName: weatherForecastHourlyBox,
+        dataKey: weatherForecastHourlyKey,
       );
 
   final storage = {
     'current_weather_storage': currentWeatherStorage,
     'current_pollutant_storage': currentPollutantStorage,
+    'hourly_weather_forecast_storage': hourlyWeatherForecastStorage,
   };
 
   return storage;

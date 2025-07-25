@@ -11,3 +11,8 @@ String formatDate(DateTime currentDate) {
   final formatter = DateFormat('MMMM, d y', 'en_US');
   return formatter.format(currentDate);
 }
+
+String formatHourlyTime(DateTime timeStamp) {
+  final formatter = DateFormat('h:mm a', 'en_US');
+  return formatter.format(timeStamp);
+}

@@ -17,6 +17,7 @@ class HomeHeader extends StatefulWidget {
 class _HomeHeaderState extends State<HomeHeader> {
   late final LocationCubit locationStateProvider;
   late final DateTimeCubit dateTimeCubitProvider;
+
   @override
   void initState() {
     super.initState();
@@ -30,7 +31,7 @@ class _HomeHeaderState extends State<HomeHeader> {
 
   @override
   void dispose() {
-    dateTimeCubitProvider.dispose();
+    dateTimeCubitProvider.close();
     super.dispose();
   }
 

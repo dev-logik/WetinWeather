@@ -18,4 +18,14 @@ abstract class MainWeatherService implements ChopperService {
     @Query('wind_speed_unit') String windSpeedUnit = 'kmh',
     @Query('precipitation_unit') String precipitationUnit = 'mm',
   });
+
+  @GET(
+    path:
+        '/v1/forecast?latitude={latitude}&longitude={longitude}&hourly=temperature_2m,relative_humidity_2m,dew_point_2m,apparent_temperature,precipitation_probability,precipitation,rain,showers,snowfall,weather_code,cloud_cover,wind_speed_10m,wind_direction_10m&timezone=auto&forecast_days={forecast_days}',
+  )
+  Future<Response<Result>> getHourlyWeatherForecast({
+    @Query('latitude') required double lat,
+    @Query('longitude') required double lon,
+    @Query('forecast_days') int forecastDays = 1,
+  });
 }

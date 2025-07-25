@@ -1,14 +1,23 @@
 import 'package:bloc_app/presentation/components/components.dart';
 import 'package:bloc_app/presentation/screens/screens.dart';
+import 'package:flutter/widgets.dart';
 import 'package:go_router/go_router.dart';
 
 mixin class GoRouterConfig {
+  static const transDurationMs = 500;
   final _homeScreen = StatefulShellBranch(
     routes: <RouteBase>[
       GoRoute(
         path: '/',
         name: 'home',
-        builder: (_, __) => HomeScreenView(),
+        pageBuilder:
+            (context, state) => CustomTransitionPage(
+              transitionDuration: Duration(milliseconds: transDurationMs),
+              transitionsBuilder:
+                  (context, animation, secondaryAnimation, child) =>
+                      FadeTransition(opacity: animation, child: child),
+              child: HomeScreenView(),
+            ),
         routes: <RouteBase>[
           GoRoute(
             path: '/forecast_details',
@@ -31,7 +40,15 @@ mixin class GoRouterConfig {
       GoRoute(
         path: '/report',
         name: 'report',
-        builder: (_, __) => ReportView(),
+        pageBuilder:
+            (context, state) => CustomTransitionPage(
+              transitionDuration: Duration(microseconds: transDurationMs),
+
+              transitionsBuilder:
+                  (context, animation, secondaryAnimation, child) =>
+                      FadeTransition(opacity: animation, child: child),
+              child: ReportView(),
+            ),
       ),
     ],
   );
@@ -41,7 +58,15 @@ mixin class GoRouterConfig {
       GoRoute(
         path: '/search',
         name: 'search',
-        builder: (_, __) => SearchScreen(),
+        pageBuilder:
+            (context, state) => CustomTransitionPage(
+              transitionDuration: Duration(microseconds: transDurationMs),
+
+              transitionsBuilder:
+                  (context, animation, secondaryAnimation, child) =>
+                      FadeTransition(opacity: animation, child: child),
+              child: SearchScreen(),
+            ),
       ),
     ],
   );
@@ -51,7 +76,15 @@ mixin class GoRouterConfig {
       GoRoute(
         path: '/settings',
         name: 'settings',
-        builder: (_, __) => SettingsScreen(),
+        pageBuilder:
+            (_, __) => CustomTransitionPage(
+              transitionDuration: Duration(microseconds: transDurationMs),
+
+              child: SettingsScreen(),
+              transitionsBuilder:
+                  (context, animation, secondaryAnimation, child) =>
+                      FadeTransition(opacity: animation, child: child),
+            ),
       ),
     ],
   );

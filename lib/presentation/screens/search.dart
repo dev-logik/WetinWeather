@@ -1,6 +1,6 @@
 import 'package:bloc_app/presentation/components/components.dart';
 import 'package:bloc_app/utilities/orientation_helpers.dart';
-import 'package:bloc_app/utilities/sizedbox_constants.dart';
+import 'package:bloc_app/utilities/sizedBox_constants.dart';
 import 'package:flutter/material.dart';
 
 import '../screen sections/screen_sections.dart';

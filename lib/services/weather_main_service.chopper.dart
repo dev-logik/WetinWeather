@@ -44,5 +44,28 @@ final class _$MainWeatherService extends MainWeatherService {
   }
 
   @override
+  Future<Response<Result<dynamic>>> getHourlyWeatherForecast({
+    required double lat,
+    required double lon,
+    int forecastDays = 1,
+  }) {
+    final Uri $url = Uri.parse(
+      '/v1/forecast?latitude={latitude}&longitude={longitude}&hourly=temperature_2m,relative_humidity_2m,dew_point_2m,apparent_temperature,precipitation_probability,precipitation,rain,showers,snowfall,weather_code,cloud_cover,wind_speed_10m,wind_direction_10m&timezone=auto&forecast_days={forecast_days}',
+    );
+    final Map<String, dynamic> $params = <String, dynamic>{
+      'latitude': lat,
+      'longitude': lon,
+      'forecast_days': forecastDays,
+    };
+    final Request $request = Request(
+      'GET',
+      $url,
+      client.baseUrl,
+      parameters: $params,
+    );
+    return client.send<Result<dynamic>, Result<dynamic>>($request);
+  }
+
+  @override
   late ChopperClient client;
 }

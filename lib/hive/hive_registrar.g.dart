@@ -10,6 +10,7 @@ extension HiveRegistrar on HiveInterface {
     registerAdapter(AirQualityConcUnitsAdapter());
     registerAdapter(CurrentPollutantModelAdapter());
     registerAdapter(CurrentWeatherVariableModelAdapter());
+    registerAdapter(HourlyWeatherForecastModelAdapter());
   }
 }
 
@@ -18,5 +19,6 @@ extension IsolatedHiveRegistrar on IsolatedHiveInterface {
     registerAdapter(AirQualityConcUnitsAdapter());
     registerAdapter(CurrentPollutantModelAdapter());
     registerAdapter(CurrentWeatherVariableModelAdapter());
+    registerAdapter(HourlyWeatherForecastModelAdapter());
   }
 }

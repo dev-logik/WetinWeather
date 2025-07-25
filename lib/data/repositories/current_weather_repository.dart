@@ -19,10 +19,10 @@ final ChopperClient _mainClient = ChopperClient(
   services: [MainWeatherService.create()],
 );
 
-class WeatherRepository implements Repository {
+class CurrentWeatherRepository implements Repository {
   final HiveLocalStorage<CurrentWeatherVariableModel> _currentWeatherStorage;
 
-  WeatherRepository({
+  CurrentWeatherRepository({
     required HiveLocalStorage<CurrentWeatherVariableModel>
     currentWeatherStorage,
   }) : _currentWeatherStorage = currentWeatherStorage;
@@ -56,9 +56,11 @@ class WeatherRepository implements Repository {
     //Check if the device is connected to internet, if it isn't, try accessing
     // the cached data.
     final isConnectionActive = await ConnectivityService.checkConnectivity();
-    if (!isConnectionActive) {
+    final isDataActive = await InternetConnectivityService.pingInternet();
+
+    if (!isConnectionActive && !isDataActive) {
       //If the cache storage is empty, throw an exception.
-      if (_currentWeatherStorage.isStorageEmpty())
+      if (await _currentWeatherStorage.isStorageEmpty())
         return Future.error(NoCachedDataException());
       //Otherwise return the cached data.
       cachedData = await _currentWeatherStorage.fetchData();

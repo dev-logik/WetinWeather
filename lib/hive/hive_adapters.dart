@@ -5,6 +5,7 @@ import '../models/models.dart';
 part 'hive_adapters.g.dart';
 
 @GenerateAdapters([
+  AdapterSpec<HourlyWeatherForecastModel>(),
   AdapterSpec<CurrentPollutantModel>(),
   AdapterSpec<CurrentWeatherVariableModel>(),
   AdapterSpec<AirQualityConcUnits>(),

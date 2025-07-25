@@ -5,7 +5,7 @@ export 'bottom_navigator.dart';
 export 'demarcation.dart';
 export 'forecast_summary.dart';
 export 'gradient_spot.dart';
-export 'hourly_report.dart';
+export 'hourly_weather_forecast_card.dart';
 export 'next_forecast_container.dart';
 export 'search_history_card.dart';
 export 'weather_complete_parameter.dart';
