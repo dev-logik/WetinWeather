@@ -16,3 +16,16 @@ String formatHourlyTime(DateTime timeStamp) {
   final formatter = DateFormat('h:mm a', 'en_US');
   return formatter.format(timeStamp);
 }
+
+bool isThisHour(DateTime dateTime) {
+  final now = DateTime.now();
+  return now.hour == dateTime.hour;
+}
+
+int isThisDay(DateTime dateTime) {
+  final now = DateTime.now();
+  if (dateTime.hour > 6 && dateTime.hour < 18) {
+    return 1;
+  }
+  return 0;
+}

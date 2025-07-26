@@ -44,7 +44,7 @@ class ForcastReportLandscapeScreen extends StatelessWidget {
                           padding: EdgeInsets.symmetric(horizontal: 8.0.w),
                           child: HourlyHeaderWithDate(),
                         ),
-                        HourlySection(),
+                        HourlySection(numberOfForecastToShow: 24),
                         Padding(
                           padding: EdgeInsets.symmetric(horizontal: 16.0.w),
                           child: NextForecastHeader(),

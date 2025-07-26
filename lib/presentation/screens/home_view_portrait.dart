@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
 
 import '../../bloc/cubits_blocs.dart';
+import '../../services/services.dart';
 import '../../utilities/utilities.dart';
 import '../components/components.dart';
 import '../screen sections/screen_sections.dart';
@@ -20,13 +21,22 @@ class _HomeScreenMobilePortraitState extends State<HomeScreenMobilePortrait> {
   late final AirQualityBloc _airQualityBloc;
   late final WeatherDataBloc _weatherDataBloc;
   late final HourlyWeatherForecastDataBloc _forecastDataBloc;
+  late final LocationCubit locationStateProvider;
+  late final DateTimeCubit dateTimeCubitProvider;
+
+  bool _isRefreshing = false;
 
   @override
   void initState() {
     super.initState();
+    dateTimeCubitProvider = context.read<DateTimeCubit>();
+    locationStateProvider = context.read<LocationCubit>();
     _airQualityBloc = context.read();
     _weatherDataBloc = context.read();
     _forecastDataBloc = context.read();
+    locationStateProvider.startLocationService(
+      locationStyleOption: LocationDisplayStyleOptions.CITY,
+    );
   }
 
   @override
@@ -35,11 +45,11 @@ class _HomeScreenMobilePortraitState extends State<HomeScreenMobilePortrait> {
     _airQualityBloc.close();
     _weatherDataBloc.close();
     _forecastDataBloc.close();
+    dateTimeCubitProvider.close();
   }
 
   @override
   Widget build(BuildContext context) {
-    bool _isRefreshing = false;
     Future<void> _handlePullToRefresh() async {
       if (_isRefreshing) return;
       await context.read<LocationCubit>().startLocationService();

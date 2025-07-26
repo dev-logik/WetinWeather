@@ -42,7 +42,7 @@ class ForcastReportPortraitScreen extends StatelessWidget {
                     //Search input text form field.
                     Padding(
                       padding: EdgeInsets.symmetric(horizontal: 2.0.w),
-                      child: HourlySection(),
+                      child: HourlySection(numberOfForecastToShow: 24),
                     ),
                     sizedH4,
                     Padding(

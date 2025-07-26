@@ -13,7 +13,6 @@ import 'package:lottie/lottie.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
-import '../../utilities/error_helpers.dart';
 import '../../utilities/utilities.dart';
 import '../components/components.dart';
 

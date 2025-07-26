@@ -19,25 +19,24 @@ class HourlyWeatherForecastCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final textTheme = Theme
-        .of(context)
-        .textTheme;
+    final textTheme = Theme.of(context).textTheme;
     return ConstrainedBox(
       constraints: BoxConstraints(
         maxWidth:
-        isTabletLandscape(context)
-            ? 0.26.sw
-            : isPhoneLandscape(context)
-            ? 0.20.sw
-            : 0.45.sw,
+            isTabletLandscape(context)
+                ? 0.26.sw
+                : isPhoneLandscape(context)
+                ? 0.20.sw
+                : 0.45.sw,
         maxHeight:
-        isTabletLandscape(context)
-            ? 0.40.sh
-            : isPhoneLandscape(context)
-            ? .30.sh
-            : 0.30.sh,
+            isTabletLandscape(context)
+                ? 0.40.sh
+                : isPhoneLandscape(context)
+                ? .30.sh
+                : 0.30.sh,
       ),
       child: Card(
+        color: isThisHour(timeStamp) ? Colors.green.shade700 : null,
         child: Padding(
           padding: EdgeInsets.only(top: 16.h, bottom: 16.h, left: 0, right: 0),
           child: Center(
@@ -48,7 +47,7 @@ class HourlyWeatherForecastCard extends StatelessWidget {
                 Flexible(
                   flex: 2,
                   child: ClipRect(
-                    child: displayAnimation(context, weatherCode),
+                    child: displayAnimation(context, weatherCode, timeStamp),
                   ),
                 ),
                 Column(
@@ -68,22 +67,24 @@ class HourlyWeatherForecastCard extends StatelessWidget {
     );
   }
 
-  RichText displayTemp(TextTheme textTheme,
-      BuildContext context,
-      double tempValue,
-      String tempUnit,) {
+  RichText displayTemp(
+    TextTheme textTheme,
+    BuildContext context,
+    double tempValue,
+    String tempUnit,
+  ) {
     return RichText(
       text: TextSpan(
         text: '${tempValue.toStringAsFixed(2)}',
         style: textTheme.titleLarge?.copyWith(
           fontSize:
-          isTabletPortrait(context)
-              ? 40.sp
-              : isTabletLandscape(context)
-              ? 40.sp
-              : isPhoneLandscape(context)
-              ? 28.sp
-              : 24.sp,
+              isTabletPortrait(context)
+                  ? 40.sp
+                  : isTabletLandscape(context)
+                  ? 40.sp
+                  : isPhoneLandscape(context)
+                  ? 28.sp
+                  : 24.sp,
           fontWeight: FontWeight.w100,
           color: Colors.white,
         ),
@@ -92,13 +93,13 @@ class HourlyWeatherForecastCard extends StatelessWidget {
             text: ' ${tempUnit}',
             style: textTheme.titleLarge?.copyWith(
               fontSize:
-              isTabletPortrait(context)
-                  ? 30.sp
-                  : isTabletLandscape(context)
-                  ? 28.sp
-                  : isPhoneLandscape(context)
-                  ? 18.sp
-                  : 15.sp,
+                  isTabletPortrait(context)
+                      ? 30.sp
+                      : isTabletLandscape(context)
+                      ? 28.sp
+                      : isPhoneLandscape(context)
+                      ? 18.sp
+                      : 15.sp,
               fontWeight: FontWeight.w500,
               color: Colors.grey,
             ),
@@ -108,31 +109,37 @@ class HourlyWeatherForecastCard extends StatelessWidget {
     );
   }
 
-  Text displayTime(BuildContext context,
-      TextTheme textTheme,
-      DateTime timeStamp,) {
+  Text displayTime(
+    BuildContext context,
+    TextTheme textTheme,
+    DateTime timeStamp,
+  ) {
     return Text(
       '${formatHourlyTime(timeStamp)}',
       style: textTheme.titleLarge?.copyWith(
         color: Colors.white,
         fontSize:
-        isTabletPortrait(context)
-            ? 40.sp
-            : isTabletLandscape(context)
-            ? 35.sp
-            : 18.sp,
+            isTabletPortrait(context)
+                ? 40.sp
+                : isTabletLandscape(context)
+                ? 35.sp
+                : 18.sp,
         fontWeight: FontWeight.w900,
       ),
     );
   }
 
-  AspectRatio displayAnimation(BuildContext context, int weatherCode) {
+  AspectRatio displayAnimation(
+    BuildContext context,
+    int weatherCode,
+    DateTime timeStamp,
+  ) {
     return AspectRatio(
       aspectRatio: isTabletPortrait(context) ? 5 / 4 : 1,
       child: Lottie.asset(
         WeatherHelpers.WeatherCodeToAnimation(
           weatherCode: weatherCode,
-          isDay: 1,
+          isDay: isThisDay(timeStamp),
         ),
         width: 50,
         height: 50,

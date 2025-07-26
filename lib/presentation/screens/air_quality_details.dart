@@ -12,7 +12,6 @@ import 'package:go_router/go_router.dart';
 import 'package:percent_indicator/flutter_percent_indicator.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
-import '../../utilities/error_helpers.dart';
 import '../components/components.dart';
 
 class AirQualityDetails extends StatefulWidget {
@@ -23,12 +22,14 @@ class AirQualityDetails extends StatefulWidget {
 }
 
 class _AirQualityDetailsState extends State<AirQualityDetails> {
+  late final AirQualityBloc _airQualityCubit;
+  late final LocationCubit _locationCubit;
+
   @override
   void initState() {
     super.initState();
-    final _locationCubit = context.read<LocationCubit>();
-    final _airQualityCubit = context.read<AirQualityBloc>();
-    _airQualityCubit.add(LoadInitialDataEvent());
+    _locationCubit = context.read();
+    _airQualityCubit = context.read();
     _locationCubit.startLocationService(
       locationStyleOption: LocationDisplayStyleOptions.CITY_COUNTRY,
     );
@@ -36,15 +37,13 @@ class _AirQualityDetailsState extends State<AirQualityDetails> {
 
   @override
   void dispose() {
-    final _locationCubit = context.read<LocationCubit>();
-    final _airQualityCubit = context.read<AirQualityBloc>();
+    super.dispose();
 
     _locationCubit.close();
     _locationCubit.startLocationService(
       locationStyleOption: LocationDisplayStyleOptions.CITY,
     );
     _airQualityCubit.close();
-    super.dispose();
   }
 
   @override

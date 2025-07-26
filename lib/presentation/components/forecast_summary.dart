@@ -13,35 +13,8 @@ import 'components.dart';
 
 final mapWeatherIcon = WeatherHelpers.mapWeatherVariableToIcon;
 
-class CurrentWeatherVariableSummary extends StatefulWidget {
+class CurrentWeatherVariableSummary extends StatelessWidget {
   const CurrentWeatherVariableSummary({super.key});
-
-  @override
-  State<CurrentWeatherVariableSummary> createState() =>
-      _CurrentWeatherVariableSummaryState();
-}
-
-class _CurrentWeatherVariableSummaryState
-    extends State<CurrentWeatherVariableSummary> {
-  late WeatherDataBloc _weatherDataBloc;
-
-  @override
-  void initState() {
-    super.initState();
-    _weatherDataBloc = context.read<WeatherDataBloc>();
-  }
-
-  @override
-  void dispose() {
-    _weatherDataBloc.close();
-    super.dispose();
-  }
-
-  @override
-  void didChangeDependencies() {
-    _weatherDataBloc = context.read<WeatherDataBloc>();
-    super.didChangeDependencies();
-  }
 
   @override
   Widget build(BuildContext context) {

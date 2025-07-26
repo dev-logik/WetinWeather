@@ -1,5 +1,6 @@
 class AssetPath {
   AssetPath._();
+
   //Path constants to the animated files.
   static final animatedSunny = "assets/animations/sunny.json";
   static final animatedSunnyCloudy = 'assets/animations/sunnycloudy.json';
@@ -32,6 +33,8 @@ class AssetPath {
   static final animatedShowersNight =
       'assets/animations/animatedShowersNight.json';
   static final animatedShowersDay = 'assets/animations/animatedShowersDay.json';
+  static final windyTree = 'assets/animations/Wind.json';
+  static final waterDrop = 'assets/animations/water_drop.json';
 
   //Path constants to the icons
   static final coIcon = 'assets/icons/co.png';

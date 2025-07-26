@@ -4,6 +4,7 @@ import 'package:bloc_app/data/database/hive_local_storage.dart';
 import 'package:bloc_app/services/connectivity_services.dart';
 import 'package:chopper/chopper.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:http/http.dart' as http;
 
 import '../../models/models.dart';
 import '../../services/services.dart';
@@ -17,6 +18,10 @@ final ChopperClient _mainClient = ChopperClient(
   converter: MainWeatherServiceConverter(),
   interceptors: [HttpLoggingInterceptor()],
   services: [MainWeatherService.create()],
+  client: TimeoutHttpClient(
+    inner: http.Client(),
+    timeout: Duration(seconds: 10),
+  ),
 );
 
 class CurrentWeatherRepository implements Repository {

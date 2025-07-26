@@ -35,7 +35,7 @@ class InternetConnectivityService {
     final baseUrl = 'https://www.google.com';
     final baseUri = Uri.parse(baseUrl);
     try {
-      final response = await http.get(baseUri);
+      final response = await http.get(baseUri).timeout(Duration(seconds: 5));
       return response.statusCode == 200;
     } catch (ex) {
       return Future.value(false);

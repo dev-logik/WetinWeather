@@ -656,6 +656,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "5.1.1"
+  liquid_ball:
+    dependency: "direct main"
+    description:
+      name: liquid_ball
+      sha256: b2668f5963a6c4a49583040d4ac15b2a6b4b125a4e7e7a1587a45429c38c61ad
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.0.3"
   liquid_pull_to_refresh:
     dependency: "direct main"
     description:

@@ -138,7 +138,7 @@ abstract class WeatherHelpers {
     switch (wmoCode) {
       // Clear & Cloudy
       case 0:
-        return "Sunny";
+        return "Clear";
       case 1:
         return "Mainly clear";
       case 2:
@@ -305,5 +305,31 @@ abstract class WeatherHelpers {
     const dirs = ["N", "NE", "E", "SE", "S", "SW", "W", "NW"];
     final normalized = (degrees % 360 + 22.5) % 360;
     return dirs[(normalized ~/ 45) % 8];
+  }
+
+  static String interpretPrecipitationProbability(int probability) {
+    // Validate input
+    if (probability < 0 || probability > 100) {
+      throw ArgumentError('Probability must be between 0 and 100');
+    }
+    // Interpretation for hourly precipitation probability (Open-Meteo standard)
+    if (probability == 0) {
+      return 'No precipitation';
+    } else if (probability <= 30) {
+      return 'Very unlikely (${probability.round()}%)';
+    } else if (probability <= 50) {
+      return 'Unlikely (${probability.round()}%)';
+    } else if (probability <= 70) {
+      return 'Likely (${probability.round()}%)';
+    } else if (probability <= 90) {
+      return 'Very likely (${probability.round()}%)';
+    } else {
+      return 'Certain (${probability.round()}%)';
+    }
+  }
+
+  static double precipitationRatio(double precipitation) {
+    const maxPrecipitation = 300;
+    return precipitation / maxPrecipitation;
   }
 }

@@ -5,11 +5,12 @@ import 'package:bloc_app/data/repositories/repository.dart';
 import 'package:bloc_app/models/current_pollutant_model.dart';
 import 'package:bloc_app/services/connectivity_services.dart';
 import 'package:bloc_app/services/services.dart';
-import 'package:bloc_app/utilities/exceptions.dart';
 import 'package:chopper/chopper.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:http/http.dart' as http;
 
 import '../../models/response_model.dart';
+import '../../utilities/utilities.dart';
 
 //Simplifies the type definition the definition of the return
 // type of response for the network request.
@@ -26,6 +27,10 @@ final _mainApiClient = ChopperClient(
   converter: AirQualityConverterForMainApi(),
   interceptors: [HttpLoggingInterceptor()],
   services: [AirQualityMainService.create()],
+  client: TimeoutHttpClient(
+    inner: http.Client(),
+    timeout: Duration(seconds: 10),
+  ),
 );
 
 final _backupApiClient = ChopperClient(

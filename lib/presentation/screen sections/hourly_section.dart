@@ -1,3 +1,4 @@
+import 'package:bloc_app/presentation/screens/hourly_weather_forecast_details.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -9,7 +10,9 @@ import '../../utilities/utilities.dart';
 import '../components/components.dart';
 
 class HourlySection extends StatelessWidget {
-  HourlySection({super.key});
+  final int numberOfForecastToShow;
+
+  HourlySection({super.key, this.numberOfForecastToShow = 12});
 
   @override
   Widget build(BuildContext context) {
@@ -40,15 +43,28 @@ class HourlySection extends StatelessWidget {
                 final tempValue = data.temperature;
                 final tempUnit = '°C';
                 final weatherCode = data.weatherCode;
-                return HourlyWeatherForecastCard(
-                  timeStamp: timeStamp,
-                  tempValue: tempValue,
-                  tempUnit: tempUnit,
-                  weatherCode: weatherCode,
+                return GestureDetector(
+                  child: HourlyWeatherForecastCard(
+                    timeStamp: timeStamp,
+                    tempValue: tempValue,
+                    tempUnit: tempUnit,
+                    weatherCode: weatherCode,
+                  ),
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder:
+                            (context) => HourlyWeatherForecastDetails(
+                              hourlyForecast: data,
+                            ),
+                      ),
+                    );
+                  },
                 );
               },
 
-              itemCount: hourlyForecasts.length,
+              itemCount: numberOfForecastToShow,
               primary: false,
               scrollDirection: Axis.horizontal,
             );

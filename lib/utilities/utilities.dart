@@ -6,6 +6,7 @@ export 'dateTime_helpers.dart';
 export 'error_helpers.dart';
 export 'exceptions.dart';
 export 'location_helpers.dart';
+export 'network_utilities.dart';
 export 'orientation_helpers.dart';
 export 'screen_sizes.dart';
 export 'sizedBox_constants.dart';

@@ -4,36 +4,10 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
 import '../../../bloc/cubits_blocs.dart';
-import '../../../services/services.dart';
 import '../../../utilities/utilities.dart';
 
-class HomeHeader extends StatefulWidget {
+class HomeHeader extends StatelessWidget {
   const HomeHeader({super.key});
-
-  @override
-  State<HomeHeader> createState() => _HomeHeaderState();
-}
-
-class _HomeHeaderState extends State<HomeHeader> {
-  late final LocationCubit locationStateProvider;
-  late final DateTimeCubit dateTimeCubitProvider;
-
-  @override
-  void initState() {
-    super.initState();
-    dateTimeCubitProvider = context.read<DateTimeCubit>();
-    locationStateProvider = context.read<LocationCubit>();
-    dateTimeCubitProvider.startTime();
-    locationStateProvider.startLocationService(
-      locationStyleOption: LocationDisplayStyleOptions.CITY,
-    );
-  }
-
-  @override
-  void dispose() {
-    dateTimeCubitProvider.close();
-    super.dispose();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -45,6 +19,7 @@ class _HomeHeaderState extends State<HomeHeader> {
         BlocBuilder<LocationCubit, LocationState>(
           builder: (context, state) {
             if (state.locationName != null) {
+              debugPrint('${state.locationName}');
               return Text(
                 '${(state.locationName)}',
                 style: textTheme.headlineLarge?.copyWith(
@@ -54,7 +29,7 @@ class _HomeHeaderState extends State<HomeHeader> {
             }
 
             return Skeletonizer(
-              enabled: state.locationName == null,
+              enabled: true,
               enableSwitchAnimation: true,
               switchAnimationConfig: SwitchAnimationConfig(
                 switchInCurve: Curves.easeIn,
